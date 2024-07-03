@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:51:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/03 21:52:42 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/03 22:02:41 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void ft_echo(t_parse *arg)
    }
    while(tmp)
    {
-    write(1, tmp->content, strlen(tmp->content));
+    write(1, tmp->content, ft_strlen(tmp->content));
     if (tmp->next)
      write(1, " ", 1);
     tmp = tmp->next;
@@ -52,8 +52,6 @@ int main(int ac, char **av)
      t_args *current;
      int i;
 
-     if (ac <= 3)
-          return (write(2, "Write something\n", 16), 1);
      arg.cmd_args = ft_lstnew(av[1]);
      current = arg.cmd_args;
      i = 2;
