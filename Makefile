@@ -3,7 +3,7 @@ NAME = minishell
 SRC_M = error.c \
         main.c \
         init_data.c \
-        parsing.c\
+        utile_token2.c\
 		lexer.c\
 		syntax_error.c\
 		parsing1.c\

@@ -8,7 +8,7 @@ int ft_isspace(char c)
     return ((c >= 9 && c <= 13) || c == 32);
 }
 
-t_token *create_newnode(t_type new_type, char *new_value, int flags)
+t_token *create_newnode(t_type new_type, char *new_value)
 {
     t_token *ptr;
     
@@ -20,16 +20,15 @@ t_token *create_newnode(t_type new_type, char *new_value, int flags)
     }
     ptr->type = new_type;
     ptr->value = ft_strdup(new_value);
-    ptr->flag = flags;
     ptr->next = NULL;
     return (ptr);
 }
 
-void addback_node(t_token **head, t_type tnum, char *value, int flags)
+void addback_node(t_token **head, t_type tnum, char *value)
 {
     t_token *root ;
     t_token *current;
-    root = create_newnode(tnum, value, flags);
+    root = create_newnode(tnum, value);
 
     if(!*head)
     { 

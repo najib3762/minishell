@@ -9,10 +9,15 @@
 # include <string.h>
 # include <unistd.h>
 
-# define DOUBLE_QOUTE 1
-# define  SINGLE_QOUTE 2
-# define HASH_SPACE 4
+// # define DOUBLE_QOUTE 1
+// # define  SINGLE_QOUTE 2
+// # define HASH_SPACE 4
  
+ typedef struct s_global
+ {
+	int g_qoutes;
+	
+ } t_global;
 
 typedef enum
 {
@@ -28,7 +33,7 @@ typedef struct s_token
 {
 	t_type			type;
   char			*value;
-  int 			flag;
+//   int 			flag;
 	struct s_token	*next;
 }					t_token;
 /*-----------------------parsing---------------*/
@@ -44,6 +49,8 @@ typedef struct s_redir
 {
    char *filename;
    t_redir_enum	type;
+   int red_in;
+   int red_out;
    struct s_redir *next;
 } t_redir;
 
@@ -59,13 +66,13 @@ typedef struct s_parse
   struct s_parse *next;
 } t_parse;
 
-// typedef struct s_expand
-// {
-// 	t_type	type;
-// 	char	*value;
-// 	struct s_expand *next;
+typedef struct s_expand
+{
+	t_type	type;
+	char	*value;
+	struct s_expand *next;
 
-// } t_expand;
+} t_expand;
 
 typedef struct s_mini
 {
@@ -75,8 +82,8 @@ typedef struct s_mini
 
 int					ft_isspace(char c);
 char				*ft_strdup(const char *s);
-void				addback_node(t_token **head, t_type tnum, char *value, int flgas);
-t_token				*create_newnode(t_type new_type, char *new_value, int flags);
+void				addback_node(t_token **head, t_type tnum, char *value);
+t_token				*create_newnode(t_type new_type, char *new_value);
 void				print_error(char *error);
 void				init_data(t_mini *prog);
 // void				ft_parsing(t_mini *prog, t_token **head);
@@ -86,4 +93,5 @@ void				free_token_list(t_token **head);
 int					check_quotes(t_mini *prog);
 int					check_syntax_errors(t_token *head);
 void				parse_input(t_token *tokens, t_parse **parse);
+void				here_doc(t_token *token);
 #endif

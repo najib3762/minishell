@@ -1,33 +1,27 @@
 #include "include/minishell.h"
 #include "include/libft.h"
 
+void print_lexer(t_token *head)
+{
+    t_token *temp = head;
 
-// void print_token(t_token *head)
-// {
-//     t_token *current = head;
-//     while (current)
-//     {
-//       // if(current->flag == 1)
-//       // printf("====[%s] double quotes\n", current->value);
-//       // else if(current->flag == 2)
-//       // printf("====[%s] single quotes\n", current->value);
-//       // else
-//       if((current->flag & (DOUBLE_QOUTE | HASH_SPACE)) == (DOUBLE_QOUTE | HASH_SPACE))
-//       printf("word DOUBLE_QOUTES SPACE===>[%s]\n", current->value);
-//       else if((current->flag & (SINGLE_QOUTE | HASH_SPACE)) == (SINGLE_QOUTE | HASH_SPACE))
-//       printf("word SINGLE_QOUTES SPACE===>[%s]\n", current->value);
-//       else if((current->flag & (SINGLE_QOUTE)) == (SINGLE_QOUTE))
-//       printf("word SINGLE_QOUTES===>[%s]\n", current->value);
-//       else if((current->flag & (DOUBLE_QOUTE)) == (DOUBLE_QOUTE))
-//       printf("word DOUBLE_QOUTES==>[%s]\n", current->value);
-//       else if (current->type == TOKEN_WORD)
-//       printf("word==>%s\n", current->value);
-//       else
-//       printf("else==>%s\n", current->value);
-//         current = current->next;
-//     }
-// }
-
+    while (temp)
+    {
+      if(temp->type == TOKEN_WORD)
+        printf("word: %s\n",temp->value);
+      else if(temp->type == TOKEN_PIPE)
+        printf("pipe: %s\n",temp->value);
+      else if(temp->type == TOKEN_OUT)
+        printf("out: %s\n",temp->value);
+      else if(temp->type == TOKEN_APPEND)
+        printf("append: %s\n",temp->value);
+      else if(temp->type == TOKEN_HERE)
+        printf("here: %s\n",temp->value);
+      else if(temp->type == TOKEN_IN)
+        printf("in: %s\n",temp->value);
+        temp = temp->next;
+    }
+}
 void free_parse_list(t_parse **head)
 {
   t_parse *temp_parse;
@@ -117,11 +111,13 @@ int main (int ac, char **av, char **envp)
         if (check_quotes(&prog) == 1)
         {
             ft_lexer(&prog, &head);
+            print_lexer(head);
+            // here_doc(&head);
             if(!check_syntax_errors(head))
             {
               // ft_expand(&head, &root);
             parse_input(head , &parse);
-            print_parse(&parse);
+            // print_parse(&parse);
             free_parse_list(&parse);
             }
             free_token_list(&head);

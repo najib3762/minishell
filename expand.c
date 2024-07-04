@@ -1,4 +1,11 @@
-// #include "include/minishell.h"
-//         if((current->flag & (DOUBLE_QOUTE | HASH_SPACE)) == (DOUBLE_QOUTE | HASH_SPACE))
+#include "include/minishell.h"
 
+
+t_expand *ft_expander()
+{
+
+    
+     
+
+}
 
