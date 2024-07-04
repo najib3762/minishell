@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:51:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/03 22:02:41 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/04 15:27:13 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,24 @@ void ft_echo(t_parse *arg)
    if(n_line)
     write(1, "\n", 1);
 }
+void ft_pwd()
+{
+     char wd[1024];
+     int len;
+     char *cwd;
+     cwd = getcwd(wd, sizeof(wd));
+     if(cwd)
+     {
+          len = ft_strlen(cwd);
+          write(STDOUT_FILENO, cwd, len);
+          write(STDOUT_FILENO, "\n", 1);
+     }
+     else{
+          perror("getcwd");
+          exit(1);
+     }
+}
+
 int main(int ac, char **av)
 {
      t_parse arg;
@@ -62,4 +80,5 @@ int main(int ac, char **av)
           i++;
      }
      ft_echo(&arg);
+     ft_pwd();
 }
