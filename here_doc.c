@@ -110,14 +110,16 @@ char *ft_expand(char *line)
     new_line[j] = '\0';
     return new_line;
 }
+
 pid_t fork_heredoc( char *eof, int fd)
 {
     pid_t pid;
     char *line;
-    // char *ptr;
     t_global *g;
+ 
     
     g = NULL;
+  
     pid = fork();
     if (pid < 0)
     {
@@ -126,7 +128,6 @@ pid_t fork_heredoc( char *eof, int fd)
     }
     if (pid == 0)
     {
-
       line = readline(">");
         while (line)
         {
@@ -135,18 +136,18 @@ pid_t fork_heredoc( char *eof, int fd)
             {
                 return (free(line), close(fd), exit(0), 0);
             }
-
-            if (ft_strncmp(line, eof, ft_strlen(eof)) && g->g_qoutes != 1 && !check_dollar(line))
-            {
-                        line = ft_expand(line);
-            }
-           
+            //    printf("here\n");
+            // if (ft_strncmp(line, eof, ft_strlen(eof)) && g->g_qoutes != 1 && !check_dollar(line))
+            // {
+            //             line = ft_expand(line);
+            // }
+            //  printf("line: %s\n", line);
             write(fd, line, ft_strlen(line));
             write(fd, "\n", 1);
             free(line);
             line = readline(">");
         }
-    close(fd);
+    // close(fd);
     exit(0);
     }
     return pid;
@@ -155,23 +156,23 @@ int read_here_doc(char *eof, int fd)
 {
     pid_t heredoc_pid;
     int status;
-    // char *line;
-    // char *ptr;
+ 
     
        eof = is_qoutes(eof);
        if(!eof)
        return (-1);
-
     heredoc_pid = fork_heredoc(eof, fd);
     if (heredoc_pid < 0)
     {
         perror("fork");
         return (-1);
     }
+
+   
     waitpid(heredoc_pid, &status, 0);
     if(WIFEXITED(status))
         return (WEXITSTATUS(status));
-  return (0);
+  return (1);
 }
 void change_value_node(t_token *token, char *filename)
 {
@@ -187,12 +188,16 @@ int here_doc2(t_token *token)
 {
     char *filename;
     int fd;
-
+ 
+    
     filename = random_file();
+    if (!filename)
+        return (-1);
+    printf("filename: %s\n", filename);
     fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
     if (fd < 0)
         return (free(filename), -1);
-    if(read_here_doc(token->next->value, fd) != 0)
+      if(read_here_doc(token->next->value, fd) != 0)
         return (unlink(filename), close(fd), free(filename), -1);
     close(fd);
     change_value_node(token, filename);

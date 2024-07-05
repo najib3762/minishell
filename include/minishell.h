@@ -8,6 +8,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <signal.h>
+#include <sys/wait.h>
 
 // # define DOUBLE_QOUTE 1
 // # define  SINGLE_QOUTE 2

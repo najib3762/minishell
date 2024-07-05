@@ -19,7 +19,8 @@ void print_lexer(t_token *head)
         printf("here: %s\n",temp->value);
       else if(temp->type == TOKEN_IN)
         printf("in: %s\n",temp->value);
-        temp = temp->next;
+
+      temp = temp->next;
     }
 }
 void free_parse_list(t_parse **head)
@@ -110,9 +111,11 @@ int main (int ac, char **av, char **envp)
         }
         if (check_quotes(&prog) == 1)
         {
-            ft_lexer(&prog, &head);
+             ft_lexer(&prog, &head);
              ft_here_doc(&head);
-		print_lexer(head);
+             
+		         print_lexer(head);
+             break;
             if(!check_syntax_errors(head))
             {
               // ft_expand(&head, &root);
