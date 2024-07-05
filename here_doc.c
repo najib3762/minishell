@@ -24,12 +24,11 @@ char *concatunation(char *str)
     j = 0;
     
     len = ft_strlen(str);
-    g->g_qoutes = 1;
     eof = malloc(sizeof(char) * (len + 1));
     if (!eof)
     {
         perror("malloc");
-        free(g);
+        
         exit(1);
     }
     while (str[i])
@@ -61,7 +60,7 @@ int check_qoutes(char *str)
     return (0);
 }
 
-char *is_qoutes(char *str)
+char *is_qoutes(char *str, int *qoutes)
 {
     char *eof;
     
@@ -70,6 +69,7 @@ char *is_qoutes(char *str)
     {
          
     eof = concatunation(str);
+    *qoutes = 1;
     }
     else
     eof = str;
@@ -133,20 +133,11 @@ char *ft_expand(char *line)
     return new_line;
 }
 
-pid_t fork_heredoc(char *eof, int fd)
+pid_t fork_heredoc(char *eof, int fd, int qoutes)
 {
     pid_t pid;
     char *line;
-    t_global *g;
- 
-    
-    g = malloc(sizeof(t_global));
-    if (!g)
-    {
-        perror("malloc");
-        exit(1);
-    }
-    printf("qoutes: %d\n", g->g_qoutes);
+
     pid = fork();
     if (pid < 0)
     {
@@ -159,12 +150,13 @@ pid_t fork_heredoc(char *eof, int fd)
         while (line)
         {
             signal(SIGINT, SIG_DFL);
+            printf("qoutes: %d\n", qoutes);
             if (!ft_strncmp(line, eof, ft_strlen(eof)) && (ft_strlen(line) == ft_strlen(eof)))
             {
                 return (free(line), close(fd), exit(0), 0);
             }
             
-            // if (ft_strncmp(line, eof, ft_strlen(eof)) && g->g_qoutes != 1 && !check_dollar(line))
+            // if (ft_strncmp(line, eof, ft_strlen(eof)) && qoutes != 1 && !check_dollar(line))
             // {
             //             line = ft_expand(line);
             // }
@@ -183,11 +175,13 @@ int read_here_doc(char *eof, int fd)
     pid_t heredoc_pid;
     int status;
     char *limiter;
+    int qoutes;
  
-    limiter = is_qoutes(eof);
+    qoutes = 0;
+    limiter = is_qoutes(eof, &qoutes);
     if(!limiter)
        return (-1);
-    heredoc_pid = fork_heredoc(limiter, fd);
+    heredoc_pid = fork_heredoc(limiter, fd, qoutes);
     if (heredoc_pid < 0)
     {
         perror("fork");
