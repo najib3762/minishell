@@ -23,6 +23,7 @@ char *concatunation(char *str)
 
     i = 0;
     j = 0;
+    g = NULL;
     len = ft_strlen(str);
     g->g_qoutes = 1;
     eof = malloc(sizeof(char) * (len + 1));
@@ -113,9 +114,10 @@ pid_t fork_heredoc( char *eof, int fd)
 {
     pid_t pid;
     char *line;
-    char *ptr;
+    // char *ptr;
     t_global *g;
-
+    
+    g = NULL;
     pid = fork();
     if (pid < 0)
     {
@@ -153,8 +155,8 @@ int read_here_doc(char *eof, int fd)
 {
     pid_t heredoc_pid;
     int status;
-    char *line;
-    char *ptr;
+    // char *line;
+    // char *ptr;
     
        eof = is_qoutes(eof);
        if(!eof)
@@ -190,19 +192,18 @@ int here_doc2(t_token *token)
     fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
     if (fd < 0)
         return (free(filename), -1);
-    if(read_here_doc(token->next->value, fd) != 0);
+    if(read_here_doc(token->next->value, fd) != 0)
         return (unlink(filename), close(fd), free(filename), -1);
     close(fd);
     change_value_node(token, filename);
     return (0);
 }
 
-int ft_here_doc(t_token *token)
+int ft_here_doc(t_token **token)
 {
     t_token *tmp;
-    // t_token *tmp2;
 
-    tmp = token;
+    tmp = *token;
     while (tmp)
     {
         if (tmp->type == TOKEN_HERE &&  here_doc2(tmp) < 0)
@@ -212,28 +213,3 @@ int ft_here_doc(t_token *token)
     return (0);
 }
 
-// int main()
-// {
-//     t_global *g;
-     
-
-//     g = malloc(sizeof(t_global));
-//     if (!g)
-//     {
-//         perror("malloc");
-//         return 1;
-//     }
-
-//     t_token token1 = { "<<", TOKEN_HERE, NULL };
-//     t_token token2 = { "EOF", TOKEN_WORD, NULL };
-//     token1.next = &token2;
-
-//     ft_here_doc(&token1);
-
-//     printf("Temporary file created: %s\n", token1.value);
-
-//     free(token1.value);
-//     free(g);
-
-//     return 0;
-// }

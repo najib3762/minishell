@@ -7,6 +7,7 @@ SRC_M = error.c \
 		lexer.c\
 		syntax_error.c\
 		parsing1.c\
+		here_doc.c\
 
 OBJ_M = $(SRC_M:.c=.o)
 

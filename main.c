@@ -102,7 +102,7 @@ int main (int ac, char **av, char **envp)
    
     while (1)
     {
-        if(ft_strcmp(prog.line, "exit") == 0)
+        if(ft_strncmp(prog.line, "exit", ft_strlen("exit")) == 0)
         {
             free(prog.line);
             free_token_list(&head);
@@ -111,8 +111,8 @@ int main (int ac, char **av, char **envp)
         if (check_quotes(&prog) == 1)
         {
             ft_lexer(&prog, &head);
-            print_lexer(head);
-            // here_doc(&head);
+             ft_here_doc(&head);
+		print_lexer(head);
             if(!check_syntax_errors(head))
             {
               // ft_expand(&head, &root);

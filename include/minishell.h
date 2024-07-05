@@ -93,5 +93,5 @@ void				free_token_list(t_token **head);
 int					check_quotes(t_mini *prog);
 int					check_syntax_errors(t_token *head);
 void				parse_input(t_token *tokens, t_parse **parse);
-void				here_doc(t_token *token);
+int				ft_here_doc(t_token **token);
 #endif
