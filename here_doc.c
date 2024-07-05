@@ -52,6 +52,7 @@ char *is_qoutes(char *str)
     eof = str;
     return (eof);
 }
+
 int check_dollar(char *str)
 {
     int i;
@@ -66,7 +67,52 @@ int check_dollar(char *str)
     return (0);
 }
 
-void here_doc(t_token *token)
+char *ft_expand(char *line)
+{
+    char *new_line;
+    int i;
+    int j;
+    int k;
+    char var_name[100];
+    char *var_value;
+    int len;
+
+
+
+     new_line = malloc(BUFSIZ);
+     i = 0;
+     j = 0;
+    while (line[i])
+    {
+        if (line[i] == '$' && (ft_isalnum(line[i + 1]) || ft_isdigit(line[i + 1])))
+        {
+            i++;
+            k = 0;
+            while (ft_isalnum(line[i]) || ft_isdigit(line[i]))
+            {
+                var_name[k++] = line[i++];
+            }
+            var_name[k] = '\0';
+
+            var_value = getenv(var_name);
+            if (var_value)
+            {
+                len = strlen(var_value);
+                strncpy(new_line + j, var_value, len);
+                j += len;
+            }
+        }
+        else
+        {
+            new_line[j++] = line[i++];
+        }
+    }
+    new_line[j] = '\0';
+    return new_line;
+}
+
+
+t_token *here_doc2(t_token *token)
 {
     char *filename;
     int fd;
@@ -88,19 +134,67 @@ void here_doc(t_token *token)
       line = readline(">");
         while (line)
         {
-            if (ft_strcmp(line, eof) && g->g_qoutes != 1 && !check_dollar(line))
-            {
-
-            }
-            if (ft_strcmp(line, eof) == 0)
+             if (!ft_strncmp(line, eof, ft_strlen(eof)) && (ft_strlen(line) == ft_strlen(eof)))
             {
                 free(line);
                 break;
             }
+
+            if (ft_strcmp(line, eof) && g->g_qoutes != 1 && !check_dollar(line))
+            {
+                        line = ft_expand(line);
+            }
+           
             write(fd, line, ft_strlen(line));
             write(fd, "\n", 1);
             free(line);
             line = readline(">");
         }
-    // addback_node(&prog->token, TOKEN_WORD, filename, 0);
+    close(fd);
+    token->next->value = filename;
+    free(eof);
+    return (token->next->next);
+}
+
+void here_doc(t_token *token)
+{
+    t_token *tmp;
+    t_token *tmp2;
+
+    tmp = token;
+    while (tmp)
+    {
+        if (tmp->type == TOKEN_HERE)
+        {
+            tmp2 = here_doc2(tmp);
+            tmp->type = REDIR_IN;
+            tmp->value = ft_strdup(tmp2->value);
+            tmp->next = tmp2->next;
+            free(tmp2);
+        }
+        tmp = tmp->next;
+    }
+}
+
+int main()
+{
+    g = malloc(sizeof(t_global));
+    if (!g)
+    {
+        perror("malloc");
+        return 1;
+    }
+
+    t_token token1 = { "<<", TOKEN_HERE, NULL };
+    t_token token2 = { "EOF", TOKEN_WORD, NULL };
+    token1.next = &token2;
+
+    here_doc(&token1);
+
+    printf("Temporary file created: %s\n", token1.value);
+
+    free(token1.value);
+    free(g);
+
+    return 0;
 }
