@@ -117,6 +117,7 @@ char *ft_expand(char *line)
             var_name[k] = '\0';
 
             var_value = getenv(var_name);
+            printf("var_valu %s\n", var_value);
             if (var_value)
             {
                 len = strlen(var_value);
@@ -156,8 +157,11 @@ pid_t fork_heredoc(char *eof, int fd, int qoutes)
                 return (free(line), close(fd), exit(0), 0);
             }
             
-            if (ft_strncmp(line, eof, ft_strlen(eof)) && qoutes != 1 && !check_dollar(line))
+             
+            if (ft_strncmp(line, eof, ft_strlen(eof)) && qoutes != 1 && check_dollar(line))
             {
+              
+               printf("here\n");
                         line = ft_expand(line);
             }
 
