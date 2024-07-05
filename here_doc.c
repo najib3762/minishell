@@ -150,17 +150,17 @@ pid_t fork_heredoc(char *eof, int fd, int qoutes)
         while (line)
         {
             signal(SIGINT, SIG_DFL);
-            printf("qoutes: %d\n", qoutes);
+            
             if (!ft_strncmp(line, eof, ft_strlen(eof)) && (ft_strlen(line) == ft_strlen(eof)))
             {
                 return (free(line), close(fd), exit(0), 0);
             }
             
-            // if (ft_strncmp(line, eof, ft_strlen(eof)) && qoutes != 1 && !check_dollar(line))
-            // {
-            //             line = ft_expand(line);
-            // }
-            //  printf("line: %s\n", line);
+            if (ft_strncmp(line, eof, ft_strlen(eof)) && qoutes != 1 && !check_dollar(line))
+            {
+                        line = ft_expand(line);
+            }
+
             write(fd, line, ft_strlen(line));
             write(fd, "\n", 1);
             free(line);
