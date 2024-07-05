@@ -78,7 +78,6 @@ char *ft_expand(char *line)
     int len;
 
 
-
      new_line = malloc(BUFSIZ);
      i = 0;
      j = 0;
@@ -110,37 +109,32 @@ char *ft_expand(char *line)
     new_line[j] = '\0';
     return new_line;
 }
-
-
-t_token *here_doc2(t_token *token)
+pid_t fork_heredoc( char *eof, int fd)
 {
-    char *filename;
-    int fd;
+    pid_t pid;
     char *line;
-    char *eof;
-    t_global *g;
     char *ptr;
+    t_global *g;
 
-    filename = random_file();
-    fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
-
-    if (fd < 0)
+    pid = fork();
+    if (pid < 0)
     {
-        perror("open");
-        exit(1);
+        perror("fork");
+        return (-1);
     }
-    eof = is_qoutes(token->next->value);
+    if (pid == 0)
+    {
 
       line = readline(">");
         while (line)
         {
-             if (!ft_strncmp(line, eof, ft_strlen(eof)) && (ft_strlen(line) == ft_strlen(eof)))
+            signal(SIGINT, SIG_DFL);
+            if (!ft_strncmp(line, eof, ft_strlen(eof)) && (ft_strlen(line) == ft_strlen(eof)))
             {
-                free(line);
-                break;
+                return (free(line), close(fd), exit(0), 0);
             }
 
-            if (ft_strcmp(line, eof) && g->g_qoutes != 1 && !check_dollar(line))
+            if (ft_strncmp(line, eof, ft_strlen(eof)) && g->g_qoutes != 1 && !check_dollar(line))
             {
                         line = ft_expand(line);
             }
@@ -151,50 +145,95 @@ t_token *here_doc2(t_token *token)
             line = readline(">");
         }
     close(fd);
-    token->next->value = filename;
-    free(eof);
-    return (token->next->next);
+    exit(0);
+    }
+    return pid;
+}
+int read_here_doc(char *eof, int fd)
+{
+    pid_t heredoc_pid;
+    int status;
+    char *line;
+    char *ptr;
+    
+       eof = is_qoutes(eof);
+       if(!eof)
+       return (-1);
+
+    heredoc_pid = fork_heredoc(eof, fd);
+    if (heredoc_pid < 0)
+    {
+        perror("fork");
+        return (-1);
+    }
+    waitpid(heredoc_pid, &status, 0);
+    if(WIFEXITED(status))
+        return (WEXITSTATUS(status));
+  return (0);
+}
+void change_value_node(t_token *token, char *filename)
+{
+    free(token->value);
+    token->value = filename;
+    token->type = TOKEN_WORD;
+    free(token->next->value);
+    token->next->value = ft_strdup("<");
+    token->next->type = TOKEN_IN;
 }
 
-void here_doc(t_token *token)
+int here_doc2(t_token *token)
+{
+    char *filename;
+    int fd;
+
+    filename = random_file();
+    fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
+    if (fd < 0)
+        return (free(filename), -1);
+    if(read_here_doc(token->next->value, fd) != 0);
+        return (unlink(filename), close(fd), free(filename), -1);
+    close(fd);
+    change_value_node(token, filename);
+    return (0);
+}
+
+int ft_here_doc(t_token *token)
 {
     t_token *tmp;
-    t_token *tmp2;
+    // t_token *tmp2;
 
     tmp = token;
     while (tmp)
     {
-        if (tmp->type == TOKEN_HERE)
-        {
-            tmp2 = here_doc2(tmp);
-            tmp->type = REDIR_IN;
-            tmp->value = ft_strdup(tmp2->value);
-            tmp->next = tmp2->next;
-            free(tmp2);
-        }
+        if (tmp->type == TOKEN_HERE &&  here_doc2(tmp) < 0)
+        return (-1);
         tmp = tmp->next;
     }
+    return (0);
 }
 
-int main()
-{
-    g = malloc(sizeof(t_global));
-    if (!g)
-    {
-        perror("malloc");
-        return 1;
-    }
+// int main()
+// {
+//     t_global *g;
+     
 
-    t_token token1 = { "<<", TOKEN_HERE, NULL };
-    t_token token2 = { "EOF", TOKEN_WORD, NULL };
-    token1.next = &token2;
+//     g = malloc(sizeof(t_global));
+//     if (!g)
+//     {
+//         perror("malloc");
+//         return 1;
+//     }
 
-    here_doc(&token1);
+//     t_token token1 = { "<<", TOKEN_HERE, NULL };
+//     t_token token2 = { "EOF", TOKEN_WORD, NULL };
+//     token1.next = &token2;
 
-    printf("Temporary file created: %s\n", token1.value);
+//     ft_here_doc(&token1);
 
-    free(token1.value);
-    free(g);
+//     printf("Temporary file created: %s\n", token1.value);
 
-    return 0;
-}
+//     free(token1.value);
+//     free(g);
+
+//     return 0;
+// }
