@@ -19,23 +19,26 @@ char *concatunation(char *str)
     int i;
     int j;
     int len;
-    t_global *g;
 
     i = 0;
     j = 0;
-    g = NULL;
+    
     len = ft_strlen(str);
     g->g_qoutes = 1;
     eof = malloc(sizeof(char) * (len + 1));
     if (!eof)
     {
         perror("malloc");
+        free(g);
         exit(1);
     }
     while (str[i])
     {
         if (str[i] == '"' || str[i] == '\'')
+        {
             i++;
+            continue;
+        }
         eof[j] = str[i];
         i++;
         j++;
@@ -44,11 +47,30 @@ char *concatunation(char *str)
     return (eof);   
 }
 
+int check_qoutes(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == '"' || str[i] == '\'')
+            return (1);
+        i++;
+    }
+    return (0);
+}
+
 char *is_qoutes(char *str)
 {
     char *eof;
-    if(str[0] == '\'' || str[0] == '"')
+    
+   
+    if(check_qoutes(str))
+    {
+         
     eof = concatunation(str);
+    }
     else
     eof = str;
     return (eof);
@@ -111,15 +133,20 @@ char *ft_expand(char *line)
     return new_line;
 }
 
-pid_t fork_heredoc( char *eof, int fd)
+pid_t fork_heredoc(char *eof, int fd)
 {
     pid_t pid;
     char *line;
     t_global *g;
  
     
-    g = NULL;
-  
+    g = malloc(sizeof(t_global));
+    if (!g)
+    {
+        perror("malloc");
+        exit(1);
+    }
+    printf("qoutes: %d\n", g->g_qoutes);
     pid = fork();
     if (pid < 0)
     {
@@ -136,7 +163,7 @@ pid_t fork_heredoc( char *eof, int fd)
             {
                 return (free(line), close(fd), exit(0), 0);
             }
-            //    printf("here\n");
+            
             // if (ft_strncmp(line, eof, ft_strlen(eof)) && g->g_qoutes != 1 && !check_dollar(line))
             // {
             //             line = ft_expand(line);
@@ -147,7 +174,6 @@ pid_t fork_heredoc( char *eof, int fd)
             free(line);
             line = readline(">");
         }
-    // close(fd);
     exit(0);
     }
     return pid;
@@ -156,12 +182,12 @@ int read_here_doc(char *eof, int fd)
 {
     pid_t heredoc_pid;
     int status;
+    char *limiter;
  
-    
-       eof = is_qoutes(eof);
-       if(!eof)
+    limiter = is_qoutes(eof);
+    if(!limiter)
        return (-1);
-    heredoc_pid = fork_heredoc(eof, fd);
+    heredoc_pid = fork_heredoc(limiter, fd);
     if (heredoc_pid < 0)
     {
         perror("fork");
@@ -177,11 +203,11 @@ int read_here_doc(char *eof, int fd)
 void change_value_node(t_token *token, char *filename)
 {
     free(token->value);
-    token->value = filename;
-    token->type = TOKEN_WORD;
+    token->value = ft_strdup("<");
+    token->type = TOKEN_IN;
     free(token->next->value);
-    token->next->value = ft_strdup("<");
-    token->next->type = TOKEN_IN;
+    token->next->value = filename;
+    token->next->type = TOKEN_WORD;
 }
 
 int here_doc2(t_token *token)
@@ -193,7 +219,6 @@ int here_doc2(t_token *token)
     filename = random_file();
     if (!filename)
         return (-1);
-    printf("filename: %s\n", filename);
     fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
     if (fd < 0)
         return (free(filename), -1);
