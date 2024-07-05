@@ -115,7 +115,7 @@ int main (int ac, char **av, char **envp)
              ft_here_doc(&head);
              
 		         print_lexer(head);
-             break;
+            //  break;
             if(!check_syntax_errors(head))
             {
               // ft_expand(&head, &root);
