@@ -38,6 +38,13 @@ char *ft_expand(char *line)
      j = 0;
     while (line[i])
     {
+        if(line[i] == '$' && (ft_isdigit(line[i + 1])))
+        {
+            i+=2;
+            new_line[j++] = line[i++];
+            // printf("line[i]: %c\n", line[i]);
+        }
+    
         if (line[i] == '$' && (ft_isalpha(line[i + 1]) || ft_isdigit(line[i + 1])))
         {
             i++;

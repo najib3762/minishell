@@ -103,7 +103,7 @@ int main ()
         {
             free(prog.line);
             free_token_list(&head);
-            ree_parse_list(&parse);
+            free_parse_list(&parse);
           break;
         }
         if (check_quotes(&prog) == 1)
