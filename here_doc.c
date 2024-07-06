@@ -90,6 +90,13 @@ int check_dollar(char *str)
     return (0);
 }
 
+int special_char(char c)
+{
+    if (c == '?' || c == '_')
+        return (1);
+    return (0);
+}
+
 char *ft_expand(char *line)
 {
     char *new_line;
@@ -106,18 +113,18 @@ char *ft_expand(char *line)
      j = 0;
     while (line[i])
     {
-        if (line[i] == '$' && (ft_isalnum(line[i + 1]) || ft_isdigit(line[i + 1])))
+        if (line[i] == '$' && (ft_isalpha(line[i + 1]) || ft_isdigit(line[i + 1]) \
+        || special_char(line[i + 1])))
         {
             i++;
             k = 0;
-            while (ft_isalnum(line[i]) || ft_isdigit(line[i]))
+            while (ft_isalpha(line[i]) || ft_isdigit(line[i]))
             {
                 var_name[k++] = line[i++];
             }
             var_name[k] = '\0';
 
             var_value = getenv(var_name);
-            printf("var_valu %s\n", var_value);
             if (var_value)
             {
                 len = strlen(var_value);
@@ -159,11 +166,7 @@ pid_t fork_heredoc(char *eof, int fd, int qoutes)
             
              
             if (ft_strncmp(line, eof, ft_strlen(eof)) && qoutes != 1 && check_dollar(line))
-            {
-              
-               printf("here\n");
                         line = ft_expand(line);
-            }
 
             write(fd, line, ft_strlen(line));
             write(fd, "\n", 1);
@@ -220,7 +223,12 @@ int here_doc2(t_token *token)
     fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
     if (fd < 0)
         return (free(filename), -1);
-      if(read_here_doc(token->next->value, fd) != 0)
+    if( token->next->type == TOKEN_WORD)
+    {
+    if(read_here_doc(token->next->value, fd) != 0)
+        return (unlink(filename), close(fd), free(filename), -1);
+    }
+    else
         return (unlink(filename), close(fd), free(filename), -1);
     close(fd);
     change_value_node(token, filename);
