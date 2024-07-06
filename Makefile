@@ -8,6 +8,8 @@ SRC_M = error.c \
 		syntax_error.c\
 		parsing1.c\
 		here_doc.c\
+		here_doc1.c\
+		here_doc_utils.c\
 
 OBJ_M = $(SRC_M:.c=.o)
 

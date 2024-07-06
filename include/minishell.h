@@ -95,5 +95,14 @@ void				free_token_list(t_token **head);
 int					check_quotes(t_mini *prog);
 int					check_syntax_errors(t_token *head);
 void				parse_input(t_token *tokens, t_parse **parse);
-int				ft_here_doc(t_token **token);
+int					ft_here_doc(t_token **token);
+char				*concatenation(char *str);
+char				*is_qoutes(char *str, int *qoutes);
+int					check_qoutes(char *str);
+int					check_dollar(char *str);
+// int					special_char(char c);
+char				*ft_expand(char *line);
+void				change_value_node(t_token *token, char *filename);
+char				*random_file(void);
+
 #endif

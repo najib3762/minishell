@@ -1,144 +1,10 @@
 #include "include/minishell.h"
 
 
-#define FILENAME "/tmp/here_doc_"
-
-char *random_file()
+void sig_here_doc(int sig)
 {
-    char *filename;
-    static int i;
-
-    filename = ft_strjoin(FILENAME, ft_itoa(i++));
-    return (filename);
-}
-
-char *concatunation(char *str)
-{
-
-    char *eof;
-    int i;
-    int j;
-    int len;
-
-    i = 0;
-    j = 0;
-    
-    len = ft_strlen(str);
-    eof = malloc(sizeof(char) * (len + 1));
-    if (!eof)
-    {
-        perror("malloc");
-        
-        exit(1);
-    }
-    while (str[i])
-    {
-        if (str[i] == '"' || str[i] == '\'')
-        {
-            i++;
-            continue;
-        }
-        eof[j] = str[i];
-        i++;
-        j++;
-    }
-    eof[j] = '\0';
-    return (eof);   
-}
-
-int check_qoutes(char *str)
-{
-    int i;
-
-    i = 0;
-    while (str[i])
-    {
-        if (str[i] == '"' || str[i] == '\'')
-            return (1);
-        i++;
-    }
-    return (0);
-}
-
-char *is_qoutes(char *str, int *qoutes)
-{
-    char *eof;
-    
-   
-    if(check_qoutes(str))
-    {
-         
-    eof = concatunation(str);
-    *qoutes = 1;
-    }
-    else
-    eof = str;
-    return (eof);
-}
-
-int check_dollar(char *str)
-{
-    int i;
-
-    i = 0;
-    while (str[i])
-    {
-        if (str[i] == '$')
-            return (1);
-        i++;
-    }
-    return (0);
-}
-
-int special_char(char c)
-{
-    if (c == '?' || c == '_')
-        return (1);
-    return (0);
-}
-
-char *ft_expand(char *line)
-{
-    char *new_line;
-    int i;
-    int j;
-    int k;
-    char var_name[100];
-    char *var_value;
-    int len;
-
-
-     new_line = malloc(BUFSIZ);
-     i = 0;
-     j = 0;
-    while (line[i])
-    {
-        if (line[i] == '$' && (ft_isalpha(line[i + 1]) || ft_isdigit(line[i + 1]) \
-        || special_char(line[i + 1])))
-        {
-            i++;
-            k = 0;
-            while (ft_isalpha(line[i]) || ft_isdigit(line[i]))
-            {
-                var_name[k++] = line[i++];
-            }
-            var_name[k] = '\0';
-
-            var_value = getenv(var_name);
-            if (var_value)
-            {
-                len = strlen(var_value);
-                strncpy(new_line + j, var_value, len);
-                j += len;
-            }
-        }
-        else
-        {
-            new_line[j++] = line[i++];
-        }
-    }
-    new_line[j] = '\0';
-    return new_line;
+    (void)sig;
+    write(1, "\n", 1);
 }
 
 pid_t fork_heredoc(char *eof, int fd, int qoutes)
@@ -150,28 +16,21 @@ pid_t fork_heredoc(char *eof, int fd, int qoutes)
     if (pid < 0)
     {
         perror("fork");
-        return (-1);
+        exit(1);
     }
     if (pid == 0)
     {
       line = readline(">");
         while (line)
         {
-            signal(SIGINT, SIG_DFL);
-            
+            signal(SIGINT, sig_here_doc);
             if (!ft_strncmp(line, eof, ft_strlen(eof)) && (ft_strlen(line) == ft_strlen(eof)))
-            {
                 return (free(line), close(fd), exit(0), 0);
-            }
-            
-             
             if (ft_strncmp(line, eof, ft_strlen(eof)) && qoutes != 1 && check_dollar(line))
                         line = ft_expand(line);
-
-            write(fd, line, ft_strlen(line));
-            write(fd, "\n", 1);
+            ft_putendl_fd(line, fd);
             free(line);
-            line = readline(">");
+     line = readline(">");
         }
     exit(0);
     }
@@ -195,27 +54,17 @@ int read_here_doc(char *eof, int fd)
         return (-1);
     }
 
-   
     waitpid(heredoc_pid, &status, 0);
     if(WIFEXITED(status))
         return (WEXITSTATUS(status));
   return (1);
 }
-void change_value_node(t_token *token, char *filename)
-{
-    free(token->value);
-    token->value = ft_strdup("<");
-    token->type = TOKEN_IN;
-    free(token->next->value);
-    token->next->value = filename;
-    token->next->type = TOKEN_WORD;
-}
+
 
 int here_doc2(t_token *token)
 {
     char *filename;
     int fd;
- 
     
     filename = random_file();
     if (!filename)

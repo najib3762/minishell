@@ -82,16 +82,12 @@ void print_parse(t_parse **parse)
 	}
 }
 
-int main (int ac, char **av, char **envp)
+int main ()
 {
    t_mini prog;
    t_token  *head;
    t_parse  *parse;
-  //  t_expand *root;
 
-  (void)envp;
-  (void)ac;
-  (void)av;
   head = NULL;
    init_data(&prog);
     prog.line = readline("Minishell: ");
@@ -107,6 +103,7 @@ int main (int ac, char **av, char **envp)
         {
             free(prog.line);
             free_token_list(&head);
+            ree_parse_list(&parse);
           break;
         }
         if (check_quotes(&prog) == 1)
@@ -118,7 +115,7 @@ int main (int ac, char **av, char **envp)
             //  break;
             if(!check_syntax_errors(head))
             {
-              // ft_expand(&head, &root);
+              // ft_expand(&head);
             parse_input(head , &parse);
             // print_parse(&parse);
             free_parse_list(&parse);
