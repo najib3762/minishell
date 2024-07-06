@@ -78,12 +78,12 @@ void add_cmd_node(t_parse **list, t_parse *new_node)
 
 	if (!*list)
 		*list = new_node;
-	else
+    else
 	{
-		temp = *list;
-		while (temp->next) 
-		temp = temp->next;
-		temp->next = new_node;
+	temp = *list;
+	while (temp->next) 
+			temp = temp->next;
+	temp->next = new_node;
 	}
 }
 
@@ -91,13 +91,12 @@ void add_cmd_node(t_parse **list, t_parse *new_node)
 void parse_input(t_token *tokens, t_parse **parse) 
 {
    t_parse *cmd_head;
-	t_parse *cmd;
 	t_args *args;;
 	t_redir *redir;
 
+    cmd_head = NULL;
 	while (tokens)
      	{
-		cmd = NULL;
 		args = NULL;
 		redir = NULL;
 		

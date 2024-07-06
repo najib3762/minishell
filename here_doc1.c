@@ -7,9 +7,11 @@ char *random_file()
 {
     char *filename;
     static int i;
+    char *temp = NULL;
 
-    filename = ft_strjoin(FILENAME, ft_itoa(i++));
-    return (filename);
+    temp = ft_itoa(i++);
+    filename = ft_strjoin(FILENAME, temp);
+    return (free(temp), filename);
 }
 
 void change_value_node(t_token *token, char *filename)

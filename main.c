@@ -23,36 +23,52 @@ void print_lexer(t_token *head)
       temp = temp->next;
     }
 }
+
 void free_parse_list(t_parse **head)
 {
-  t_parse *temp_parse;
-
-  while (*head)
-  {
-    temp_parse = *head;
-    *head = (*head)->next;
-
+    t_parse *temp_parse;
     t_args *temp_args;
-    while (temp_parse->cmd_args)
-    {
-      temp_args = temp_parse->cmd_args;
-      temp_parse->cmd_args = temp_parse->cmd_args->next;
-      free(temp_args->content);
-      free(temp_args);
-    }
-
     t_redir *temp_redir;
-    while (temp_parse->redir_list)
-    {
-      temp_redir = temp_parse->redir_list;
-      temp_parse->redir_list = temp_parse->redir_list->next;
-      free(temp_redir->filename);
-      free(temp_redir);
-    }
 
-    free(temp_parse);
-  }
+    while (*head)
+    {
+        temp_parse = *head;
+        *head = (*head)->next;
+
+        while (temp_parse->cmd_args)
+        {
+            temp_args = temp_parse->cmd_args;
+            temp_parse->cmd_args = temp_parse->cmd_args->next;
+
+            if (temp_args->content)
+            {
+                free(temp_args->content);
+                temp_args->content = NULL;
+            }
+            free(temp_args);
+        }
+
+   
+        while (temp_parse->redir_list)
+        {
+            temp_redir = temp_parse->redir_list;
+            temp_parse->redir_list = temp_parse->redir_list->next;
+
+            if (temp_redir->filename)
+            {
+                free(temp_redir->filename);
+                temp_redir->filename = NULL;
+            }
+            free(temp_redir);
+        }
+
+       
+        free(temp_parse);
+    }
+    *head = NULL; 
 }
+
+
 
 void print_parse(t_parse **parse) 
 {
@@ -89,6 +105,7 @@ int main ()
    t_parse  *parse;
 
   head = NULL;
+  parse = NULL;
    init_data(&prog);
     prog.line = readline("Minishell: ");
     if (!prog.line)
@@ -110,14 +127,11 @@ int main ()
         {
              ft_lexer(&prog, &head);
              ft_here_doc(&head);
-             
-		         print_lexer(head);
-            //  break;
             if(!check_syntax_errors(head))
             {
               // ft_expand(&head);
             parse_input(head , &parse);
-            // print_parse(&parse);
+            print_parse(&parse);
             free_parse_list(&parse);
             }
             free_token_list(&head);
