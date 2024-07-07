@@ -36,6 +36,7 @@ pid_t fork_heredoc(char *eof, int fd, int qoutes)
     }
     return pid;
 }
+
 int read_here_doc(char *eof, int fd)
 {
     pid_t heredoc_pid;
@@ -75,10 +76,10 @@ int here_doc2(t_token *token)
     if( token->next->type == TOKEN_WORD)
     {
     if(read_here_doc(token->next->value, fd) != 0)
-        return (unlink(filename), close(fd), free(filename), -1);
+        return (close(fd), free(filename), -1);
     }
     else
-        return (unlink(filename), close(fd), free(filename), -1);
+        return (close(fd), free(filename), -1);
     close(fd);
     change_value_node(token, filename);
     return (0);
