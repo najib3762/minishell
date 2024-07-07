@@ -15,12 +15,19 @@
 // # define  SINGLE_QOUTE 2
 // # define HASH_SPACE 4
  
+ typedef struct s_free
+ {
+	 void *address;
+	 struct s_free *next;
+ } t_free;
+
  typedef struct s_global
  {
 	int g_qoutes;
-	
+	t_free *address;
  } t_global;
 
+extern t_global g_global;
 typedef enum
 {
 	TOKEN_WORD,
@@ -104,5 +111,8 @@ int					check_dollar(char *str);
 char				*ft_expand(char *line);
 void				change_value_node(t_token *token, char *filename);
 char				*random_file(void);
+void				free_address(t_free **head);
+t_free				*newnode_free(void *content);
+void				addback_node_free(t_free **head, t_free *new);
 
 #endif

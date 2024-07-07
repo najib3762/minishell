@@ -1,46 +1,61 @@
 #include "include/minishell.h"
 
 
+int *retur_value()
+{
+    static int ret = -1;
+
+    return (&ret);
+}
+
 void sig_here_doc(int sig)
 {
     (void)sig;
     write(1, "\n", 1);
+    *retur_value() = dup(0);
+    close(0);
+
 }
 
-pid_t fork_heredoc(char *eof, int fd, int qoutes)
+void sig_hand(int sig)
 {
-    pid_t pid;
+    (void)sig;
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+}
+
+int fork_heredoc(char *eof, int fd, int qoutes)
+{
+
     char *line;
 
-    pid = fork();
-    if (pid < 0)
-    {
-        perror("fork");
-        exit(1);
-    }
-    if (pid == 0)
-    {
+   
+      signal(SIGINT, sig_here_doc);
       line = readline(">");
         while (line)
         {
-            signal(SIGINT, sig_here_doc);
             if (!ft_strncmp(line, eof, ft_strlen(eof)) && (ft_strlen(line) == ft_strlen(eof)))
-                return (free(line), close(fd), exit(0), 0);
+                return (free(line), close(fd), 0);
             if (ft_strncmp(line, eof, ft_strlen(eof)) && qoutes != 1 && check_dollar(line))
                         line = ft_expand(line);
             ft_putendl_fd(line, fd);
             free(line);
-     line = readline(">");
+            line = readline(">");
         }
-    exit(0);
-    }
-    return pid;
+        if (*retur_value() != -1)
+        {
+            dup2(*retur_value(), 0);
+            close(*retur_value());
+            *retur_value() = -1;
+            signal(SIGINT, sig_hand);
+
+        }
+    return 0;
 }
 
 int read_here_doc(char *eof, int fd)
 {
-    pid_t heredoc_pid;
-    int status;
     char *limiter;
     int qoutes;
  
@@ -49,16 +64,7 @@ int read_here_doc(char *eof, int fd)
     if(!limiter)
        return (-1);
     // printf("limiter: %s\n", limiter); 
-    heredoc_pid = fork_heredoc(limiter, fd, qoutes);
-    if (heredoc_pid < 0)
-    {
-        perror("fork");
-        return (-1);
-    }
-
-    waitpid(heredoc_pid, &status, 0);
-    if(WIFEXITED(status))
-        return (WEXITSTATUS(status));
+    fork_heredoc(limiter, fd, qoutes);
   return (1);
 }
 

@@ -132,19 +132,17 @@ int main ()
             {
               // ft_expand(&head);
             parse_input(head , &parse);
-            print_parse(&parse);
+            // print_parse(&parse);
             free_parse_list(&parse);
             }
             free_token_list(&head);
         }
         add_history(prog.line);
-        free(prog.line);
         prog.line = readline("Minishell: ");
         if (!prog.line)
-        {
-            perror("readline");
             exit(1);
-        }
+    
+  
     }
   return (0);  
 }
