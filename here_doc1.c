@@ -11,15 +11,20 @@ char *random_file()
 
     temp = ft_itoa(i++);
     filename = ft_strjoin(FILENAME, temp);
+    if (!filename)
+    {
+        perror("malloc");
+        return (NULL);
+    }
     return (free(temp), filename);
 }
 
 void change_value_node(t_token *token, char *filename)
 {
-    free(token->value);
-    token->value = ft_strdup("<");
+    // free(token->value);
+    token->value = "<";
     token->type = TOKEN_IN;
-    free(token->next->value);
+    // free(token->next->value);
     token->next->value = filename;
     token->next->type = TOKEN_WORD;
 }
@@ -74,16 +79,34 @@ char *ft_expand(char *line)
     return new_line;
 }
 
+int calcule_qoutes(char *str)
+{
+    int i;
+    int qoutes;
+
+    i = 0;
+    qoutes = 0;
+    while (str[i])
+    {
+        if (str[i] == '"' || str[i] == '\'')
+            qoutes++;
+        i++;
+    }
+    return qoutes;
+}
+
 char *concatenation(char *str)
 {
     char *eof;
     int i;
     int j;
     int len;
+    int qoutes;
 
     i = 0;
     j = 0;
-    len = ft_strlen(str);
+    qoutes = calcule_qoutes(str);
+    len = ft_strlen(str) - qoutes;
     eof = malloc(sizeof(char) * (len + 1));
     if (!eof)
     {

@@ -53,18 +53,18 @@ void ft_lexer(t_mini *prog, t_token **head)
     // } 
     if (prog->line[i] == '|') 
     {
-        addback_node(head, TOKEN_PIPE, "|");
+        addback_node(head, create_newnode(TOKEN_PIPE, "|"));
         i++;
     }
      else if (prog->line[i] == '>') 
      {
         if (prog->line[i + 1] == '>') {
-            addback_node(head, TOKEN_APPEND, ">>");
+            addback_node(head, create_newnode(TOKEN_APPEND, ">>"));
             i += 2;
         } 
         else 
         {   
-            addback_node(head, TOKEN_OUT, ">");
+            addback_node(head, create_newnode(TOKEN_OUT, ">"));
             i++;
         }
     } 
@@ -72,12 +72,12 @@ void ft_lexer(t_mini *prog, t_token **head)
     {
         if (prog->line[i + 1] == '<') 
         {
-            addback_node(head, TOKEN_HERE, "<<");
+            addback_node(head, create_newnode(TOKEN_HERE , "<<"));
             i += 2;
         } 
         else 
         {
-            addback_node(head, TOKEN_IN, "<");
+            addback_node(head, create_newnode(TOKEN_IN, "<"));
             i++;
         }
     } 
@@ -96,8 +96,8 @@ void ft_lexer(t_mini *prog, t_token **head)
         }
         ft_strncpy(ptr, prog->line + start, length + 1);
         ptr[length] = '\0';
-        addback_node(head, TOKEN_WORD, ptr);
-        free(ptr);
+        addback_node(head, create_newnode(TOKEN_WORD, ptr));
+        // free(ptr);
     }
 }
 }

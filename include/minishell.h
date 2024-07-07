@@ -84,7 +84,7 @@ typedef struct s_mini
 
 int					ft_isspace(char c);
 char				*ft_strdup(const char *s);
-void				addback_node(t_token **head, t_type tnum, char *value);
+void				addback_node(t_token **head, t_token *new_node);
 t_token				*create_newnode(t_type new_type, char *new_value);
 void				print_error(char *error);
 void				init_data(t_mini *prog);

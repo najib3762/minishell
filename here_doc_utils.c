@@ -11,7 +11,7 @@ int check_qoutes(char *str)
     i = 0;
     while (str[i])
     {
-        if (str[i] == '"' || str[i] == '\'')
+        if (str[i] && (str[i] == '\"' || str[i] == '\''))
             return (1);
         i++;
     }
@@ -23,14 +23,19 @@ char *is_qoutes(char *str, int *qoutes)
     char *eof;
     
    
-    if(check_qoutes(str))
+    if(check_qoutes(str) == 1)
     {
          
     eof = concatenation(str);
+        if (!eof) 
+        {
+            perror("concatenate");
+            return NULL;
+        }
     *qoutes = 1;
     }
     else
-    eof = str;
+       eof = str;
     return (eof);
 }
 

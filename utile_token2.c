@@ -19,29 +19,24 @@ t_token *create_newnode(t_type new_type, char *new_value)
         exit(1);
     }
     ptr->type = new_type;
-    ptr->value = ft_strdup(new_value);
+    ptr->value = new_value;
     ptr->next = NULL;
     return (ptr);
 }
 
-void addback_node(t_token **head, t_type tnum, char *value)
+void addback_node(t_token **head, t_token *new_node)
 {
-    t_token *root ;
     t_token *current;
-    root = create_newnode(tnum, value);
 
     if(!*head)
-    { 
-      *head = root;
-      return;
+    {
+        *head = new_node;
+        return;
     }
-
-     current = *head;
-
-     while(current->next != NULL)
-     current = current->next;
-     
-     current->next = root;
+    current = *head;
+    while(current->next != NULL)
+        current = current->next;
+    current->next = new_node;
 }
 
 int check_quotes(t_mini *prog) 
@@ -81,7 +76,7 @@ void free_token_list(t_token **head)
     {
         tmp = *head;
         *head = (*head)->next;
-            free(tmp->value);
+            // free(tmp->value);
         free(tmp);
     }
     *head = NULL;

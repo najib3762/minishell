@@ -45,9 +45,10 @@ int read_here_doc(char *eof, int fd)
     int qoutes;
  
     qoutes = 0;
-    limiter = is_qoutes(eof, &qoutes);
+    limiter = is_qoutes(eof, &qoutes);  
     if(!limiter)
        return (-1);
+    // printf("limiter: %s\n", limiter); 
     heredoc_pid = fork_heredoc(limiter, fd, qoutes);
     if (heredoc_pid < 0)
     {
