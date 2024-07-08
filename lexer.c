@@ -64,8 +64,8 @@ void ft_lexer(t_mini *prog, t_token **head)
             start = i;
           dflag = 1;
             i++;
-        while(prog->line[i])
-            {
+            while(prog->line[i])
+              {
                 if(dflag == 0)
                 {
                     if(ft_isspace(prog->line[i]) || !prog->line[i])
@@ -80,7 +80,6 @@ void ft_lexer(t_mini *prog, t_token **head)
                 }
                 i++;
             }
-                i++;
         }
         else
         {

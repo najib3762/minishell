@@ -126,7 +126,7 @@ int main ()
         if (check_quotes(&prog) == 1)
         {
              ft_lexer(&prog, &head);
-             ft_here_doc(&head);
+            //  ft_here_doc(&head);
                print_lexer(head);
                break ;
             if(!check_syntax_errors(head))
