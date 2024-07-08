@@ -114,5 +114,7 @@ char				*random_file(void);
 void				free_address(t_free **head);
 t_free				*newnode_free(void *content);
 void				addback_node_free(t_free **head, t_free *new);
+void				concatenate_lexer(t_token **head);
+int					calcule_qoutes(char *str);
 
 #endif

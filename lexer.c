@@ -1,5 +1,10 @@
 #include "include/minishell.h"
 
+    // if(prog->line[i] == quote && prog->line[i + 1])
+            //         {
+            //             while(prog->line[i + 1] && !ft_isspace(prog->line[i + 1]))
+            //                 i++;
+            //         }   
 
 void ft_lexer(t_mini *prog, t_token **head)
 {
@@ -7,10 +12,11 @@ void ft_lexer(t_mini *prog, t_token **head)
     int start;
     int length;
     char *ptr;
-    char quote;
+    int dflag;
 
 
     i = 0;
+    dflag = 0;
    while(ft_isspace(prog->line[i]))
         i++;
   while (prog->line[i]) 
@@ -53,17 +59,28 @@ void ft_lexer(t_mini *prog, t_token **head)
     } 
     else 
     {
-        if(prog->line[i] == '\"' || prog->line[i] == '\'')
+         if(prog->line[i] == '\"' || prog->line[i] == '\'')
         {
             start = i;
-            if(prog->line[i] == '\"')
-                 quote = '\"';
-            else
-                 quote = '\'';
-                i++;
-            while(prog->line[i] && prog->line[i] != quote)
-                     i++;
+          dflag = 1;
             i++;
+        while(prog->line[i])
+            {
+                if(dflag == 0)
+                {
+                    if(ft_isspace(prog->line[i]) || !prog->line[i])
+                         break;
+                }
+                if( prog->line[i] == '\"' || prog->line[i] == '\'')
+                {
+                    if(dflag == 0)
+                       dflag++;
+                    else
+                      dflag--;
+                }
+                i++;
+            }
+                i++;
         }
         else
         {
@@ -82,7 +99,6 @@ void ft_lexer(t_mini *prog, t_token **head)
         ft_strncpy(ptr, prog->line + start, length + 1);
         ptr[length] = '\0';
         addback_node(head, create_newnode(TOKEN_WORD, ptr));
-        // free(ptr);
     }
 }
 }

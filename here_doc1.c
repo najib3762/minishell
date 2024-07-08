@@ -21,10 +21,8 @@ char *random_file()
 
 void change_value_node(t_token *token, char *filename)
 {
-    // free(token->value);
     token->value = "<";
     token->type = TOKEN_IN;
-    // free(token->next->value);
     token->next->value = filename;
     token->next->type = TOKEN_WORD;
 }

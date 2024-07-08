@@ -25,6 +25,7 @@ int check_syntax_errors(t_token *head)
         {
             if (!current->next || current->next->type != TOKEN_WORD)
             {
+                
                 print_error("Syntax error  invalid redirection\n");
                 return 1;
             }

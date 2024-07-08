@@ -1,11 +1,16 @@
 #include "include/minishell.h"
 
 
-t_expand *ft_expander()
+void ft_expand(t_token **head)
 {
+       
+       t_token *temp;
 
-    
-     
+       temp = *head;
 
+       while(temp)
+       {
+         
+       }
 }
 
