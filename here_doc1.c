@@ -47,7 +47,6 @@ char *ft_expand(char *line)
         {
             i+=2;
             new_line[j++] = line[i++];
-            // printf("line[i]: %c\n", line[i]);
         }
     
         if (line[i] == '$' && (ft_isalpha(line[i + 1]) || ft_isdigit(line[i + 1])))
@@ -79,30 +78,54 @@ char *ft_expand(char *line)
 
 int calcule_qoutes(char *str)
 {
-    int i;
-    int qoutes;
-    
-    i = 0;
-    qoutes = 0;
-    while (str[i])
+    int dflag = 0;
+    int sflag = 0;
+    int res = 0;
+    int i = 0;
+
+    while(str[i])
     {
-        if (str[i] == '"' || str[i] == '\'')
-            qoutes++;
+        if( str[i] == '\"' && sflag == 0 )
+                 {
+                        res+=1;
+                        dflag = !dflag;
+                 }
+         if( str[i] == '\'' && dflag == 0)
+                    {
+                         res+=1;
+                        sflag = !sflag;
+                    }
         i++;
     }
-    return qoutes;
+    return res;
 }
 
-char *concatenation(char *str)
+void g_word( char *str, char *eof)
 {
-    char *eof;
+     int dflag = 0;
+    int sflag = 0;
     int i;
     int j;
-    int len;
-    int qoutes;
 
     i = 0;
     j = 0;
+     while(str[i])
+    {
+        if( str[i] == '\"' && sflag == 0 && ++i)
+                    dflag = !dflag;
+         else if( str[i] == '\'' && dflag == 0 && ++i)
+                    sflag = !sflag;
+        else
+            eof[j++] = str[i++];
+    }
+    eof[j] = '\0';
+}
+char *concatenation(char *str)
+{
+    char *eof;
+    int len;
+    int qoutes;
+
     qoutes = calcule_qoutes(str);
     len = ft_strlen(str) - qoutes;
     eof = malloc(sizeof(char) * (len + 1));
@@ -111,15 +134,7 @@ char *concatenation(char *str)
         perror("malloc");
         exit(1);
     }
-    while (str[i])
-    {
-        if (str[i] == '"' || str[i] == '\'')
-        {
-            i++;
-            continue;
-        }
-        eof[j++] = str[i++];
-    }
-    eof[j] = '\0';
+    g_word(str, eof);
+
     return (eof);   
 }

@@ -24,18 +24,13 @@ char *is_qoutes(char *str, int *qoutes)
     
    
     if(check_qoutes(str) == 1)
-    {
-         
-    eof = concatenation(str);
-        if (!eof) 
-        {
-            perror("concatenate");
-            return NULL;
-        }
-    *qoutes = 1;
-    }
+       {    
+        eof = concatenation(str);
+        *qoutes = 1;
+       }
     else
        eof = str;
+
     return (eof);
 }
 

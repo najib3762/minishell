@@ -7,11 +7,9 @@ int quote_word(t_mini *prog, t_token **head, int i)
     int sflag = 0;
     int len = 0;
 
-    if(  prog->line[i + len] == '\'')
-        sflag = 1;
-    if(  prog->line[i + len] == '\"')
-        dflag = 1;
-     len++;
+
+
+    //"'helllo"sdfadsf"world"
     while(prog->line[i + len])
     {
         if(dflag == 0 && sflag == 0)
@@ -19,20 +17,10 @@ int quote_word(t_mini *prog, t_token **head, int i)
             if(ft_isspace(prog->line[i + len]))
                 break;
           }
-        if( prog->line[i + len] == '\"')
-                 {
-                    if(dflag == 0)
-                       dflag++;
-                    else
-                      dflag--;
-                 }
-         if(  prog->line[i + len] == '\'')
-                 {
-                    if(sflag == 0)
-                       sflag++;
-                    else
-                      sflag--;
-                 }
+        if( prog->line[i + len] == '\"' && sflag == 0)
+                 dflag = !dflag;
+         if(  prog->line[i + len] == '\'' && dflag == 0)
+               sflag = !sflag;
         len++;
     }
     ptr = malloc(sizeof(char) * (len + 1));
@@ -78,9 +66,8 @@ void ft_lexer(t_mini *prog, t_token **head)
    i = 0;
   while (prog->line[i]) 
   {
-    if(ft_isspace(prog->line[i]))
+    while(ft_isspace(prog->line[i]))
               i++;
-
     if (prog->line[i] == '\0')
         break;
     

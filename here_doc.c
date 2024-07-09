@@ -4,7 +4,6 @@
 int *retur_value()
 {
     static int ret = -1;
-
     return (&ret);
 }
 
@@ -63,7 +62,6 @@ int read_here_doc(char *eof, int fd)
     limiter = is_qoutes(eof, &qoutes);  
     if(!limiter)
        return (-1);
-    // printf("limiter: %s\n", limiter); 
     fork_heredoc(limiter, fd, qoutes);
   return (1);
 }
