@@ -81,7 +81,7 @@ int calcule_qoutes(char *str)
 {
     int i;
     int qoutes;
-
+    
     i = 0;
     qoutes = 0;
     while (str[i])

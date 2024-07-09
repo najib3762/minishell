@@ -128,14 +128,16 @@ int main ()
              ft_lexer(&prog, &head);
             //  ft_here_doc(&head);
                print_lexer(head);
-               break ;
             if(!check_syntax_errors(head))
             {
               // ft_expand(&head);
               // concatenate_lexer(&head);
-              printf("\n\n\n"); 
+              printf("\n\n\n\n");
+              // print_lexer(head);     
+              // break;
+              // printf("\n\n\n"); 
             parse_input(head , &parse);
-            // print_parse(&parse);
+            print_parse(&parse);
             free_parse_list(&parse);
             }
             free_token_list(&head);
