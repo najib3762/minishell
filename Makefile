@@ -22,6 +22,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ_M)
 	@make -C libft
+	@make bonus -C libft
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ_M) $(LDFLAGS)
 
 %.o: %.c

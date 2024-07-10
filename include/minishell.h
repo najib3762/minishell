@@ -86,7 +86,7 @@ typedef struct s_parse
 typedef struct s_mini
 {
 	char			*line;
-
+    t_list			*env_head;
 }					t_mini;
 
 int					ft_isspace(char c);
@@ -94,7 +94,7 @@ char				*ft_strdup(const char *s);
 void				addback_node(t_token **head, t_token *new_node);
 t_token				*create_newnode(t_type new_type, char *new_value);
 void				print_error(char *error);
-void				init_data(t_mini *prog);
+void				init_data(int ac, char **env, t_mini *prog);
 // void				ft_parsing(t_mini *prog, t_token **head);
 void				ft_lexer(t_mini *prog, t_token **head);
 // void				print_token(t_token *head);////////

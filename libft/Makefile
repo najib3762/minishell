@@ -24,9 +24,9 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) -c $@
 
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJ) $(OBJBO)
 fclean: clean
-	rm -f  $(NAME)
+	rm -f  $(NAME) 
 
 re : fclean all
 

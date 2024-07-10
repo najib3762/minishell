@@ -130,7 +130,18 @@ void main2( t_mini *prog, t_token **head,t_parse **parse)
     }
 }
 
-int main ()
+void print_list(t_list *head)
+{
+     
+      while(head)
+      {
+
+         printf("%s\n\n", (char *)head->content);
+         head = head->next;
+      }
+}
+
+int main (int ac, char **av, char **env)
 {
    t_mini prog;
    t_token  *head;
@@ -138,7 +149,11 @@ int main ()
 
     head = NULL;
     parse = NULL;
-   init_data(&prog);
+    (void)av;
+     init_data(ac, env, &prog);
+    
+    print_list(prog.env_head);
+    // exit(1);
     prog.line = readline("Minishell: ");
     if (!prog.line)
          exit(1);
