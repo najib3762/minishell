@@ -1,8 +1,8 @@
 #include "include/minishell.h"
 
-int check_syntax_errors(t_token *head) 
+int check_syntax_errors(t_token **head) 
 {
-    t_token *current = head;
+    t_token *current = *head;
 
     if (current && current->type == TOKEN_PIPE) 
     {

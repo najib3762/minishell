@@ -35,6 +35,8 @@ t_parse *cmd_node(t_args *cmd_args, t_redir *redir_list)
 	return NULL;
 	node->cmd_args = cmd_args;
 	node->redir_list = redir_list;
+	node->red_in = 0;
+	node->red_out = 1;
 	node->next = NULL;
 	return node;
 }
@@ -88,49 +90,51 @@ void add_cmd_node(t_parse **list, t_parse *new_node)
 }
 
 
-void parse_input(t_token *tokens, t_parse **parse) 
+void parse_input(t_token **tokens, t_parse **parse) 
 {
    t_parse *cmd_head;
 	t_args *args;;
 	t_redir *redir;
+	 t_token *temp;
 
     cmd_head = NULL;
-	while (tokens)
+	temp = *tokens;
+	while (temp)
      	{
 		args = NULL;
 		redir = NULL;
 		
-		while (tokens && tokens->type != TOKEN_PIPE)
+		while (temp && temp->type != TOKEN_PIPE)
 		{
-			if (tokens->type == TOKEN_IN)
+			if (temp->type == TOKEN_IN)
 			{
-				add_redir_node(&redir, redir_node(tokens->next->value, REDIR_IN));
-				tokens = tokens->next->next;
+				add_redir_node(&redir, redir_node(temp->next->value, REDIR_IN));
+				temp = temp->next->next;
 			}
-			else if (tokens->type == TOKEN_OUT)
+			else if (temp->type == TOKEN_OUT)
 			{
-				add_redir_node(&redir, redir_node(tokens->next->value, REDIR_OUT));
-				tokens = tokens->next->next;
+				add_redir_node(&redir, redir_node(temp->next->value, REDIR_OUT));
+				temp = temp->next->next;
 			}
-			else if (tokens->type == TOKEN_APPEND)
+			else if (temp->type == TOKEN_APPEND)
 			{
-				add_redir_node(&redir, redir_node(tokens->next->value, REDIR_APPEND));
-				tokens = tokens->next->next;
+				add_redir_node(&redir, redir_node(temp->next->value, REDIR_APPEND));
+				temp = temp->next->next;
 			}
-			else if (tokens->type == TOKEN_HERE)
+			else if (temp->type == TOKEN_HERE)
 			{
-				add_redir_node(&redir, redir_node(tokens->next->value, REDIR_HERE));
-				tokens = tokens->next->next;
+				add_redir_node(&redir, redir_node(temp->next->value, REDIR_HERE));
+				temp = temp->next->next;
 			}
 			else
 			{
-				add_args_node(&args, args_node(tokens->value));
-				tokens = tokens->next;
+				add_args_node(&args, args_node(temp->value));
+				temp = temp->next;
 			}
 		}
 		add_cmd_node(&cmd_head, cmd_node( args, redir));
-		if (tokens && tokens->type == TOKEN_PIPE)
-			tokens = tokens->next;
+		if (temp && temp->type== TOKEN_PIPE)
+			temp = temp->next;
 	}     	
 	*parse = cmd_head;
 }

@@ -1,9 +1,9 @@
 #include "include/minishell.h"
 #include "include/libft.h"
 
-void print_lexer(t_token *head)
+void print_lexer(t_token **head)
 {
-    t_token *temp = head;
+    t_token *temp = *head;
 
     while (temp)
     {
@@ -98,58 +98,50 @@ void print_parse(t_parse **parse)
 	}
 }
 
+void main2( t_mini *prog, t_token **head,t_parse **parse)
+{
+
+  while (1)
+    {
+        if (check_quotes(prog) == 1)
+        {
+             ft_lexer(prog, head);
+            //  ft_here_doc(&head);
+               print_lexer(head);
+                // break;
+            if(!check_syntax_errors(head))
+            {
+              // ft_expand(&head);
+              concatenate_lexer(head);
+              printf("\n\n\n\n");
+              print_lexer(head);     
+              // break;
+              // printf("\n\n\n"); 
+            parse_input(head , parse);
+            print_parse(parse);
+            free_parse_list(parse);
+            }
+            free_token_list(head);
+        }
+        add_history(prog->line);
+        prog->line = readline("Minishell: ");
+        if (!prog->line)
+            exit(1);
+    }
+}
+
 int main ()
 {
    t_mini prog;
    t_token  *head;
    t_parse  *parse;
 
-  head = NULL;
-  parse = NULL;
+    head = NULL;
+    parse = NULL;
    init_data(&prog);
     prog.line = readline("Minishell: ");
     if (!prog.line)
-    {
-        perror("readline");
-        exit(1);
-    }
-   
-    while (1)
-    {
-        if(ft_strncmp(prog.line, "exit", ft_strlen("exit")) == 0)
-        {
-            free(prog.line);
-            free_token_list(&head);
-            free_parse_list(&parse);
-          break;
-        }
-        if (check_quotes(&prog) == 1)
-        {
-             ft_lexer(&prog, &head);
-            //  ft_here_doc(&head);
-            
-               print_lexer(head);
-                break;
-            if(!check_syntax_errors(head))
-            {
-              // ft_expand(&head);
-              concatenate_lexer(&head);
-              printf("\n\n\n\n");
-              print_lexer(head);     
-              break;
-              // printf("\n\n\n"); 
-            parse_input(head , &parse);
-            print_parse(&parse);
-            free_parse_list(&parse);
-            }
-            free_token_list(&head);
-        }
-        add_history(prog.line);
-        prog.line = readline("Minishell: ");
-        if (!prog.line)
-            exit(1);
-    
-  
-    }
+         exit(1);
+    main2(&prog, &head, &parse);
   return (0);  
 }
