@@ -7,24 +7,23 @@
 char	*my_getenv(char *name, char *env)
 {
 	int		i;
-	int		j;
-	char	*sub;
+    char    *value;
+    int j;
 
 	i = 0;
-	while (env[i])
-	{
-		j = 0;
+    j = 0;
+    value = malloc(BUFSIZ);
+
 		while (env[i] && env[i] != '=')
-			i++;
-		sub = ft_substr(env[i], 0, j);
-		if (ft_strcmp(sub, name) == 0)
+                value[j++] = env[i++];
+        value[j] = '\0';
+		if (ft_strcmp(value, name) == 0)
 		{
-			free(sub);
-			return (env[i] + j + 1);
+            free(value);
+            return (&env[i] + 1);
+		
 		}
-		free(sub);
-		i++;
-	}
+	 free(value);
 	return (NULL);
 }
 
@@ -60,9 +59,11 @@ char *dollar_expand( char *str, t_list *env)
     j = 0;
     k = 0;
     l = 0;
+
     new_str = malloc(sizeof(char) * ft_strlen(str) + 1);
     while(str[i])
     {
+        
         if(str[i] == '$' && (ft_isdigit(str[i + 1])) && str[i + 2] != '\0') 
         {
             i+=2;
@@ -85,6 +86,7 @@ char *dollar_expand( char *str, t_list *env)
                 j += l;
             }
         }
+
         else
         {
             new_str[j++] = str[i++];
