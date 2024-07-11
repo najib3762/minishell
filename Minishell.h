@@ -2,6 +2,7 @@
 #define MINISHELL_H
 
 #include <unistd.h>
+#include <errno.h>
 #include "Libft/libft.h"
 
 typedef enum

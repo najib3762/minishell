@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:51:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/04 15:27:13 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:14:09 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,28 @@ void ft_echo(t_parse *arg)
    if(n_line)
     write(1, "\n", 1);
 }
+
+void ft_cd(t_parse *arg)
+{
+     if (!arg || !arg->cmd_args->content)
+     {
+          if (chdir("/nfs/homes/mlamrani") < 0)
+               printf("cd: could not change to home directory: %s\n", arg->cmd_args->content);
+     }
+     else
+     {
+          if (ft_strncmp(arg->cmd_args->content, "~", 1) == 0)
+          {
+               if (chdir("/nfs/homes/mlamrani") < 0)
+                    printf("cd: could not change to home directory: %s\n", arg->cmd_args->content);
+          }
+          else if (chdir(arg->cmd_args->content) < 0)
+          {
+               printf("cd: no such file or directory: %s\n", arg->cmd_args->content);
+          }
+     }
+}
+
 void ft_pwd()
 {
      char wd[1024];
@@ -66,19 +88,20 @@ void ft_pwd()
 
 int main(int ac, char **av)
 {
-     t_parse arg;
-     t_args *current;
-     int i;
+     // t_parse arg;
+     // t_args *current;
+     // int i;
 
-     arg.cmd_args = ft_lstnew(av[1]);
-     current = arg.cmd_args;
-     i = 2;
-     while (i < ac)
-     {
-          current->next = ft_lstnew(av[i]);
-          current = current->next;
-          i++;
-     }
-     ft_echo(&arg);
+     // arg.cmd_args = ft_lstnew(av[1]);
+     // current = arg.cmd_args;
+     // i = 2;
+     // while (i < ac)
+     // {
+     //      current->next = ft_lstnew(av[i]);
+     //      current = current->next;
+     //      i++;
+     // }
+     // ft_echo(&arg);
+     ft_cd(&arg);
      ft_pwd();
 }
