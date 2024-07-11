@@ -107,12 +107,13 @@ void main2(t_mini *prog, t_token **head, t_parse **parse)
         {
              ft_lexer(prog, head);
              ft_here_doc(head, prog);
-              //  print_lexer(head);
-                break;
             if(!check_syntax_errors(head))
             {
-              // ft_expand(head, prog);
+              real_expand(head, prog);
+               
               r_quotes(head);
+               print_lexer(head);
+               break;
               printf("\n\n\n\n");
               print_lexer(head);     
               // break;
@@ -152,7 +153,6 @@ int main (int ac, char **av, char **env)
     parse = NULL;
     (void)av;
      init_data(ac, env, &prog);
-  
     prog.line = readline("Minishell: ");
     if (!prog.line)
          exit(1);

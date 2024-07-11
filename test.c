@@ -10,6 +10,29 @@
 //           break;
 //         }
 
+
+//   if(str[i] == '$' && (ft_isdigit(str[i + 1])) && str[i + 2] != '\0') 
+//         {
+//             i+=2;
+//             new_str[j++] = str[i++];
+//         }
+//         if (str[i] == '$' && (ft_isalpha(str[i + 1]) || ft_isdigit(str[i + 1])))
+//         {
+//             i++;
+//             k = 0;
+//             while (ft_isalpha(str[i]) || ft_isdigit(str[i]))
+//             {
+//                 key[k++] = str[i++];
+//             }
+//             key[k] = '\0';
+//             value = get_env_value(key, env);
+//             if (value)
+//             {
+//                 l = ft_strlen(value);
+//                 ft_strncpy(new_str + j, value, l);
+//                 j += l;
+//             }
+//         }
 void get_env(char **env, t_list **head)
 {
     int i;

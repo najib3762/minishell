@@ -11,11 +11,12 @@ SRC_M = error.c \
 		here_doc1.c\
 		here_doc_utils.c\
 		r_quotes.c\
+		expand.c
 
 OBJ_M = $(SRC_M:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror  #-fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address -g3
 LDFLAGS = -Llibft -lft -lreadline
 
 all: $(NAME)
