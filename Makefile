@@ -10,7 +10,7 @@ SRC_M = error.c \
 		here_doc.c\
 		here_doc1.c\
 		here_doc_utils.c\
-		concatenate.c\
+		r_quotes.c\
 
 OBJ_M = $(SRC_M:.c=.o)
 

@@ -98,7 +98,7 @@ void print_parse(t_parse **parse)
 	}
 }
 
-void main2( t_mini *prog, t_token **head,t_parse **parse)
+void main2(t_mini *prog, t_token **head, t_parse **parse)
 {
 
   while (1)
@@ -106,19 +106,20 @@ void main2( t_mini *prog, t_token **head,t_parse **parse)
         if (check_quotes(prog) == 1)
         {
              ft_lexer(prog, head);
-            //  ft_here_doc(&head);
-               print_lexer(head);
-                // break;
+             ft_here_doc(head, prog);
+              //  print_lexer(head);
+                break;
             if(!check_syntax_errors(head))
             {
-              // ft_expand(&head);
-              concatenate_lexer(head);
+              // ft_expand(head, prog);
+              r_quotes(head);
               printf("\n\n\n\n");
               print_lexer(head);     
               // break;
               // printf("\n\n\n"); 
             parse_input(head , parse);
             print_parse(parse);
+            // g_status = ft_excuter(parse);
             free_parse_list(parse);
             }
             free_token_list(head);
@@ -151,9 +152,7 @@ int main (int ac, char **av, char **env)
     parse = NULL;
     (void)av;
      init_data(ac, env, &prog);
-    
-    print_list(prog.env_head);
-    // exit(1);
+  
     prog.line = readline("Minishell: ");
     if (!prog.line)
          exit(1);

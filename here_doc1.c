@@ -27,7 +27,7 @@ void change_value_node(t_token *token, char *filename)
     token->next->type = TOKEN_WORD;
 }
 
-char *ft_expand(char *line)
+char *ft_expand(char *line, t_mini *prog)
 {
     char *new_line;
     int i;
@@ -59,7 +59,7 @@ char *ft_expand(char *line)
             }
             var_name[k] = '\0';
 
-            var_value = getenv(var_name);
+            var_value = get_env_value(var_name, prog->env_head);
             if (var_value)
             {
                 len = strlen(var_value);
@@ -120,7 +120,8 @@ void g_word( char *str, char *eof)
     }
     eof[j] = '\0';
 }
-char *concatenation(char *str)
+
+char *skip_quotes(char *str)
 {
     char *eof;
     int len;

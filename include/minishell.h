@@ -24,6 +24,7 @@
  typedef struct s_global
  {
 	int g_qoutes;
+	int g_status;
 	t_free *address;
  } t_global;
 
@@ -87,6 +88,7 @@ typedef struct s_mini
 {
 	char			*line;
     t_list			*env_head;
+	t_list 			*env_export;
 }					t_mini;
 
 int					ft_isspace(char c);
@@ -102,19 +104,23 @@ void				free_token_list(t_token **head);
 int					check_quotes(t_mini *prog);
 int					check_syntax_errors(t_token **head);
 void				parse_input(t_token **tokens, t_parse **parse);
-int					ft_here_doc(t_token **token);
-char				*concatenation(char *str);
+int					ft_here_doc(t_token **token, t_mini *prog);
+char				*skip_quotes(char *str);
 char				*is_qoutes(char *str, int *qoutes);
 int					check_qoutes(char *str);
 int					check_dollar(char *str);
 // int					special_char(char c);
-char				*ft_expand(char *line);
+char				*ft_expand(char *line, t_mini *prog);
 void				change_value_node(t_token *token, char *filename);
 char				*random_file(void);
 void				free_address(t_free **head);
 t_free				*newnode_free(void *content);
 void				addback_node_free(t_free **head, t_free *new);
-void				concatenate_lexer(t_token **head);
+void				r_quotes(t_token **head);
 int					calcule_qoutes(char *str);
+int					check_qoutes(char *str);
+void				get_env(char **env, t_list **head);
+char				*my_getenv(char *name, char *env);
+char				*get_env_value(char *key, t_list *env);
 
 #endif
