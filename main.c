@@ -113,13 +113,13 @@ void main2(t_mini *prog, t_token **head, t_parse **parse)
                
               r_quotes(head);
                print_lexer(head);
-               break;
-              printf("\n\n\n\n");
+              //  break;
+              // printf("\n\n\n\n");
               print_lexer(head);     
               // break;
               // printf("\n\n\n"); 
             parse_input(head , parse);
-            print_parse(parse);
+            // print_parse(parse);
             // g_status = ft_excuter(parse);
             free_parse_list(parse);
             }

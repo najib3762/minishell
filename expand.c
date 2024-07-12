@@ -37,7 +37,7 @@ char	*my_strjoin(char *s1, char *s2)
 	len = ft_strlen(s2) + ft_strlen(s1);
 	array = (char *)malloc(sizeof(char) * (len + 1));
 	if (!array)
-		return (free(s1), NULL);
+		return (NULL);
 	len = 0;
 	while (s1[i])
 		array[len++] = s1[i++];
@@ -45,7 +45,8 @@ char	*my_strjoin(char *s1, char *s2)
 	while (s2[i])
         array[len++] = s2[i++];
 	array[len] = '\0';
-	free(s1);
+    free(s1);
+    free(s2);
 	return (array);
 }
 
@@ -60,8 +61,6 @@ char *ft_strdup_char(char c)
     array[1] = '\0';
     return (array);
 }
-
-
 
 char *ft_strjoin_char(char *s1, char c)
 {
@@ -104,7 +103,7 @@ char	*my_getenv(char *name, char *env)
 	if (ft_strcmp(value, name) == 0)
 	{
 		free(value);
-		return (&env[i] + 1);
+		return (ft_strdup(env + (i + 1)));
 	}
 	free(value);
 	return (NULL);
@@ -137,7 +136,7 @@ char *take_var_name(char *str, int *i)
         var_name = malloc(sizeof(char) * 1);
         var_name[0] = '\0';
     }
-    while (ft_isalpha(str[*i]) || ft_isdigit(str[*i]))
+    while (ft_isalpha(str[*i]) || ft_isdigit(str[*i]) || str[*i] == '_')
     {
         var_name = ft_strjoin_char(var_name, str[*i]);
         (*i)++;
@@ -204,9 +203,10 @@ char	*handle_squotes(char *str, int *i)
 
 char	*dollar_expand(char *str, t_mini *prog)
 {
-	char	*temp = NULL;
+	char	*temp;
 	int		i = 0;
 
+    temp = NULL;
 	while (str[i])
 	{
 		if (str[i] == '$' && (ft_isdigit(str[i + 1])) && str[i + 2] != '\0')
@@ -219,11 +219,12 @@ char	*dollar_expand(char *str, t_mini *prog)
 			   temp = my_strjoin(temp, handle_squotes(str, &i));
 		else if (str[i] != '\0')
         {
-			  temp = my_strjoin(temp, ft_strdup_char(str[i]));
-              i++;
+			  temp = my_strjoin(ft_strdup(temp), ft_strdup_char(str[i]));
+                i++;
         }
         if (str[i] == '\0')
             break;
+
 	}
     printf("new_str = %s\n", temp);
 	return (temp);
