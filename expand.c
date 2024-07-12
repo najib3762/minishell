@@ -3,142 +3,6 @@
 //"sdfdsf""$USER"sdsfdsaf
 //PATH=/bin/zsh
 //USER = namoussa
-char	*my_strdup(char *str, int len)
-{
-	char	*array;
-	int		i;
-
-	if (!str || !len)
-		return (NULL);
-	i = -1;
-	array = (char *)malloc((len + 1) * sizeof(char));
-	if (!array)
-		return (NULL);
-	while (++i < len)
-		array[i] = str[i];
-	array[i] = '\0';
-	return (array);
-}
-
-char	*my_strjoin(char *s1, char *s2)
-{
-	size_t	i;
-	int		len;
-	char	*array;
-
-	i = 0;
-    len = 0;
-    if (!s1 && !s2)
-            return (NULL);
-	if (!s1)
-		     return (s2);
-    if(!s2)
-             return (s1);
-	len = ft_strlen(s2) + ft_strlen(s1);
-	array = (char *)malloc(sizeof(char) * (len + 1));
-	if (!array)
-		return (free(s1), free(s2), NULL);
-	len = 0;
-	while (s1[i])
-		array[len++] = s1[i++];
-	i = 0;
-	while (s2[i])
-        array[len++] = s2[i++];
-	array[len] = '\0';
-	return (free(s1), free(s2), array);
-}
-
-char *ft_strdup_char(char c)
-{
-    char *array;
-
-    array = (char *)malloc(sizeof(char) * 2);
-    if (!array)
-        return (NULL);
-    array[0] = c;
-    array[1] = '\0';
-    return (array);
-}
-
-char *ft_strjoin_char(char *s1, char c)
-{
-     
-    char *array;
-    int i;
-    int len;
-
-    i = 0;
-	if (!s1)
-		return (ft_strdup_char(c));
-    len = ft_strlen(s1);
-    array = (char *)malloc(sizeof(char) * (len + 2));
-    if (!array)
-        return (NULL);
-    while (s1[i])
-    {
-        array[i] = s1[i];
-        i++;
-    }
-    array[i] = c;
-    array[i + 1] = '\0';
-    free(s1);
-    return (array);
-}
-char	*my_getenv(char *name, char *env)
-{
-	int		i;
-	char	*value;
-	int		j;
-
-	i = 0;
-	j = 0;
-	value = NULL;
-	while (env[i] && env[i] != '=')
-    {
-		value = ft_strjoin_char(value, env[i]);
-        i++;
-    }
-	if (ft_strcmp(value, name) == 0)
-		   return (free(value), ft_strdup(env + (i + 1)));
-	free(value);
-	return (NULL);
-}
-
-char	*get_env_value(char *key, t_list *env)
-{
-	t_list	*temp;
-	char	*value;
-
-	temp = env;
-	while (temp)
-	{
-		value = my_getenv(key, temp->content);
-		if (value)
-			return (value);
-		temp = temp->next;
-	}
-	return (NULL);
-}
-
-char *take_var_name(char *str, int *i)
-{
-    int j;
-    char *var_name = NULL;
-
-    j = 0;
-    if (!var_name)
-    {
-        var_name = malloc(sizeof(char) * 1);
-        var_name[0] = '\0';
-    }
-    while (ft_isalpha(str[*i]) || ft_isdigit(str[*i]) || str[*i] == '_')
-    {
-        var_name = ft_strjoin_char(var_name, str[*i]);
-        (*i)++;
-    }
-    return (var_name);
-}
-
 
 char	*handle_dollar(char *str, int *i, t_mini *prog)
 {
@@ -221,10 +85,8 @@ char	*dollar_expand(char *str, t_mini *prog)
             break;
 
 	}
-    printf("new_str = %s\n", temp);
 	return (temp);
 }
-
 
 void real_expand(t_token **head, t_mini *prog)
 {
@@ -247,7 +109,6 @@ void real_expand(t_token **head, t_mini *prog)
                    }
                }
                temp = temp->next;
-         }
-       
+         }    
 }
 

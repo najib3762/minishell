@@ -97,9 +97,7 @@ void				addback_node(t_token **head, t_token *new_node);
 t_token				*create_newnode(t_type new_type, char *new_value);
 void				print_error(char *error);
 void				init_data(int ac, char **env, t_mini *prog);
-// void				ft_parsing(t_mini *prog, t_token **head);
 void				ft_lexer(t_mini *prog, t_token **head);
-// void				print_token(t_token *head);////////
 void				free_token_list(t_token **head);
 int					check_quotes(t_mini *prog);
 int					check_syntax_errors(t_token **head);
@@ -109,7 +107,6 @@ char				*skip_quotes(char *str);
 char				*is_qoutes(char *str, int *qoutes);
 int					check_qoutes(char *str);
 int					check_dollar(char *str);
-// int					special_char(char c);
 char				*ft_expand(char *line, t_mini *prog);
 void				change_value_node(t_token *token, char *filename);
 char				*random_file(void);
@@ -119,10 +116,16 @@ void				addback_node_free(t_free **head, t_free *new);
 void				r_quotes(t_token **head);
 int					calcule_qoutes(char *str);
 int					check_qoutes(char *str);
-void				get_env(char **env, t_list **head);
+char				*ft_strdup_char(char c);
+char				*ft_strjoin_char(char *s1, char c);
+char				*my_strjoin(char *s1, char *s2);
 char				*my_getenv(char *name, char *env);
 char				*get_env_value(char *key, t_list *env);
+char				*take_var_name(char *str, int *i);
+char				*my_strdup(char *str, int len);
 void				real_expand(t_token **head, t_mini *prog);
-char				*ft_strjoin_char(char *s1, char c);
+
+
+
 
 #endif

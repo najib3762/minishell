@@ -1,6 +1,8 @@
 #include "include/minishell.h"
 #include "include/libft.h"
 
+t_global *g;
+
 void print_lexer(t_token **head)
 {
     t_token *temp = *head;
@@ -120,7 +122,7 @@ void main2(t_mini *prog, t_token **head, t_parse **parse)
               // printf("\n\n\n"); 
             parse_input(head , parse);
             // print_parse(parse);
-            // g_status = ft_excuter(parse);
+            // g->g_status = ft_excuter(parse);
             free_parse_list(parse);
             }
             free_token_list(head);

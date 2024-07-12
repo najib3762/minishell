@@ -33,6 +33,7 @@ int create_multiple_pipe(t_parse *parse)
 {
 
      
+g->g_status = 0;
 
 }
 
