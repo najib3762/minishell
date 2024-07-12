@@ -123,5 +123,6 @@ void				get_env(char **env, t_list **head);
 char				*my_getenv(char *name, char *env);
 char				*get_env_value(char *key, t_list *env);
 void				real_expand(t_token **head, t_mini *prog);
+char				*ft_strjoin_char(char *s1, char c);
 
 #endif

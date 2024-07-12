@@ -49,11 +49,11 @@ char *ft_expand(char *line, t_mini *prog)
             new_line[j++] = line[i++];
         }
     
-        if (line[i] == '$' && (ft_isalpha(line[i + 1]) || ft_isdigit(line[i + 1])))
+        if (line[i] == '$' && (ft_isalpha(line[i + 1]) || ft_isdigit(line[i + 1]))) 
         {
             i++;
             k = 0;
-            while (ft_isalpha(line[i]) || ft_isdigit(line[i]))
+            while (ft_isalpha(line[i]) || ft_isdigit(line[i]) || line[i] == '_')
             {
                 var_name[k++] = line[i++];
             }
