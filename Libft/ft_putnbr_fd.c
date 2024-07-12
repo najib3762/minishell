@@ -6,11 +6,11 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:07 by mlamrani          #+#    #+#             */
-/*   Updated: 2023/11/20 12:23:01 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/libft.h"
 #include <fcntl.h>
 
 void	ft_putnbr_fd(int nb, int fd)

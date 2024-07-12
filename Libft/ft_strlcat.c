@@ -6,11 +6,11 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 14:58:10 by mlamrani          #+#    #+#             */
-/*   Updated: 2023/11/30 16:09:31 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/libft.h"
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {

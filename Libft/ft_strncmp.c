@@ -6,11 +6,11 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:36:33 by mlamrani          #+#    #+#             */
-/*   Updated: 2023/12/01 15:44:06 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/libft.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

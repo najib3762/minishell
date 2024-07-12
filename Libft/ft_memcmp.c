@@ -6,11 +6,11 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 11:24:41 by mlamrani          #+#    #+#             */
-/*   Updated: 2023/12/02 03:37:39 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/libft.h"
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {

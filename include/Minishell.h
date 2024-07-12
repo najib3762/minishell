@@ -3,7 +3,7 @@
 
 #include <unistd.h>
 #include <errno.h>
-#include "Libft/libft.h"
+#include "../include/libft.h"
 
 typedef enum
 {
@@ -32,5 +32,12 @@ typedef struct s_parse
   t_redir	*redir_list;
   struct s_parse *next;
 } t_parse;
+
+typedef struct s_mini
+{
+	char			*line;
+  t_list			*env_head;
+	t_list 			*env_export;
+}					t_mini;
 
 #endif

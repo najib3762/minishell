@@ -6,11 +6,11 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 20:34:58 by mlamrani          #+#    #+#             */
-/*   Updated: 2023/11/15 15:32:01 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:24:11 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/libft.h"
 
 void	ft_bzero(void *s, size_t n)
 {
