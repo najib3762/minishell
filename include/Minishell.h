@@ -40,4 +40,18 @@ typedef struct s_mini
 	t_list 			*env_export;
 }					t_mini;
 
+ typedef struct s_free
+ {
+	 void *address;
+	 struct s_free *next;
+ } t_free;
+ typedef struct s_global
+ {
+	int g_qoutes;
+	int g_status;
+	t_free *address;
+ } t_global;
+
+
+
 #endif
