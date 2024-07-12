@@ -114,7 +114,6 @@ void main2(t_mini *prog, t_token **head, t_parse **parse)
               real_expand(head, prog);
                
               r_quotes(head);
-               print_lexer(head);
               //  break;
               // printf("\n\n\n\n");
               print_lexer(head);     

@@ -124,6 +124,11 @@ char				*get_env_value(char *key, t_list *env);
 char				*take_var_name(char *str, int *i);
 char				*my_strdup(char *str, int len);
 void				real_expand(t_token **head, t_mini *prog);
+char				*ft_expand(char *line, t_mini *prog);
+int					*retur_value();
+void				sig_here_doc(int sig);
+void				sig_hand(int sig);
+
 
 
 

@@ -1,5 +1,19 @@
 #include "include/minishell.h"
 
+int *retur_value()
+{
+    static int ret = -1;
+    return (&ret);
+}
+
+void sig_here_doc(int sig)
+{
+    (void)sig;
+    write(1, "\n", 1);
+    *retur_value() = dup(0);
+    close(0);
+
+}
 
 int check_qoutes(char *str)
 {
@@ -44,10 +58,3 @@ int check_dollar(char *str)
     }
     return (0);
 }
-
-// int special_char(char c)
-// {
-//     if (c == '?' || c == '_')
-//         return (1);
-//     return (0);
-// }

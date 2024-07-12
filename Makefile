@@ -14,6 +14,7 @@ SRC_M = error.c \
 		expand.c\
 		expand_utils.c\
 		expand_utils2.c\
+		here_doc_expand.c\
 
 OBJ_M = $(SRC_M:.c=.o)
 

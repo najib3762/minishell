@@ -1,21 +1,5 @@
 #include "include/minishell.h"
 
-
-int *retur_value()
-{
-    static int ret = -1;
-    return (&ret);
-}
-
-void sig_here_doc(int sig)
-{
-    (void)sig;
-    write(1, "\n", 1);
-    *retur_value() = dup(0);
-    close(0);
-
-}
-
 void sig_hand(int sig)
 {
     (void)sig;
