@@ -21,7 +21,11 @@ int fork_heredoc(char *eof, int fd, int qoutes, t_mini *prog)
             if (!ft_strncmp(line, eof, ft_strlen(eof)) && (ft_strlen(line) == ft_strlen(eof)))
                 return (free(line), close(fd), 0);
             if (ft_strncmp(line, eof, ft_strlen(eof)) && qoutes != 1 && check_dollar(line))
+            {
                         line = ft_expand(line, prog);
+                    if(!line)
+                         line = ft_strdup("");
+            }
             ft_putendl_fd(line, fd);
             free(line);
             line = readline(">");

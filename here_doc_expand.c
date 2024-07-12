@@ -2,7 +2,6 @@
 
 char *Dollar_here_doc(char *line, int *i, t_mini *prog)
 {
-        //  char *new_line;
          char *var_name;
          char *var_value;
 
@@ -26,7 +25,7 @@ char *ft_expand(char *line, t_mini *prog)
 {
     char *new_line;
     int i;
-    
+
      new_line = NULL;
      i = 0;
     while (line[i])
@@ -43,6 +42,5 @@ char *ft_expand(char *line, t_mini *prog)
             i++;
         }
     }
-   
  return (new_line);
 }
