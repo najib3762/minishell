@@ -112,13 +112,8 @@ void main2(t_mini *prog, t_token **head, t_parse **parse)
             if(!check_syntax_errors(head))
             {
               real_expand(head, prog);
-               
               r_quotes(head);
-              //  break;
-              // printf("\n\n\n\n");
-              print_lexer(head);     
-              // break;
-              // printf("\n\n\n"); 
+              print_lexer(head);      
             parse_input(head , parse);
             // print_parse(parse);
             // g->g_status = ft_excuter(parse);
