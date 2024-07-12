@@ -240,7 +240,7 @@ void real_expand(t_token **head, t_mini *prog)
                    if(check_dollar(temp->value))
                    {
                         new_str = dollar_expand(temp->value, prog);
-                        if(new_str != NULL)
+                        if(new_str)
                               temp->value = new_str;
                         else
                               temp->value = "";
