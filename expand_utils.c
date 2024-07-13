@@ -20,6 +20,7 @@ char *ft_strjoin_char(char *s1, char c)
     int len;
 
     i = 0;
+    len = 0;
 	if (!s1)
 		return (ft_strdup_char(c));
     len = ft_strlen(s1);

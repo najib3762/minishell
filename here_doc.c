@@ -51,7 +51,7 @@ int read_here_doc(char *eof, int fd, t_mini *prog)
     if(!limiter)
        return (-1);
     fork_heredoc(limiter, fd, qoutes, prog);
-  return (1);
+  return (0);
 }
 
 
@@ -68,13 +68,13 @@ int here_doc2(t_token *token, t_mini *prog)
         return (free(filename), -1);
     if( token->next->type == TOKEN_WORD)
     {
-    if(read_here_doc(token->next->value, fd, prog) != 0)
-        return (close(fd), free(filename), -1);
+        if(read_here_doc(token->next->value, fd, prog) != 0)
+             return (close(fd), free(filename), -1);
+       else
+             return (close(fd), change_value_node(token, filename), 1);
     }
     else
         return (close(fd), free(filename), -1);
-    close(fd);
-    change_value_node(token, filename);
     return (0);
 }
 
@@ -86,7 +86,7 @@ int ft_here_doc(t_token **token, t_mini *prog)
     while (tmp)
     {
         if (tmp->type == TOKEN_HERE &&  here_doc2(tmp, prog) < 0)
-        return (-1);
+                return (-1);
         tmp = tmp->next;
     }
     return (0);

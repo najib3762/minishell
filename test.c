@@ -199,3 +199,79 @@
 
 //        return new_str;
 // }
+
+
+
+void handle_token_in(t_token **temp, t_redir **redir)
+{
+    add_redir_node(redir, redir_node((*temp)->next->value, REDIR_IN));
+    *temp = (*temp)->next->next;
+}
+
+void handle_token_out(t_token **temp, t_redir **redir)
+{
+    add_redir_node(redir, redir_node((*temp)->next->value, REDIR_OUT));
+    *temp = (*temp)->next->next;
+}
+
+void handle_token_append(t_token **temp, t_redir **redir)
+{
+    add_redir_node(redir, redir_node((*temp)->next->value, REDIR_APPEND));
+    *temp = (*temp)->next->next;
+}
+
+void handle_token_here(t_token **temp, t_redir **redir)
+{
+    add_redir_node(redir, redir_node((*temp)->next->value, REDIR_HERE));
+    *temp = (*temp)->next->next;
+}
+
+void handle_token_default(t_token **temp, t_args **args)
+{
+    add_args_node(args, args_node((*temp)->value));
+    *temp = (*temp)->next;
+}
+
+void parse_args(t_token **temp, t_args **args, t_redir **redir)
+{
+    while (*temp && (*temp)->type != TOKEN_PIPE)
+    {
+        switch ((*temp)->type)
+        {
+            case TOKEN_IN:
+                handle_token_in(temp, redir);
+                break;
+            case TOKEN_OUT:
+                handle_token_out(temp, redir);
+                break;
+            case TOKEN_APPEND:
+                handle_token_append(temp, redir);
+                break;
+            case TOKEN_HERE:
+                handle_token_here(temp, redir);
+                break;
+            default:
+                handle_token_default(temp, args);
+                break;
+        }
+    }
+}
+
+void parse_input(t_token **tokens, t_parse **parse)
+{
+    t_parse *cmd_head = NULL;
+    t_args *args = NULL;
+    t_redir *redir = NULL;
+    t_token *temp = *tokens;
+
+    while (temp)
+    {
+        args = NULL;
+        redir = NULL;
+        parse_args(&temp, &args, &redir);
+        add_cmd_node(&cmd_head, cmd_node(args, redir));
+        if (temp && temp->type == TOKEN_PIPE)
+            temp = temp->next;
+    }
+    *parse = cmd_head;
+}
