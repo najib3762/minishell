@@ -52,6 +52,8 @@ typedef struct s_mini
 	t_free *address;
  } t_global;
 
-
+char *ft_pwd(int i);
+void ft_env(t_args **env);
+void ft_export(t_args **env, t_args **export_list, char *var_name, char *var_value);
 
 #endif
