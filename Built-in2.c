@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 16:42:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/13 16:45:40 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/13 18:24:51 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void ft_unset(t_args **head, char *var_name) {
 	{
         if (ft_strnstr(current->content, var_name, ft_strlen(var_name)))
 		{
-			printf("enter\n");
 			if (prev == NULL)
                 *head = current->next;
             else
