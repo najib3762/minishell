@@ -1,3 +1,4 @@
+
 NAME = minishell
 
 SRC_M = error.c \
@@ -43,4 +44,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
