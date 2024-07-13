@@ -1,29 +1,46 @@
-CCC = cc -Wall -Wextra -Werror
-Name = exec
-Libft = Libft/libft.a
-files = Built-in.c 
 
-all : $(NAME)
+NAME = minishell
 
-$(LIBFT):
-	@echo "Making $(notdir $@)... ⏳"
-	@make -C Libft all > /dev/null
-	@echo "Done ✅"
+SRC_M = error.c \
+        main.c \
+        init_data.c \
+        utile_token2.c\
+		lexer.c\
+		syntax_error.c\
+		parsing1.c\
+		here_doc.c\
+		here_doc1.c\
+		here_doc_utils.c\
+		r_quotes.c\
+		expand.c\
+		expand_utils.c\
+		expand_utils2.c\
+		here_doc_expand.c\
 
-$(NAME) : $(files) $(LIBFT) 
-	@echo "Making $@... ⏳"
-	@$(CCF) $(files) -o $(NAME) $(LIBFT)  > /dev/null
-	@echo "Done ✅"
+OBJ_M = $(SRC_M:.c=.o)
 
-.PHONY: clean fclean re bonus
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address -g3
+LDFLAGS = -Llibft -lft -lreadline
+
+all: $(NAME)
+
+$(NAME): $(OBJ_M)
+	@make -C libft
+	@make bonus -C libft
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ_M) $(LDFLAGS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@$(MAKE) -C Libft clean > /dev/null
-	@echo "Cleaning executables...✅"
+	@make clean -C libft
+	rm -f $(OBJ_M)
 
 fclean: clean
-	@$(MAKE) -C Libft fclean > /dev/null
-	@rm -f $(NAME) $(NAME_BONUS)
-	@echo "Full clean done...✅"
+	@make fclean -C libft
+	rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re
