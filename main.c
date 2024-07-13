@@ -116,7 +116,7 @@ void main2(t_mini *prog, t_token **head, t_parse **parse)
                    
             parse_input(head , parse);
             print_parse(parse);
-            // g->g_status = ft_excuter(parse);
+            // g->g_status = ft_excuter(parse, prog);
             free_parse_list(parse);
             }
             free_token_list(head);

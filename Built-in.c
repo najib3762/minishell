@@ -66,12 +66,12 @@ void print_list(t_args *head)
         head = head->next;
     }
 }
-void	sort_exp(t_args **start)
+void	sort_exp(t_mini **start)
 {
     int swapped;
 	char *temp;
-    t_args *current;
-    t_args *last = NULL;
+    t_list *current;
+    t_list *last = NULL;
 
     swapped = 1;
     while (swapped)

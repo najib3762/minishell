@@ -275,3 +275,14 @@ void parse_input(t_token **tokens, t_parse **parse)
     }
     *parse = cmd_head;
 }
+
+
+
+
+
+
+
+   temp->red_in = fd[i - 1][0];
+        if(temp->next)
+            temp->red_out = fd[i][1];
+        temp = temp->next;

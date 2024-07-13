@@ -76,19 +76,18 @@ typedef struct s_parse
   struct s_parse *next;
 } t_parse;
 
-// typedef struct s_expand
-// {
-// 	t_type	type;
-// 	char	*value;
-// 	struct s_expand *next;
-
-// } t_expand;
-
+typedef struct s_fd
+{
+	int fd;
+	struct s_fd *next;
+} t_fd;
 typedef struct s_mini
 {
 	char			*line;
     t_list			*env_head;
-	t_list 			*env_export;
+	t_fd 			*fd_head;
+	int 			**fd;
+	// t_list 			*env_export;
 }					t_mini;
 
 int					ft_isspace(char c);
