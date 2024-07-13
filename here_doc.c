@@ -71,7 +71,7 @@ int here_doc2(t_token *token, t_mini *prog)
         if(read_here_doc(token->next->value, fd, prog) != 0)
              return (close(fd), free(filename), -1);
        else
-             return (close(fd), change_value_node(token, filename), 1);
+             return (close(fd), change_value(token, filename), 1);
     }
     else
         return (close(fd), free(filename), -1);

@@ -19,7 +19,7 @@ char *random_file()
     return (free(temp), filename);
 }
 
-void change_value_node(t_token *token, char *filename)
+void change_value(t_token *token, char *filename)
 {
     token->value = "<";
     token->type = TOKEN_IN;
