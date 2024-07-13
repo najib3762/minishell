@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:51:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/12 20:42:44 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/13 17:24:21 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,52 +41,6 @@ void	ft_lstadd_back(t_args **lst, t_args *new)
 	last->next = new;
 }
 
-void	ft_echo(t_parse *arg)
-{
-	int		n_line;
-	t_args	*tmp;
-
-	n_line = 1;
-	tmp = arg->cmd_args;
-	if (tmp && ft_strncmp(tmp->content, "-n", 2) == 0)
-	{
-		n_line = 0;
-		tmp = tmp->next;
-	}
-	while (tmp)
-	{
-		write(1, tmp->content, ft_strlen(tmp->content));
-		if (tmp->next)
-			write(1, " ", 1);
-		tmp = tmp->next;
-	}
-	if (n_line)
-		write(1, "\n", 1);
-}
-char *g_env(t_args *env, char *str)
-{
-	while(env)
-	{
-		if(ft_strnstr((char *)env->content, str, sizeof(env)))
-			return(env->content);
-		env = env->next;
-	}
-	return(NULL);
-}
-
-
-
-void get_env(t_args **env)
-{
-	t_args *cur;
-	
-	cur = *env;
-	while(cur)
-	{
-		printf("%s\n", (char *)cur->content);
-		cur = cur->next;
-	}
-}
 char *ft_pwd(int i)
 {
 	char	wd[1024];
@@ -139,56 +93,69 @@ void	sort_exp(t_args **start)
     }
 }
 
-void ft_export(t_args **env, char *var_name, char *var_value)
+// int ft_add(t_args *tmp, char *var_name, int flag, char *new_var)
+// {
+// 	while (tmp)
+// 		{
+//             if (!ft_strncmp(tmp->content, var_name, ft_strlen(var_name)))
+// 			{
+//                 flag = 0;
+//                 free(tmp->content);
+//                 tmp->content = new_var;
+//                 return (0);
+//             }
+//             tmp = tmp->next;
+//         }
+// 		return (1);
+// }
+void ft_export(t_args **env, t_args **export_list, char *var_name, char *var_value)
 {
-	char *new_var;
-	t_args *new_node;
-	t_args *tmp = *env;
-	t_args *exist;
-	int flag;
+    char *new_var;
+    t_args *tmp;
+    int flag;
 
-	flag = 1;	
-	if (!var_name && !var_value)
+	if (!var_name && !var_value) //print export list
 	{
 		sort_exp(env);
-        return (print_list(*env));
+		print_list(*env);
+		return;
 	}
-	while(tmp)
+    if (var_name && !var_value) //add variable to the export list without the env list
 	{
-		if (!ft_strncmp(tmp->content, var_name, ft_strlen(var_name)))
+        tmp = *export_list;
+        while (tmp)
 		{
-			flag = 0;
-			free(tmp->content);
-			new_var = ft_strjoin(var_name, var_value);
-			tmp->content = new_var;
-		}
-		tmp = tmp->next;
-	}
-	if (flag == 1)
+            if (!ft_strncmp(tmp->content, var_name, ft_strlen(var_name)))
+				return;
+            tmp = tmp->next;
+        }
+        ft_lstadd_back(export_list, ft_lstnew(strdup(var_name)));
+        return;
+    }
+    if (var_name && var_value) // add on both
 	{
-		new_var = ft_strjoin(var_name, var_value);
-		ft_lstadd_back(env, ft_lstnew(new_var));
-	}
+        new_var = ft_strjoin(var_name, var_value);
+        tmp = *env;
+        flag = 1;
+
+        while (tmp)
+		{
+            if (!ft_strncmp(tmp->content, var_name, ft_strlen(var_name)))
+			{
+                flag = 0;
+                free(tmp->content);
+                tmp->content = new_var;
+            }
+            tmp = tmp->next;
+        }
+        if (flag == 1)
+            ft_lstadd_back(env, ft_lstnew(new_var));
+        else
+            free(new_var);
+    }
 }
-void	ft_cd(t_parse *arg, t_args *env)
-{
-	char *path;
-	
-	if(!arg->cmd_args->content)
-	{
-		path = g_env(env, "HOME=");
-		chdir(path + 5);
-	}
-	else if (ft_strncmp(arg->cmd_args->content,"-", 2) == 0)
-	{
-		path = g_env(env, "OLDPWD=");
-		ft_export(&env, "OLDPWD=", ft_pwd(1));
-		chdir(path + 7);
-	}
-	else
-		if (chdir(arg->cmd_args->content) < 0)
-			printf("cd: no such file or directory: %s\n", arg->cmd_args->content);
-}
+
+
 void append_node(t_args **head, char *content)
 {
     t_args *new_node;
@@ -217,34 +184,11 @@ t_args *set_env(char **env)
     }
     return env_list;
 }
-void ft_unset(t_args **head, char *var_name) {
-    t_args *current;
-    t_args *prev;
 
-	current = *head;
-	prev = NULL;
-	if (!var_name)
-		return;
-    while (current)
-	{
-        if (ft_strnstr(current->content, var_name, ft_strlen(var_name)))
-		{
-			printf("enter\n");
-			if (prev == NULL)
-                *head = current->next;
-            else
-                prev->next = current->next;
-            free(current->content);
-            free(current);
-            return;
-        }
-        prev = current;
-        current = current->next;
-    }
-}
 int	main(int ac, char **av, char **env)
 {
 	t_args *env_list = set_env(env);
+	t_args *export_list = set_env(env);
 	t_parse arg;
 	t_args *current;
 	int i;
@@ -260,11 +204,12 @@ int	main(int ac, char **av, char **env)
 	}
 
 	//  ft_echo(&arg);
-	ft_export(&env_list, "simo=", "nfs/rca");
+	ft_export(&env_list, &export_list, "ana", 0);
+	// ft_export(&env_list, &export_list, 0, 0);
+	// ft_unset(&env_list, 0);
 	// ft_export(&env_list, 0, 0);
-	ft_unset(&env_list, 0);
-	// ft_export(&env_list, 0, 0);
-	// get_env(&env_list);
+	printf("=====================================================================================\n\n\n");
+	// ft_env(&env_list);
 	// ft_cd(&arg, env_list);
 	// ft_pwd(0);
 }
