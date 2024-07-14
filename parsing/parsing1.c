@@ -1,65 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing1.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: namoussa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/14 15:40:31 by namoussa          #+#    #+#             */
+/*   Updated: 2024/07/14 15:40:32 by namoussa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
-
-// add_args
-//create_parse_node
-//create_redirection_node
-//add_redirection
-//t_args node
-
-t_args	*args_node(char *content)
-{
-	t_args	*node;
-
-	node = (t_args *)malloc(sizeof(t_args));
-	if (!node)
-		return (NULL);
-	node->content = ft_strdup(content);
-	node->next = NULL;
-	return (node);
-}
-
-t_redir	*redir_node(char *filename, t_redir_enum type)
-{
-	t_redir	*node;
-
-	node = (t_redir *)malloc(sizeof(t_redir));
-	if (!node)
-		return (NULL);
-	node->filename = ft_strdup(filename);
-	node->type = type;
-	node->next = NULL;
-	return (node);
-}
-
-t_parse	*cmd_node(t_args *cmd_args, t_redir *redir_list)
-{
-	t_parse	*node;
-
-	node = (t_parse *)malloc(sizeof(t_parse));
-	if (!node)
-		return (NULL);
-	node->cmd_args = cmd_args;
-	node->redir_list = redir_list;
-	node->red_in = 0;
-	node->red_out = 1;
-	node->next = NULL;
-	return (node);
-}
-
-void	add_args_node(t_args **list, t_args *new_node)
-{
-	t_args	*temp;
-
-	if (!*list)
-		*list = new_node;
-	else
-	{
-		temp = *list;
-		while (temp->next)
-			temp = temp->next;
-		temp->next = new_node;
-	}
-}
 
 void	add_redir_node(t_redir **list, t_redir *new_node)
 {
@@ -119,8 +70,8 @@ void	parse_token(t_token **temp, t_args **args, t_redir **redir)
 {
 	while (*temp && (*temp)->type != TOKEN_PIPE)
 	{
-		if ((*temp)->type == TOKEN_IN || (*temp)->type == TOKEN_OUT ||
-			(*temp)->type == TOKEN_APPEND || (*temp)->type == TOKEN_HERE)
+		if ((*temp)->type == TOKEN_IN || (*temp)->type == TOKEN_OUT
+			|| (*temp)->type == TOKEN_APPEND || (*temp)->type == TOKEN_HERE)
 			parse_redirection(temp, redir);
 		else
 		{

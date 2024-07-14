@@ -124,6 +124,10 @@ char				*ft_pwd(int i);
 void				ft_env(t_args **env);
 void				ft_export(t_args **env, t_args **export_list, 
 					char *var_name, char *var_value);
+t_args				*args_node(char *content);
+t_redir				*redir_node(char *filename, t_redir_enum type);
+t_parse				*cmd_node(t_args *cmd_args, t_redir *redir_list);
+void				add_args_node(t_args **list, t_args *new_node);
 
 
 #endif

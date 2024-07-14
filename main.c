@@ -108,9 +108,10 @@ void main2(t_mini *prog, t_token **head, t_parse **parse)
         if (check_quotes(prog) == 1)
         {
              ft_lexer(prog, head);
-             ft_here_doc(head, prog);
+             ft_here_doc(head, prog); 
             if(!check_syntax_errors(head))
             {
+              printf("no syntax error\n");
               real_expand(head, prog);
               r_quotes(head);
                    

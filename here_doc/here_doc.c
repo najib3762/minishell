@@ -10,8 +10,9 @@ int	my_handle(void)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		return (-1);
 	}
-  return (-1);
+  return (0);
 }
 
 int	fork_heredoc(char *eof, int fd, int qoutes, t_mini *prog)
@@ -36,7 +37,6 @@ int	fork_heredoc(char *eof, int fd, int qoutes, t_mini *prog)
 		free(line);
 		line = readline(">");
 	}
-	free(line);
 	if(my_handle() < 0)
 		return (-1);
 	return (0);
@@ -67,7 +67,7 @@ int	here_doc2(t_token *token, t_mini *prog)
 	fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return (free(filename), -1);
-	if (token->next->type == TOKEN_WORD)
+	if (token->next && token->next->type == TOKEN_WORD)
 	{
 		if (read_here_doc(token->next->value, fd, prog) < 0)
 			return (close(fd), free(filename), -1);
