@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: namoussa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/14 18:27:52 by namoussa          #+#    #+#             */
+/*   Updated: 2024/07/14 18:27:53 by namoussa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	my_handle(void)
@@ -12,7 +24,7 @@ int	my_handle(void)
 		rl_redisplay();
 		return (-1);
 	}
-  return (0);
+	return (0);
 }
 
 int	fork_heredoc(char *eof, int fd, int qoutes, t_mini *prog)
@@ -37,7 +49,12 @@ int	fork_heredoc(char *eof, int fd, int qoutes, t_mini *prog)
 		free(line);
 		line = readline(">");
 	}
-	if(my_handle() < 0)
+	if(!line)
+	{
+		printf("minishell: warning: here-doc delimited by EOF (wanted `%s')\n", eof);
+		return (0);
+	}
+	if (my_handle() < 0)
 		return (-1);
 	return (0);
 }
@@ -51,7 +68,7 @@ int	read_here_doc(char *eof, int fd, t_mini *prog)
 	limiter = is_qoutes(eof, &qoutes);
 	if (!limiter)
 		return (-1);
-	if(fork_heredoc(limiter, fd, qoutes, prog) < 0)
+	if (fork_heredoc(limiter, fd, qoutes, prog) < 0)
 		return (-1);
 	return (0);
 }

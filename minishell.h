@@ -1,31 +1,43 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: namoussa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/14 18:21:49 by namoussa          #+#    #+#             */
+/*   Updated: 2024/07/14 18:21:52 by namoussa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include "include/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/wait.h>
 # include <unistd.h>
-# include <signal.h>
-#include <sys/wait.h>
 
- typedef struct s_free
- {
-	 void *address;
-	 struct s_free *next;
- } t_free;
+typedef struct s_free
+{
+	void			*address;
+	struct s_free	*next;
+}					t_free;
 
- typedef struct s_global
- {
-	int g_qoutes;
-	int g_status;
-	t_free *address;
- } t_global;
+typedef struct s_global
+{
+	int				g_qoutes;
+	int				g_status;
+	t_free			*address;
+}					t_global;
 
-extern t_global g_global;
-typedef enum
+extern t_global		g_global;
+typedef enum e_type
 {
 	TOKEN_WORD,
 	TOKEN_PIPE,
@@ -38,49 +50,49 @@ typedef enum
 typedef struct s_token
 {
 	t_type			type;
-    char			*value;
+	char			*value;
 	struct s_token	*next;
 }					t_token;
-typedef enum
+typedef enum e_redir_enum
 {
 	REDIR_IN,
 	REDIR_HERE,
 	REDIR_OUT,
 	REDIR_APPEND
-}		t_redir_enum;
+}					t_redir_enum;
 
 typedef struct s_redir
 {
-   char *filename;
-   t_redir_enum	type;
-   struct s_redir *next;
-} t_redir;
+	char			*filename;
+	t_redir_enum	type;
+	struct s_redir	*next;
+}					t_redir;
 
 typedef struct s_args
 {
-	char *content;
-	struct s_args *next;
-}t_args;
+	char			*content;
+	struct s_args	*next;
+}					t_args;
 typedef struct s_parse
 {
-  t_args	*cmd_args;
-  t_redir	*redir_list;
-   int red_in;
-   int red_out;
-  struct s_parse *next;
-} t_parse;
+	t_args			*cmd_args;
+	t_redir			*redir_list;
+	int				red_in;
+	int				red_out;
+	struct s_parse	*next;
+}					t_parse;
 
 typedef struct s_fd
 {
-	int fd;
-	struct s_fd *next;
-} t_fd;
+	int				fd;
+	struct s_fd		*next;
+}					t_fd;
 typedef struct s_mini
 {
 	char			*line;
-    t_list			*env_head;
-	t_fd 			*fd_head;
-	int 			**fd;
+	t_list			*env_head;
+	t_fd			*fd_head;
+	int				**fd;
 }					t_mini;
 
 int					ft_isspace(char c);
@@ -122,12 +134,11 @@ void				sig_here_doc(int sig);
 int					my_handle(void);
 char				*ft_pwd(int i);
 void				ft_env(t_args **env);
-void				ft_export(t_args **env, t_args **export_list, 
-					char *var_name, char *var_value);
+void				ft_export(t_args **env, t_args **export_list,
+						char *var_name, char *var_value);
 t_args				*args_node(char *content);
 t_redir				*redir_node(char *filename, t_redir_enum type);
 t_parse				*cmd_node(t_args *cmd_args, t_redir *redir_list);
 void				add_args_node(t_args **list, t_args *new_node);
-
 
 #endif
