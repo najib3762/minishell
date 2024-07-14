@@ -67,7 +67,7 @@ int	here_doc2(t_token *token, t_mini *prog)
 	fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return (free(filename), -1);
-	if (token->next && token->next->type == TOKEN_WORD)
+	if (token->next->type == TOKEN_WORD)
 	{
 		if (read_here_doc(token->next->value, fd, prog) < 0)
 			return (close(fd), free(filename), -1);
@@ -86,7 +86,7 @@ int	ft_here_doc(t_token **token, t_mini *prog)
 	tmp = *token;
 	while (tmp)
 	{
-		if (tmp->type == TOKEN_HERE && here_doc2(tmp, prog) < 0)
+		if (tmp->type == TOKEN_HERE && tmp->next && here_doc2(tmp, prog) < 0)
 			return (-1);
 		tmp = tmp->next;
 	}
