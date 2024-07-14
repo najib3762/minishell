@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <namoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/11 21:42:52 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/12 17:25:55 by namoussa         ###   ########.fr       */
+/*   Created: 2023/11/21 14:31:33 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,33 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char			*str;
-	unsigned int	i;
-	int				len;
+	size_t	i;
+	char	*p;
 
-	if (!s)
-		return (NULL);
-	len = ft_strlen(s);
-	str = malloc(sizeof(char) * len + 1);
-	if (!str)
-		return (NULL);
 	i = 0;
-	if (s && f)
+	if (!s)
+		return (0);
+	p = (char *)malloc(ft_strlen(s) + 1);
+	if (!p)
+		return (0);
+	while (i < ft_strlen(s))
 	{
-		while (s[i] != '\0')
-		{
-			str[i] = f(i, s[i]);
-			i++;
-		}
+		p[i] = f(i, s[i]);
+		i++;
 	}
-	str[i] = '\0';
-	return (str);
+	p[i] = '\0';
+	return (p);
 }
-/*char	ft_toupperr(unsigned int c,char cc)
-{
-	if (cc >= 97 && cc <= 122)
-		cc -= 32;
-	return (cc);
-}
-int main ()
-{
-	char str[] = "hello";
-	printf("%s",ft_strmapi(str,&ft_toupperr));
-	return (0);
-}*/
+// #include <stdio.h>
+// char my_z(unsigned int i, char s)
+// {
+//     (void)i;
+//     s = 'z';
+//     return (s);
+// }
+// int main(){
+//     // char s[] = 0;
+//     char *result = ft_strmapi(s, my_z);
+//     printf("%s", result);
+
+// }

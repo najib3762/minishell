@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <namoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/10 13:32:47 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/13 12:48:15 by namoussa         ###   ########.fr       */
+/*   Created: 2023/11/20 10:36:04 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,25 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	if (fd < 0 || !s)
+	int	i;
+
+	i = 0;
+	if (!s)
 		return ;
-	while (*s)
+	if (fd > 0)
 	{
-		ft_putchar_fd(*s, fd);
-		s++;
+		while (s[i])
+		{
+			write(fd, &s[i++], 1);
+		}
 	}
 }
-/*int main ()
-{
-	char arr[] = "hello";
-	ft_putstr_fd(arr, 1);
+/*
+#include <stdio.h>
+
+int	main(void){
+	int fd = open("ana.txt", O_RDWR | O_CREAT, 0644);
+	printf("%d", fd);
+	ft_putstr_fd("", fd);
+	close (fd);
 }*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <namoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/12 12:48:08 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/12 12:51:07 by namoussa         ###   ########.fr       */
+/*   Created: 2023/11/21 17:32:49 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,33 @@
 
 void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	unsigned int	i;
+	size_t	i;
 
 	i = 0;
 	if (!s || !f)
 		return ;
-	while (s[i] != '\0')
+	while (s[i])
 	{
 		f(i, &s[i]);
 		i++;
 	}
 }
+// #include <stdio.h>
+// void f_striteri(unsigned int i, char *s)
+// {
+//     (void)i;
+// 	s += 1;
+// }
+// int main(){
+// char b[] = "override this !";
+// char b2[0xF0];
+// size_t size = ft_strlen(b);
+
+// for (unsigned int i = 0; i < size; i++)
+// 	f_striteri(i, b2 + i);
+// b2[size] = 0;
+// ft_striteri(b, f_striteri);
+// if (!strcmp(b, b2))
+// 	exit(1);
+// exit(3);
+// }

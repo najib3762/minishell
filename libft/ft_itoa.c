@@ -3,58 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <namoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/11 12:00:25 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/17 18:12:56 by namoussa         ###   ########.fr       */
+/*   Created: 2023/11/22 10:20:32 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
+#include <stdio.h>
 
-int	ft_len(long nb)
+static int	len(int *nb)
 {
-	int	len;
+	long	m;
+	int		count;
 
-	len = 0;
-	if (nb == 0)
-		return (1);
-	if (nb < 0)
+	m = *nb;
+	count = 0;
+	if (m < 0 || m == 0)
 	{
-		nb = nb * -1;
-		len++;
+		m = -(m);
+		count += 1;
 	}
-	while (nb > 0)
+	while (m != 0)
 	{
-		nb = nb / 10;
-		len++;
+		m /= 10;
+		count++;
 	}
-	return (len);
+	return (count);
 }
 
 char	*ft_itoa(int n)
 {
-	char	*m;
-	int		len;
+	long	x;
 	long	l;
+	char	*p;
 
-	l = (long)n;
-	len = ft_len(l);
-	m = malloc(sizeof(char) * len + 1);
-	if (!m)
-		return (NULL);
-	m[len] = '\0';
-	if (l == 0)
-		m[0] = '0';
-	if (l < 0)
+	l = len(&n);
+	x = n;
+	p = (char *)malloc(l + 1);
+	if (!p)
+		return (0);
+	if (x < 0)
 	{
-		l = l * -1;
-		m[0] = '-';
+		x *= -1;
+		p[0] = '-';
 	}
-	while (l)
+	if (n == 0)
+		p[0] = '0';
+	p[l] = '\0';
+	while (x > 0)
 	{
-		m[--len] = (l % 10) + '0';
-		l = l / 10;
+		p[l - 1] = (x % 10) + '0';
+		x /= 10;
+		l--;
 	}
-	return (m);
+	return (p);
 }

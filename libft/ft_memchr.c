@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <namoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/04 12:01:49 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/17 15:27:22 by namoussa         ###   ########.fr       */
+/*   Created: 2023/11/14 11:08:26 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,22 @@
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {
-	size_t		i;
-	const char	*string;
+	unsigned char	*ptr;
+	size_t			i;
 
 	i = 0;
-	string = s;
+	ptr = (unsigned char *)s;
 	while (i < n)
 	{
-		if (string[i] == (char)c)
-			return ((void *)(&string[i]));
+		if (ptr[i] == (unsigned char)c)
+			return ((char *)s + i);
 		i++;
 	}
-	return (NULL);
+	return (0);
 }
-/*int main() {
-  char arr[] = "hell world";
-  printf("%s",ft_memchr(arr,'o',20));
-  return (0);
-}*/
+// int main(){
+// 	// char s[] = {0, 1, 2 ,3 ,4 ,5};
+// 	char *result = ft_memchr("hello", '\0', 5);
+// 	//char *result = memchr(0, '\0', 5);
+// 	printf("%s", result);
+// }

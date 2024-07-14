@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <namoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/10 13:19:28 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/17 21:54:52 by namoussa         ###   ########.fr       */
+/*   Created: 2023/11/20 10:05:46 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,16 @@
 
 void	ft_putchar_fd(char c, int fd)
 {
-	if (fd < 0)
-		return ;
-	write(fd, &c, 1);
+	if (fd > 0)
+		write(fd, &c, 1);
 }
-/*int main ()
-{
-	char c = 'd';
-	int fd = open("foo.txt", O_CREAT, 0644);
-	printf("%d\n",fd);
-	
-	ft_putchar_fd(c,fd);
-	
-	close(fd);
+/*
+#include <stdio.h>
+
+int	main(void){
+	int fd1 = open("haji.txt", O_RDWR | O_CREAT, 0644);
+	printf("%i", fd1);
+	ft_putchar_fd('0', fd1);
+	close(fd1);
+	return (0);
 }*/

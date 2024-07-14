@@ -1,5 +1,4 @@
-#include "include/minishell.h"
-#include "include/libft.h"
+#include "minishell.h"
 
 t_global *g;
 
@@ -92,7 +91,8 @@ void print_parse(t_parse **parse)
     printf("redir:");
 		while (redir) 
 		{
-			printf("%s ---> ", redir->filename);
+			printf(" value :%s ---> ", redir->filename);
+      printf("type: %u ", redir->type);
 			redir = redir->next;
 		}
     printf("\n");

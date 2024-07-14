@@ -3,46 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <namoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/05 12:02:37 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/17 15:23:33 by namoussa         ###   ########.fr       */
+/*   Created: 2023/11/11 14:35:03 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-char	*ft_strnstr(const char *s1, const char *s2, size_t len)
+char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	char	*c1;
-	char	*to_find;
 	size_t	i;
 	size_t	j;
 
-	c1 = (char *)s1;
-	to_find = (char *)s2;
-	if (s1 == 0 && len == 0)
-		return (NULL);
-	if (to_find[0] == 0)
-		return (c1);
 	i = 0;
-	while (c1[i] && i < len)
+	j = 0;
+	if (little[j] == '\0')
+		return ((char *)big);
+	if (len <= 0)
+		return (NULL);
+	while (big[i] && i < len)
 	{
-		j = 0;
-		while (c1[i + j] && c1[i + j] == to_find[j] && (i + j) < len)
+		if (big[i] == little[j])
 		{
-			j++;
-			if (to_find[j] == '\0')
-				return (c1 + i);
+			while (i + j < len && big[i + j] == little[j])
+			{
+				j++;
+				if (little[j] == '\0')
+					return ((char *)big + i);
+			}
+			j = 0;
 		}
 		i++;
 	}
 	return (0);
 }
-/*int main ()
-{
-    char s1[] = "Foo Bar Baz";
-    char s2[] = "a";
-    printf("%s",ft_strnstr(s1,s2,7));
-    return 0;
-}*/
+
+// int	main(void)
+// {
+// 	size_t		len;
+// 	const char	word[] = "";
+
+// 	// char hand[] = NULL;
+// 	len = -2;
+// 	// printf("%s\n", strnstr(hand, word, 7));
+// 	printf("%p\n", ft_strnstr("cc", word, 16));
+// 	printf("%p\n", ft_strnstr("cc", word, 16));
+// 	printf("num is :%zu", len);
+// }

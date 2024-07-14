@@ -3,20 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/15 18:32:58 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/15 18:34:43 by namoussa         ###   ########.fr       */
+/*   Created: 2023/11/29 16:11:20 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-t_list	*ft_lstlast(t_list	*lst)
+t_list	*ft_lstlast(t_list *lst)
 {
-	if (lst == NULL)
+	t_list	*node;
+
+	node = lst;
+	if (!lst)
 		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
+	while (node->next)
+		node = node->next;
+	return (node);
 }
+
+// int main(){
+//     t_list *first = ft_lstnew("banana");
+//     t_list *second = ft_lstnew("apple");
+//     t_list *third = ft_lstnew("fruit");
+//     first->next = second;
+//     second->next = third;
+//     third->next = NULL;
+
+//     t_list *lastone = ft_lstlast(first);
+//     printf("%s\n",(char *)lastone->content);
+
+//     while(first)
+//     {
+//         t_list *t = first->next;
+//         free(first);
+//         first = t;
+//     }
+// }

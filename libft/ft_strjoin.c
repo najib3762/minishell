@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <namoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 15:59:57 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/17 17:03:09 by namoussa         ###   ########.fr       */
+/*   Created: 2023/11/20 18:37:25 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,24 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*ptr;
-	int		i;
-	int		j;
+	char	*p;
+	size_t	len;
 
 	if (!s1 || !s2)
 		return (NULL);
-	i = 0;
-	ptr = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!ptr)
+	len = ft_strlen(s1) + ft_strlen(s2);
+	p = (char *)malloc(len + 1);
+	if (!p)
 		return (NULL);
-	while (s1[i])
-	{
-		ptr[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j])
-	{
-		ptr[i + j] = s2[j];
-		j++;
-	}
-	ptr[i + j] = '\0';
-	return (ptr);
+	ft_strlcpy(p, s1, len + 1);
+	ft_strlcat(p, s2, len + 1);
+	return (p);
 }
+
+// #include <stdio.h>
+
+// int	main(void){
+// 	char s[] = "hello";
+// 	char c[] = "world !/";
+// 	printf("%s", ft_strjoin(s, c));
+// }

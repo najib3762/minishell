@@ -3,23 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 15:44:58 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/01 11:13:01 by namoussa         ###   ########.fr       */
+/*   Created: 2023/11/05 14:43:24 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../include/libft.h"
 
 int	ft_isascii(int c)
 {
 	if (c >= 0 && c <= 127)
 		return (1);
-	else
-		return (0);
+	return (0);
 }
-/*int main()
-{
-	printf("%d",ft_isascii('~'));
-	return 0;
-}*/

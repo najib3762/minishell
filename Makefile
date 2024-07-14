@@ -1,21 +1,25 @@
 
 NAME = minishell
 
-SRC_M = error.c \
-        main.c \
-        init_data.c \
-        utile_token2.c\
-		lexer.c\
-		syntax_error.c\
-		parsing1.c\
-		here_doc.c\
-		here_doc1.c\
-		here_doc_utils.c\
-		r_quotes.c\
-		expand.c\
-		expand_utils.c\
-		expand_utils2.c\
-		here_doc_expand.c\
+SRC_M = parsing/error.c \
+        parsing/init_data.c \
+        parsing/utile_token2.c\
+		parsing/lexer.c\
+		parsing/syntax_error.c\
+		parsing/parsing1.c\
+		parsing/r_quotes.c\
+		here_doc/here_doc.c\
+		here_doc/here_doc1.c\
+		here_doc/here_doc_utils.c\
+		here_doc/here_doc_expand.c\
+		expand/expand.c\
+		expand/expand_utils.c\
+		expand/expand_utils2.c\
+		 main.c \
+		# Built_in/Built_in.c\
+		# Built_in/Built_in2.c\
+
+		
 
 OBJ_M = $(SRC_M:.c=.o)
 

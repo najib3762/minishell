@@ -25,7 +25,6 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **lst, t_list *new);
 int					ft_lstsize(t_list *lst);
@@ -48,7 +47,7 @@ size_t				ft_strlcat(char *dst, const char *src, size_t size);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 size_t				ft_strlen(const char *c);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
-int 				ft_strcmp(const char *s1, const char *s2);
+int					ft_strcmp(const char *s1, const char *s2);
 char				*ft_strnstr(const char *big, const char *little,
 						size_t len);
 char				*ft_strrchr(const char *s, int c);
@@ -73,5 +72,6 @@ char				*ft_strtrim(char const *s1, char const *set);
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 char				**ft_split(char const *s, char c);
 char				*ft_itoa(int n);
+size_t				ft_strncpy(char *dst, const char *src, size_t dstsize);
 
 #endif

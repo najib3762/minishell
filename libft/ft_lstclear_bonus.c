@@ -3,23 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <namoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/16 18:41:05 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/16 19:14:14 by namoussa         ###   ########.fr       */
+/*   Created: 2023/12/02 04:15:43 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void*))
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	if (!del || !lst)
+	t_list	*current;
+	t_list	*next;
+
+	if (!lst || !del)
 		return ;
-	while (*lst)
+	current = *lst;
+	while (current)
 	{
-		ft_lstdelone(*lst, del);
-		*lst = (*lst)->next;
+		next = current->next;
+		(*del)(current->content);
+		free(current);
+		current = next;
 	}
 	*lst = NULL;
 }
+// void delete(void *content)
+// {
+//     free(content);
+// }
+// int main(){
+//     t_list *a = ft_lstnew("hello");
+//     t_list  *b = ft_lstnew("world");
+//     printf ("the content of a : %s\n", (char *)a->content);
+//     printf ("the content of b : %s\n", (char *)b->content);
+//     a->next = b;
+//     b->next = NULL;
+//     ft_lstclear(&a, &delete);
+//     if(a == NULL)
+//         printf("the list is empty\n");
+//     else
+//         printf("the list isn't empty\n");
+// }

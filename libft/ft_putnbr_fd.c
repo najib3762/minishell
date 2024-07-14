@@ -3,33 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <namoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/10 17:45:05 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/17 21:54:24 by namoussa         ###   ########.fr       */
+/*   Created: 2023/11/20 10:59:07 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
+#include <fcntl.h>
 
-void	ft_putnbr_fd(int n, int fd)
+void	ft_putnbr_fd(int nb, int fd)
 {
-	if (n == -2147483648)
+	if (fd > 0)
 	{
-		ft_putchar_fd('-', fd);
-		ft_putchar_fd('2', fd);
-		n = 147483648;
+		if (nb == -2147483648)
+		{
+			write(fd, "-2147483648", 11);
+		}
+		else if (nb < 0)
+		{
+			ft_putchar_fd('-', fd);
+			nb = -nb;
+			ft_putnbr_fd(nb, fd);
+		}
+		else if (nb > 9)
+		{
+			ft_putnbr_fd(nb / 10, fd);
+			ft_putnbr_fd(nb % 10, fd);
+		}
+		else if (nb >= 0 && nb <= 9)
+		{
+			ft_putchar_fd(nb + '0', fd);
+		}
 	}
-	if (n < 0)
-	{
-		ft_putchar_fd('-', fd);
-		n = n * -1;
-	}
-	if (n >= 10)
-	{
-		ft_putnbr_fd(n / 10, fd);
-		ft_putnbr_fd(n % 10, fd);
-	}
-	else
-		ft_putchar_fd(n + '0', fd);
 }
+/*
+#include <stdio.h>
+
+int	main(void){
+	int fd = open("ana.txt", O_RDWR | O_CREAT, 0644);
+	printf("%d", fd);
+	ft_putnbr_fd(-5, fd);
+	close (fd);
+}*/

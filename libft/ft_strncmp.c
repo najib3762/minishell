@@ -3,36 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macpro15 <macpro15@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/03 21:27:28 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/05 14:25:32 by macpro15         ###   ########.fr       */
+/*   Created: 2023/11/11 17:36:33 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-int		ft_strncmp(char *s1, char *s2, unsigned int n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	unsigned int	i;
-	int				r;
+	size_t	i;
 
-	r = 0;
 	i = 0;
-	while ((s1[i] || s2[i]) && r == 0 && i < n)
-	{
-		if (s1[i] != s2[i])
-		{
-			r = s1[i] - s2[i];
-		}
+	while (s1[i] && s1[i] == s2[i] && i < n - 1)
 		i++;
-	}
-	return (r);
+	if (n)
+		return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	return (0);
 }
-/*int main ()
-{
-  char str1[] = "hil";
-  char str2[] = "hilhu";
-  printf("%d",ft_strncmp(str1,str2, 3));
-  return 0;
-  }*/

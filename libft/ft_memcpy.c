@@ -3,37 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/03 11:34:18 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/08 11:07:49 by namoussa         ###   ########.fr       */
+/*   Created: 2023/11/13 20:59:04 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../include/libft.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	char	*dest;
-	char	*serc;
-	size_t	i;
+	size_t			i;
+	unsigned char	*s;
+	unsigned char	*d;
 
-	if (dst == src)
-		return (dst);
-	if (!dst && !src)
-		return (dst);
-	dest = (char *) dst;
-	serc = (char *) src;
+	d = (unsigned char *)dest;
+	s = (unsigned char *)src;
+	if (!d && !s)
+		return (0);
 	i = 0;
 	while (i < n)
 	{
-		dest[i] = serc[i];
+		d[i] = s[i];
 		i++;
 	}
-	return (dst);
+	return (dest);
 }
-/*int main ()
+
+/*
+#include <stdio.h>
+#include <string.h>
+
+int	main(void)
 {
-    char src[] = "hello world";
-    printf("%s",ft_memcpy(src,src+2,3));
-    return 0;
+  char a[] = "qwertyuiop";
+  char b[20];
+  char c[20];
+  memcpy(b, a+2,15* sizeof(char));
+  ft_memcpy(c, a+2 ,14 * sizeof(char));
+  printf("b : %s\n", b);
+  printf("c : %s", c);
 }*/

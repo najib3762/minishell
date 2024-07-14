@@ -3,54 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <namoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 21:26:05 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/17 17:04:19 by namoussa         ###   ########.fr       */
+/*   Created: 2023/12/01 14:03:48 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-int	check_set(char c, char const *set)
-{
-	int	i;
-
-	i = 0;
-	while (set[i])
-	{
-		if (c == set[i])
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	*ptr;
-	int		f;
-	int		l;
-	int		i;
+	size_t	size;
+	size_t	start;
+	size_t	end;
+	char	*p;
 
-	f = 0;
-	if (s1 == 0 || set == 0)
+	size = 0;
+	start = 0;
+	if (!s1 || !set)
 		return (NULL);
-	while (s1[f] && check_set(s1[f], set))
-		f++;
-	l = ft_strlen(s1);
-	while (l > f && check_set(s1[l - 1], set))
-		l--;
-	ptr = malloc(sizeof(char) * (l - f) + 1);
-	i = 0;
-	if (!ptr)
-		return (NULL);
-	while (f < l)
-	{
-		ptr[i] = s1[f];
-		i++;
-		f++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
+	end = ft_strlen(s1) - 1;
+	while (s1[start] && ft_strchr(set, (char)s1[start]))
+		start++;
+	while (s1[end] && ft_strrchr(set, s1[end]))
+		end--;
+	size = end - start + 1;
+	p = ft_substr(s1, start, size);
+	if (!p)
+		return (0);
+	return (p);
 }
+// int main()
+// {
+//     // char space = " ";
+//     char s1[] = "lorem \n ipsum \t dolor \n sit \t amet";
+//     printf("%s", ft_strtrim(s1, " " ));
+// }

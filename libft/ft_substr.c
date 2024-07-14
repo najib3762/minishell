@@ -3,38 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <namoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 11:40:11 by namoussa          #+#    #+#             */
-/*   Updated: 2023/11/08 19:36:26 by namoussa         ###   ########.fr       */
+/*   Created: 2023/11/20 15:55:41 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t		i;
-	size_t		l;
-	char		*str;
+	size_t	i;
+	char	*p;
+	size_t	len_s;
 
+	i = 0;
 	if (!s)
 		return (NULL);
-	l = ft_strlen(s) - start;
-	if (start > ft_strlen(s))
-		l = 0;
-	if (l < len)
-		str = (char *)malloc(sizeof(*s) * (l + 1));
-	else
-		str = (char *)malloc(sizeof(*s) * (len + 1));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (i < len && start + i < ft_strlen(s))
+	len_s = ft_strlen(s);
+	if (start > len_s)
 	{
-		str[i] = s[start + i];
-		i++;
+		return (ft_strdup(""));
 	}
-	str[i] = '\0';
-	return (str);
+	if (len > len_s - start)
+	{
+		len = len_s - start;
+	}
+	p = (char *)malloc(len + 1);
+	if (!p)
+		return (NULL);
+	len += start;
+	while (start < len)
+		p[i++] = s[start++];
+	p[i] = '\0';
+	return (p);
 }
+
+// #include <stdio.h>
+
+// int	main(void){
+// 	char *str= ft_strdup("0123456789");
+// 	char *ptr = ft_substr(str, 9, 10);
+// 	printf("%s", ptr);
+// 	free(str);
+// 	free(ptr);
+// }
