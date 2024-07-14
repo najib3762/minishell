@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-void	my_handle(void)
+int	my_handle(void)
 {
 	if (*retur_value(0) != -1)
 	{
@@ -11,6 +11,7 @@ void	my_handle(void)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+  return (-1);
 }
 
 int	fork_heredoc(char *eof, int fd, int qoutes, t_mini *prog)
@@ -35,7 +36,9 @@ int	fork_heredoc(char *eof, int fd, int qoutes, t_mini *prog)
 		free(line);
 		line = readline(">");
 	}
-	my_handle();
+	free(line);
+	if(my_handle() < 0)
+		return (-1);
 	return (0);
 }
 
@@ -48,7 +51,8 @@ int	read_here_doc(char *eof, int fd, t_mini *prog)
 	limiter = is_qoutes(eof, &qoutes);
 	if (!limiter)
 		return (-1);
-	fork_heredoc(limiter, fd, qoutes, prog);
+	if(fork_heredoc(limiter, fd, qoutes, prog) < 0)
+		return (-1);
 	return (0);
 }
 
@@ -65,7 +69,7 @@ int	here_doc2(t_token *token, t_mini *prog)
 		return (free(filename), -1);
 	if (token->next->type == TOKEN_WORD)
 	{
-		if (read_here_doc(token->next->value, fd, prog) != 0)
+		if (read_here_doc(token->next->value, fd, prog) < 0)
 			return (close(fd), free(filename), -1);
 		else
 			return (close(fd), change_value(token, filename), 1);

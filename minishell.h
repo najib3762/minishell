@@ -117,11 +117,10 @@ char				*take_var_name(char *str, int *i);
 char				*my_strdup(char *str, int len);
 void				real_expand(t_token **head, t_mini *prog);
 char				*ft_expand(char *line, t_mini *prog);
-int	*retur_value(int flag);
+int					*retur_value(int flag);
 void				sig_here_doc(int sig);
-void				sig_hand(int sig);
+int					my_handle(void);
 char				*ft_pwd(int i);
-void				my_handle(void);
 void				ft_env(t_args **env);
 void				ft_export(t_args **env, t_args **export_list, 
 					char *var_name, char *var_value);
