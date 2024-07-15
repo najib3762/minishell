@@ -83,12 +83,12 @@ int	**create_multiple_pipe(t_parse **parse, t_mini *prog)
 	if (i == 1)
 		return (0);
 	prog->fd = (int **)malloc(sizeof(int *) * i);
-	if (!prog->fd_head)
+	if (!prog->fd)
 		return (0);
 	while (j < i - 1)
 	{
 		prog->fd[j++] = (int *)malloc(sizeof(int) * 2);
-		if (!prog->fd_head[j])
+		if (!prog->fd[j])
 			return (0);
 		pipe(prog->fd[j++]);
 	}

@@ -27,11 +27,19 @@ int	my_handle(void)
 	return (0);
 }
 
+void sig_default(int sig)
+{
+	(void)sig;
+	rl_on_new_line();
+	rl_redisplay();
+}
+
 int	fork_heredoc(char *eof, int fd, int qoutes, t_mini *prog)
 {
 	char	*line;
 
 	signal(SIGINT, sig_here_doc);
+	signal(SIGQUIT, sig_default);
 	line = readline(">");
 	while (line)
 	{

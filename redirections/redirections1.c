@@ -55,7 +55,7 @@ void	ft_addback_fd(t_fd **head, t_fd *new_node)
 	temp->next = new_node;
 }
 
-void	redirection(t_parse **parse)
+void	redirection(t_parse **parse, t_mini *prog)
 {
 	t_parse	*temp;
 	t_redir	*temp_redir;
@@ -69,19 +69,19 @@ void	redirection(t_parse **parse)
 			if (temp_redir->type == REDIR_IN)
 			{
 				temp->red_in = open(temp_redir->filename, O_RDONLY);
-				ft_addback_fd(&temp->fd_head, ft_new_fd(temp->red_in));
+				ft_addback_fd(&prog->fd_head, ft_new_fd(temp->red_in));
 			}
 			else if (temp_redir->type == REDIR_OUT)
 			{
 				temp->red_out = open(temp_redir->filename,
 						O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				ft_addback_fd(&temp->fd_head, ft_new_fd(temp->red_out));
+				ft_addback_fd(&prog->fd_head, ft_new_fd(temp->red_out));
 			}
 			else if (temp_redir->type == REDIR_APPEND)
 			{
 				temp->red_out = open(temp_redir->filename,
 						O_WRONLY | O_CREAT | O_APPEND, 0644);
-				ft_addback_fd(&temp->fd_head, ft_new_fd(temp->red_out));
+				ft_addback_fd(&prog->fd_head, ft_new_fd(temp->red_out));
 			}
 			temp_redir = temp_redir->next;
 		}
