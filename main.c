@@ -148,11 +148,11 @@ int	main(int ac, char **av, char **env)
 	head = NULL;
 	parse = NULL;
 	(void)av;
+	signal(SIGQUIT, SIG_IGN);
 	init_data(ac, env, &prog);
 	prog.line = readline("Minishell: ");
 	if (!prog.line)
 		exit(1);
-	// signal(SIGQUIT, SIG_IGN);
 	main2(&prog, &head, &parse);
 	return (0);
 }
