@@ -117,9 +117,14 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 				real_expand(head, prog);
 				r_quotes(head);
 				parse_input(head, parse);
+<<<<<<< HEAD
 				print_parse(parse);
 				// g->g_status = ft_executer(parse, prog);
 				ft_executer(*parse, prog);
+=======
+				// print_parse(parse);
+				// g->g_status = ft_excuter(parse, prog);
+>>>>>>> refs/remotes/origin/main
 				free_parse_list(parse);
 			}
 			free_token_list(head);
@@ -149,6 +154,7 @@ int	main(int ac, char **av, char **env)
 	head = NULL;
 	parse = NULL;
 	(void)av;
+	signal(SIGQUIT, SIG_IGN);
 	init_data(ac, env, &prog);
 	prog.line = readline("Minishell: ");
 	if (!prog.line)
