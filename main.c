@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:17:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/15 15:45:03 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/16 00:10:58 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,14 +117,9 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 				real_expand(head, prog);
 				r_quotes(head);
 				parse_input(head, parse);
-<<<<<<< HEAD
 				print_parse(parse);
 				// g->g_status = ft_executer(parse, prog);
 				ft_executer(*parse, prog);
-=======
-				// print_parse(parse);
-				// g->g_status = ft_excuter(parse, prog);
->>>>>>> refs/remotes/origin/main
 				free_parse_list(parse);
 			}
 			free_token_list(head);
