@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:17:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/14 18:17:50 by namoussa         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:45:03 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 				r_quotes(head);
 				parse_input(head, parse);
 				print_parse(parse);
-				// g->g_status = ft_excuter(parse, prog);
+				// g->g_status = ft_executer(parse, prog);
+				ft_executer(*parse, prog);
 				free_parse_list(parse);
 			}
 			free_token_list(head);

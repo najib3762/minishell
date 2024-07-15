@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:21:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/14 18:21:52 by namoussa         ###   ########.fr       */
+/*   Updated: 2024/07/15 18:22:21 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,15 @@ void				sig_here_doc(int sig);
 int					my_handle(void);
 char				*ft_pwd(int i);
 void				ft_env(t_args **env);
-void				ft_export(t_args **env, t_args **export_list,
-						char *var_name, char *var_value);
+void				ft_export(t_mini **env, t_mini **export_list, t_parse **cmd);
 t_args				*args_node(char *content);
 t_redir				*redir_node(char *filename, t_redir_enum type);
 t_parse				*cmd_node(t_args *cmd_args, t_redir *redir_list);
 void				add_args_node(t_args **list, t_args *new_node);
+void 				ft_executer(t_parse *parse, t_mini *prog);
+void				ft_echo(t_parse *arg);
+char				*ft_pwd(int i);
+void				ft_cd(t_parse *arg, t_args *env);
+
 
 #endif

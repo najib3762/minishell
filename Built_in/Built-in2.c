@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 16:42:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/13 16:45:40 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/15 17:06:37 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	ft_echo(t_parse *arg)
 
 	n_line = 1;
 	tmp = arg->cmd_args;
-	if (tmp && ft_strncmp(tmp->content, "-n", 2) == 0)
+	if (!ft_strncmp(tmp->content, "echo", 5))
+		tmp = tmp->next;
+	while (tmp && ft_strncmp(tmp->content, "-n", 2) == 0)
 	{
 		n_line = 0;
 		tmp = tmp->next;
@@ -62,6 +64,8 @@ void	ft_cd(t_parse *arg, t_args *env)
 {
 	char *path;
 	
+	if (!ft_strncmp(arg->cmd_args->content, "cd", 3))
+		arg->cmd_args = arg->cmd_args->next;
 	if(!arg->cmd_args->content)
 	{
 		path = g_env(env, "HOME=");
@@ -70,8 +74,9 @@ void	ft_cd(t_parse *arg, t_args *env)
 	else if (ft_strncmp(arg->cmd_args->content,"-", 2) == 0)
 	{
 		path = g_env(env, "OLDPWD=");
-		ft_export(&env, &env, "OLDPWD=", ft_pwd(1));
-		chdir(path + 7);
+		ft_export((t_mini **)env, (t_mini **)env, "OLDPWD=", ft_pwd(1));
+		if (chdir(path + 7) == 0)
+			printf("%s\n", path + 7);
 	}
 	else
 		if (chdir(arg->cmd_args->content) < 0)
