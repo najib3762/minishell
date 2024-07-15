@@ -117,7 +117,7 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 				real_expand(head, prog);
 				r_quotes(head);
 				parse_input(head, parse);
-				print_parse(parse);
+				// print_parse(parse);
 				// g->g_status = ft_excuter(parse, prog);
 				free_parse_list(parse);
 			}
@@ -152,6 +152,7 @@ int	main(int ac, char **av, char **env)
 	prog.line = readline("Minishell: ");
 	if (!prog.line)
 		exit(1);
+	// signal(SIGQUIT, SIG_IGN);
 	main2(&prog, &head, &parse);
 	return (0);
 }
