@@ -114,7 +114,6 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 			ft_here_doc(head, prog);
 			if (!check_syntax_errors(head))
 			{
-				printf("no syntax error\n");
 				real_expand(head, prog);
 				r_quotes(head);
 				parse_input(head, parse);

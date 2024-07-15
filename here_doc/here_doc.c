@@ -14,7 +14,7 @@
 
 int	my_handle(void)
 {
-	if (*retur_value(0) != -1)
+	if (*retur_value(0) != 0)
 	{
 		dup2(*retur_value(0), 0);
 		close(*retur_value(0));
@@ -49,13 +49,13 @@ int	fork_heredoc(char *eof, int fd, int qoutes, t_mini *prog)
 		free(line);
 		line = readline(">");
 	}
+	if (my_handle() < 0)
+		return (-1);
 	if(!line)
 	{
 		printf("minishell: warning: here-doc delimited by EOF (wanted `%s')\n", eof);
 		return (0);
 	}
-	if (my_handle() < 0)
-		return (-1);
 	return (0);
 }
 
