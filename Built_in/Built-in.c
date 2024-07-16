@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:51:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/15 18:20:13 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:40:29 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	sort_exp(t_mini **start)
 	}
 }
 
-void	ft_export(t_mini **env, t_mini **export_list, t_parse **cmd)
+void	ft_export(t_mini **env, t_mini **export_list, t_parse *cmd)
 {
 	char	*new_var;
 	t_mini	*tmp;
@@ -120,6 +120,7 @@ void	ft_export(t_mini **env, t_mini **export_list, t_parse **cmd)
 		else
 			var_name = ft_strdup(cur->content);
 	}
+	// printf("Exporting variable: %s=%s\n", var_name, var_value);
 	if (!var_name && !var_value)
 	{
 		sort_exp(env);
@@ -127,17 +128,26 @@ void	ft_export(t_mini **env, t_mini **export_list, t_parse **cmd)
 		return ;
 	}
 	if (var_name && !var_value)
-	{
-		tmp = *export_list;
-		while (tmp)
-		{
-			if (!ft_strncmp(tmp->env_head->content, var_name, ft_strlen(var_name)))
-				return ;
-			tmp = (t_mini *)tmp->env_head->next;
-		}
-		ft_lstadd_back((t_list **)export_list, ft_lstnew(strdup(var_name)));
-		return ;
-	}
+    {
+        printf("Checking export_list for %s\n", var_name);
+        tmp = *export_list;
+        while (tmp)
+        {
+            //printf("Comparing with %s\n", (char *)tmp->env_head->content); // Debug print
+            if (ft_strnstr((char *)tmp->env_head->content, var_name, ft_strlen(var_name)))
+            {
+                printf("Variable %s already in export_list\n", var_name);
+                return;
+            }
+            if (tmp->env_head->next)
+				tmp = (t_mini *)tmp->env_head->next;
+			else
+				break;
+        }
+        printf("i'll add it to export_list: %s\n", var_name); 
+        ft_lstadd_back((t_list **)export_list, ft_lstnew(strdup(var_name)));
+        return;
+    }
 	if (var_name && var_value)
 	{
 		new_var = ft_strjoin(var_name, var_value);

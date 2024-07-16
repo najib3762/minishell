@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:01:08 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/15 18:19:33 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:42:02 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,12 @@ void ft_executer(t_parse *parse, t_mini *prog)
             ft_pwd(0);
         else if (!ft_strncmp(tmp->cmd_args->content, "export", 7))
             ft_export(&prog, &prog, &tmp);
+        else if (ft_strnstr(tmp->cmd_args->content, "env", 4))
+        {
+            printf("=================HERE=============\n");
+            // my_print_list(prog);
+            ft_env(prog);
+        }
     }
     else
         wait(NULL);

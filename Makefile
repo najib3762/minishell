@@ -17,9 +17,9 @@ SRC_M = parsing/error.c \
 		expand/expand_utils.c\
 		expand/expand_utils2.c\
 		main.c \
-		# execution/execution.c\
-		# Built_in/Built-in2.c\
-		# Built_in/Built-in.c\
+		execution/execution.c\
+		Built_in/Built-in2.c\
+		Built_in/Built-in.c\
 
 		
 
