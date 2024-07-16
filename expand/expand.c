@@ -24,6 +24,12 @@ char	*handle_dollar(char *str, int *i, t_mini *prog)
 	var_name = NULL;
 	var_value = NULL;
 	(*i)++;
+	if (str[*i] == '?')
+	{
+		var_name = ft_itoa(g_global->exit_status);
+		(*i)++;
+		return (var_name);
+	}
 	if (ft_isalpha(str[*i]) || ft_isdigit(str[*i]))
 		var_name = take_var_name(str, i);
 	var_value = get_env_value(var_name, prog->env_head);
