@@ -58,7 +58,6 @@ void ft_executer(t_parse *parse, t_mini *prog)
     int pid;
     
     env = conv_env(prog);
-    // print_char(env);
     tmp = parse;
     pid = fork();
     if(!pid)

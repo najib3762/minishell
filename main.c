@@ -103,6 +103,11 @@ void	print_parse(t_parse **parse)
 		temp = temp->next;
 	}
 }
+// void  main3(t_mini *prog, t_token **head)
+// {
+	
+
+// }
 
 void	main2(t_mini *prog, t_token **head, t_parse **parse)
 {
@@ -111,7 +116,15 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 		if (check_quotes(prog) == 1)
 		{
 			ft_lexer(prog, head);
-			ft_here_doc(head, prog);
+			if(ft_here_doc(head, prog) < 0)
+			{
+				free_token_list(head);
+				add_history(prog->line);
+				prog->line = readline("Minishell: ");
+				if (!prog->line)
+			         exit(1);
+				  continue;
+			}
 			if (!check_syntax_errors(head))
 			{
 				real_expand(head, prog);
@@ -119,7 +132,7 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 				parse_input(head, parse);
 				print_parse(parse);
 				// g->g_status = ft_executer(parse, prog);
-				ft_executer(*parse, prog);
+				// ft_executer(*parse, prog);
 				free_parse_list(parse);
 			}
 			free_token_list(head);

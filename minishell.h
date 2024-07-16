@@ -131,7 +131,7 @@ void				real_expand(t_token **head, t_mini *prog);
 char				*ft_expand(char *line, t_mini *prog);
 int					*retur_value(int flag);
 void				sig_here_doc(int sig);
-int					my_handle(void);
+// int					my_handle(void);
 char				*ft_pwd(int i);
 void				ft_env(t_args **env);
 void				ft_export(t_mini **env, t_mini **export_list, t_parse **cmd);

@@ -74,7 +74,7 @@ void	ft_cd(t_parse *arg, t_args *env)
 	else if (ft_strncmp(arg->cmd_args->content,"-", 2) == 0)
 	{
 		path = g_env(env, "OLDPWD=");
-		ft_export((t_mini **)env, (t_mini **)env, "OLDPWD=", ft_pwd(1));
+		// ft_export((t_mini **)env, (t_mini **)env, "OLDPWD=", ft_pwd(1));
 		if (chdir(path + 7) == 0)
 			printf("%s\n", path + 7);
 	}
