@@ -32,11 +32,11 @@ typedef struct s_free
 typedef struct s_global
 {
 	int				g_qoutes;
-	int				g_status;
+	int				exit_status;
 	t_free			*address;
 }					t_global;
 
-extern t_global		g_global;
+extern t_global		*g_global;
 typedef enum e_type
 {
 	TOKEN_WORD,

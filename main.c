@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_global	*g_g;
+t_global	*g_global;
 
 void	print_lexer(t_token **head)
 {

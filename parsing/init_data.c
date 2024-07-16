@@ -27,5 +27,8 @@ void	init_data(int ac, char **env, t_mini *prog)
 	prog->env_head = NULL;
 	if (ac != 1)
 		exit(1);
+    g_global = malloc(sizeof(t_global));
+	g_global->exit_status = 0;
+	g_global->address = NULL;
 	get_env(env, &prog->env_head);
 }

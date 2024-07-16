@@ -20,6 +20,12 @@ char	*dollar_here_doc(char *line, int *i, t_mini *prog)
 	var_name = NULL;
 	var_value = NULL;
 	(*i)++;
+	 if(line[*i] == '?')
+	      {
+			var_name = ft_itoa(g_global->exit_status);
+			(*i)++;
+			 return (var_name);
+		  }
 	while (ft_isalpha(line[*i]) || ft_isdigit(line[*i]) || line[*i] == '_')
 	{
 		var_name = ft_strjoin_char(var_name, line[*i]);
@@ -43,7 +49,7 @@ char	*ft_expand(char *line, t_mini *prog)
 		if (line[i] == '$' && (ft_isdigit(line[i + 1])) && line[i + 2] != '\0')
 			i += 2;
 		if (line[i] == '$' && (ft_isalpha(line[i + 1]) || \
-		ft_isdigit(line[i + 1])))
+		ft_isdigit(line[i + 1]) || line[i + 1] == '?'))
 			new_line = my_strjoin(new_line, dollar_here_doc(line, &i, prog));
 		else
 		{

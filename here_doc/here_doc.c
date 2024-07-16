@@ -19,6 +19,7 @@ int	my_handle(void)
 		dup2(*retur_value(0), 0);
 		close(*retur_value(0));
 		*retur_value(0) = 0;
+		g_global->exit_status = 130;
 		return (-1);
 	}
 	return (0);
