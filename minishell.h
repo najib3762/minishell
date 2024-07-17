@@ -22,6 +22,10 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <sys/types.h>
+
 
 typedef struct s_free
 {
@@ -143,6 +147,9 @@ void 				ft_executer(t_parse *parse, t_mini *prog);
 void				ft_echo(t_parse *arg);
 char				*ft_pwd(int i);
 void				ft_cd(t_parse *arg, t_args *env);
+void				ft_addback_fd(t_fd **head, t_fd *new_node);
+t_fd				*ft_new_fd(int fd);
+int					close_free(t_fd **head);
 
 
 #endif
