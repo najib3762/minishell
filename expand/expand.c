@@ -12,10 +12,6 @@
 
 #include "../minishell.h"
 
-//"sdfdsf""$USER"sdsfdsaf
-//PATH=/bin/zsh
-//USER = namoussa
-
 char	*handle_dollar(char *str, int *i, t_mini *prog)
 {
 	char	*var_name;

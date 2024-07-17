@@ -28,6 +28,8 @@ void	init_data(int ac, char **env, t_mini *prog)
 	if (ac != 1)
 		exit(1);
     g_global = malloc(sizeof(t_global));
+	if (!g_global)
+		exit(1);
 	g_global->exit_status = 0;
 	g_global->address = NULL;
 	get_env(env, &prog->env_head);

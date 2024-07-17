@@ -31,6 +31,7 @@ int	fork_heredoc(char *eof, int fd, int qoutes, t_mini *prog)
 
 	signal(SIGINT, sig_here_doc);
 	line = readline(">");
+	addback_node_free(&g_global->address, newnode_free(line));
 	while (line)
 	{
 		if (!ft_strncmp(line, eof, ft_strlen(eof))
@@ -46,6 +47,7 @@ int	fork_heredoc(char *eof, int fd, int qoutes, t_mini *prog)
 		ft_putendl_fd(line, fd);
 		free(line);
 		line = readline(">");
+		addback_node_free(&g_global->address, newnode_free(line));
 	}
 	if (my_handle() < 0)
 		return (-1);

@@ -98,6 +98,8 @@ char	*take_var_name(char *str, int *i)
 	{
 		var_name = malloc(sizeof(char) * 1);
 		addback_node_free(&g_global->address, newnode_free(var_name));
+		if( !var_name)
+			return (NULL);
 		var_name[0] = '\0';
 	}
 	while (ft_isalpha(str[*i]) || ft_isdigit(str[*i]) || str[*i] == '_')
