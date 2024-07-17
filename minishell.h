@@ -153,6 +153,7 @@ char				*m_strdup(const char *s);
 char				*m_strjoin(char const *s1, char const *s2);
 char				*m_itoa(int n);
 t_list				*m_lstnew(void *content);
+void				free_address(t_free **head);
 
 
 #endif

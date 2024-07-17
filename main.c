@@ -152,23 +152,7 @@ void	print_list(t_list *head)
 		head = head->next;
 	}
 }
-void	my_lstclear(t_free **lst, void (*del)(void *))
-{
-	t_free	*current;
-	t_free	*next;
 
-	if (!lst || !del)
-		return ;
-	current = *lst;
-	while (current)
-	{
-		next = current->next;
-		(*del)(current->address);
-		free(current);
-		current = next;
-	}
-	*lst = NULL;
-}
 int	main(int ac, char **av, char **env)
 {
 	t_mini	prog;
@@ -185,6 +169,6 @@ int	main(int ac, char **av, char **env)
 	if (!prog.line)
 		exit(1);
 	main2(&prog, &head, &parse);
-	my_lstclear(&g_global->address, free);
+	free_address(&g_global->address);
 	return (0);
 }
