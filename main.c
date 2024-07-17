@@ -121,6 +121,7 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 				free_token_list(head);
 				add_history(prog->line);
 				prog->line = readline("Minishell: ");
+				addback_node_free(&g_global->address, newnode_free(prog->line));
 				if (!prog->line)
 			         exit(1);
 				  continue;
@@ -137,6 +138,7 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 		}
 		add_history(prog->line);
 		prog->line = readline("Minishell: ");
+		addback_node_free(&g_global->address, newnode_free(prog->line));
 		if (!prog->line)
 			exit(1);
 	}
@@ -179,6 +181,7 @@ int	main(int ac, char **av, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	init_data(ac, env, &prog);
 	prog.line = readline("Minishell: ");
+	addback_node_free(&g_global->address, newnode_free(prog.line));
 	if (!prog.line)
 		exit(1);
 	main2(&prog, &head, &parse);
