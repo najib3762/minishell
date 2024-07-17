@@ -150,6 +150,10 @@ void				ft_cd(t_parse *arg, t_args *env);
 void				ft_addback_fd(t_fd **head, t_fd *new_node);
 t_fd				*ft_new_fd(int fd);
 int					close_free(t_fd **head);
+char				*m_strdup(const char *s);
+char				*m_strjoin(char const *s1, char const *s2);
+char				*m_itoa(int n);
+t_list				*m_lstnew(void *content);
 
 
 #endif

@@ -38,6 +38,7 @@ int	word_token(t_mini *prog, t_token **head, int i)
 			sflag = !sflag;
 	}
 	ptr = malloc(sizeof(char) * (len + 1));
+	addback_node_free(&g_global->address, newnode_free(ptr));
 	if (!ptr)
 		exit(1);
 	ft_strncpy(ptr, prog->line + i, len + 1);

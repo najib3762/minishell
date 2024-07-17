@@ -12,6 +12,7 @@
 
 #include "../minishell.h"
 
+
 int handle_redir_in(t_redir *redir, t_parse *temp, t_mini *prog)
 {
     char *str;

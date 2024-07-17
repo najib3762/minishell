@@ -21,8 +21,8 @@ char	*random_file(void)
 	char		*temp;
 
 	temp = NULL;
-	temp = ft_itoa(i++);
-	filename = ft_strjoin(FILENAME, temp);
+	temp = m_itoa(i++);
+	filename = m_strjoin(FILENAME, temp);
 	if (!filename)
 	{
 		perror("malloc");
@@ -99,6 +99,7 @@ char	*skip_quotes(char *str)
 	qoutes = calcule_qoutes(str);
 	len = ft_strlen(str) - qoutes;
 	eof = malloc(sizeof(char) * (len + 1));
+	addback_node_free(&g_global->address, newnode_free(eof));
 	if (!eof)
 	{
 		perror("malloc");

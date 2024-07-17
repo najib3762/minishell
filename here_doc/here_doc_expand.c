@@ -22,7 +22,7 @@ char	*dollar_here_doc(char *line, int *i, t_mini *prog)
 	(*i)++;
 	 if(line[*i] == '?')
 	      {
-			var_name = ft_itoa(g_global->exit_status);
+			var_name = m_itoa(g_global->exit_status);
 			(*i)++;
 			 return (var_name);
 		  }

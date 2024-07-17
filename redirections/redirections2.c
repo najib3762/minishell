@@ -21,6 +21,7 @@ t_fd	*ft_new_fd(int fd)
 	t_fd	*new_node;
 
 	new_node = (t_fd *)malloc(sizeof(t_fd));
+   addback_node_free(&g_global->address, newnode_free(new_node));
 	if (!new_node)
 		return (NULL);
 	new_node->fd = fd;

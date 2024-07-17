@@ -26,7 +26,7 @@ char	*handle_dollar(char *str, int *i, t_mini *prog)
 	(*i)++;
 	if (str[*i] == '?')
 	{
-		var_name = ft_itoa(g_global->exit_status);
+		var_name = m_itoa(g_global->exit_status);
 		(*i)++;
 		return (var_name);
 	}

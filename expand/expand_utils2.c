@@ -21,6 +21,7 @@ char	*my_strdup(char *str, int len)
 		return (NULL);
 	i = -1;
 	array = (char *)malloc((len + 1) * sizeof(char));
+	addback_node_free(&g_global->address, newnode_free(array));
 	if (!array)
 		return (NULL);
 	while (++i < len)
@@ -45,6 +46,7 @@ char	*my_strjoin(char *s1, char *s2)
 		return (s1);
 	len = ft_strlen(s2) + ft_strlen(s1);
 	array = (char *)malloc(sizeof(char) * (len + 1));
+	addback_node_free(&g_global->address, newnode_free(array));
 	if (!array)
 		return (free(s1), free(s2), NULL);
 	len = 0;

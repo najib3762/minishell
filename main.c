@@ -133,9 +133,7 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 				print_parse(parse);
 				// g->g_status = ft_executer(parse, prog);
 				// ft_executer(*parse, prog);
-				free_parse_list(parse);
 			}
-			free_token_list(head);
 		}
 		add_history(prog->line);
 		prog->line = readline("Minishell: ");
@@ -152,7 +150,23 @@ void	print_list(t_list *head)
 		head = head->next;
 	}
 }
+void	my_lstclear(t_free **lst, void (*del)(void *))
+{
+	t_free	*current;
+	t_free	*next;
 
+	if (!lst || !del)
+		return ;
+	current = *lst;
+	while (current)
+	{
+		next = current->next;
+		(*del)(current->address);
+		free(current);
+		current = next;
+	}
+	*lst = NULL;
+}
 int	main(int ac, char **av, char **env)
 {
 	t_mini	prog;
@@ -168,5 +182,6 @@ int	main(int ac, char **av, char **env)
 	if (!prog.line)
 		exit(1);
 	main2(&prog, &head, &parse);
+	my_lstclear(&g_global->address, free);
 	return (0);
 }

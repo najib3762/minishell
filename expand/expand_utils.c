@@ -17,6 +17,7 @@ char	*ft_strdup_char(char c)
 	char	*array;
 
 	array = (char *)malloc(sizeof(char) * 2);
+	addback_node_free(&g_global->address, newnode_free(array));
 	if (!array)
 		return (NULL);
 	array[0] = c;
@@ -36,6 +37,7 @@ char	*ft_strjoin_char(char *s1, char c)
 		return (ft_strdup_char(c));
 	len = ft_strlen(s1);
 	array = (char *)malloc(sizeof(char) * (len + 2));
+	addback_node_free(&g_global->address, newnode_free(array));
 	if (!array)
 		return (NULL);
 	while (s1[i])
@@ -64,7 +66,7 @@ char	*my_getenv(char *name, char *env)
 		i++;
 	}
 	if (ft_strcmp(value, name) == 0)
-		return (free(value), ft_strdup(env + (i + 1)));
+		return (free(value), m_strdup(env + (i + 1)));
 	free(value);
 	return (NULL);
 }
@@ -95,6 +97,7 @@ char	*take_var_name(char *str, int *i)
 	if (!var_name)
 	{
 		var_name = malloc(sizeof(char) * 1);
+		addback_node_free(&g_global->address, newnode_free(var_name));
 		var_name[0] = '\0';
 	}
 	while (ft_isalpha(str[*i]) || ft_isdigit(str[*i]) || str[*i] == '_')

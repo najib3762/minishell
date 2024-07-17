@@ -41,7 +41,7 @@ int	fork_heredoc(char *eof, int fd, int qoutes, t_mini *prog)
 		{
 			line = ft_expand(line, prog);
 			if (!line)
-				line = ft_strdup("");
+				line = m_strdup("");
 		}
 		ft_putendl_fd(line, fd);
 		free(line);

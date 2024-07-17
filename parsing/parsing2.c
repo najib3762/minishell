@@ -17,9 +17,10 @@ t_args	*args_node(char *content)
 	t_args	*node;
 
 	node = (t_args *)malloc(sizeof(t_args));
+	addback_node_free(&g_global->address, newnode_free(node));
 	if (!node)
 		return (NULL);
-	node->content = ft_strdup(content);
+	node->content = m_strdup(content);
 	node->next = NULL;
 	return (node);
 }
@@ -29,9 +30,10 @@ t_redir	*redir_node(char *filename, t_redir_enum type)
 	t_redir	*node;
 
 	node = (t_redir *)malloc(sizeof(t_redir));
+	addback_node_free(&g_global->address, newnode_free(node));
 	if (!node)
 		return (NULL);
-	node->filename = ft_strdup(filename);
+	node->filename = m_strdup(filename);
 	node->type = type;
 	node->next = NULL;
 	return (node);
@@ -42,6 +44,7 @@ t_parse	*cmd_node(t_args *cmd_args, t_redir *redir_list)
 	t_parse	*node;
 
 	node = (t_parse *)malloc(sizeof(t_parse));
+	addback_node_free(&g_global->address, newnode_free(node));
 	if (!node)
 		return (NULL);
 	node->cmd_args = cmd_args;
