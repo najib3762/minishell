@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:21:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/15 18:22:21 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:47:02 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,7 @@ int					*retur_value(int flag);
 void				sig_here_doc(int sig);
 // int					my_handle(void);
 char				*ft_pwd(int i);
-void				ft_env(t_args **env);
-void				ft_export(t_mini **env, t_mini **export_list, t_parse **cmd);
+void				ft_export(t_mini **env, t_mini **export_list, t_parse *cmd);
 t_args				*args_node(char *content);
 t_redir				*redir_node(char *filename, t_redir_enum type);
 t_parse				*cmd_node(t_args *cmd_args, t_redir *redir_list);

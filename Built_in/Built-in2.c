@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 16:42:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/16 00:03:23 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:46:34 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ void	ft_echo(t_parse *arg)
 		write(1, "\n", 1);
 }
 
-void ft_env(t_args **env)
+void ft_env(t_mini *prog)
 {
-	t_args *cur;
-	
-	cur = *env;
-	while(cur)
+	t_list *env;
+
+	env = prog->env_head;
+	while(env)
 	{
-		printf("%s\n", (char *)cur->content);
-		cur = cur->next;
+		printf("%s\n", (char *)env->content);
+		env = env->next;
 	}
 }
 
