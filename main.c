@@ -128,7 +128,8 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 				parse_input(head, parse);
 				print_parse(parse);
 				redirection(parse, prog);
-				// g->g_status = ft_executer(parse, prog);
+				// close_free(&prog->fd_head);
+				// g->g_status = oumft_executer(parse, prog);
 				// ft_executer(*parse, prog);
 			}
 		}
