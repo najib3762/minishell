@@ -61,27 +61,59 @@ int handle_redir_append(t_redir *redir, t_parse *temp, t_mini *prog)
     return (0);
 }
 
+int	num_words(char const *s, char sep)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	if (*s == '\0')
+		return (0);
+	while (*s != '\0')
+	{
+		if (*s == sep)
+			count = 0;
+		else if (count == 0)
+		{
+			count = 1;
+			i++;
+		}
+		s++;
+	}
+	return (i);
+}
+
 int handle_redirection(t_parse *temp, t_mini *prog)
 {
     t_redir *temp_redir;
+    int num_file;
 
     temp_redir = temp->redir_list;
     while (temp_redir)
     {
+        num_file =  num_words(temp_redir->filename, ' ');
+        if (num_file > 1 || num_file == 0)
+        {
+            printf("minishell: ambiguous redirect\n");
+            g_global->exit_status = 1;
+            break;
+        }
+
         if (temp_redir->type == REDIR_IN)
         {
-            if (handle_redir_in(temp_redir, temp, prog) < 0)
-                return (-1);
+                 if (handle_redir_in(temp_redir, temp, prog) < 0)
+                        break ;
         }
         else if (temp_redir->type == REDIR_OUT)
         {
-            if (handle_redir_out(temp_redir, temp, prog) < 0)
-                return (-1);
+                 if (handle_redir_out(temp_redir, temp, prog) < 0)
+                        break ;
         }
         else if (temp_redir->type == REDIR_APPEND)
         {
-            if (handle_redir_append(temp_redir, temp, prog) < 0)
-                return (-1);
+                if (handle_redir_append(temp_redir, temp, prog) < 0)
+                        break ;
         }
         temp_redir = temp_redir->next;
     }
@@ -95,8 +127,7 @@ int redirection(t_parse **parse, t_mini *prog)
     temp = *parse;
     while (temp)
     {
-        if (handle_redirection(temp, prog) < 0)
-            return (-1);
+        handle_redirection(temp, prog);
         temp = temp->next;
     }
     return (0);

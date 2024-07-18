@@ -25,6 +25,7 @@ void	init_data(int ac, char **env, t_mini *prog)
 {
 	prog->line = NULL;
 	prog->env_head = NULL;
+	prog->fd_head = NULL;
 	if (ac != 1)
 		exit(1);
     g_global = malloc(sizeof(t_global));

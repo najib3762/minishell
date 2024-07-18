@@ -103,11 +103,6 @@ void	print_parse(t_parse **parse)
 		temp = temp->next;
 	}
 }
-// void  main3(t_mini *prog, t_token **head)
-// {
-	
-
-// }
 
 void	main2(t_mini *prog, t_token **head, t_parse **parse)
 {
@@ -132,6 +127,7 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 				r_quotes(head);
 				parse_input(head, parse);
 				print_parse(parse);
+				redirection(parse, prog);
 				// g->g_status = ft_executer(parse, prog);
 				// ft_executer(*parse, prog);
 			}
@@ -141,6 +137,7 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 		addback_node_free(&g_global->address, newnode_free(prog->line));
 		if (!prog->line)
 			exit(1);
+		free_token_list(head);
 	}
 }
 

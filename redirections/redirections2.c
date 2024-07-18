@@ -32,14 +32,18 @@ t_fd	*ft_new_fd(int fd)
 void	ft_addback_fd(t_fd **head, t_fd *new_node)
 {
 	t_fd	*temp;
-
+     if (!*head || !new_node)
+		return ;
 	if (!*head)
 	{
 		*head = new_node;
 		return ;
 	}
-	temp = *head;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new_node;
+	else
+	{
+		temp = *head;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = new_node;
+	}
 }

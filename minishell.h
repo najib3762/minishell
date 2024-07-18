@@ -154,6 +154,9 @@ char				*m_strjoin(char const *s1, char const *s2);
 char				*m_itoa(int n);
 t_list				*m_lstnew(void *content);
 void				free_address(t_free **head);
+int					redirection(t_parse **parse, t_mini *prog);
+t_fd				*ft_new_fd(int fd);
+void				ft_addback_fd(t_fd **head, t_fd *new_node);
 
 
 #endif
