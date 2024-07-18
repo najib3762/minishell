@@ -14,14 +14,11 @@
 
 
 int handle_redir_in(t_redir *redir, t_parse *temp, t_mini *prog)
-{
-    char *str;
-    
+{ 
     temp->red_in = open(redir->filename, O_RDONLY);
     if (temp->red_in < 0)
     {
-        str = strerror(errno);
-        printf("minishell: %s: %s\n", redir->filename, str);
+        perror("minishell");
         g_global->exit_status = 1;
         return (-1);
     }
@@ -31,13 +28,11 @@ int handle_redir_in(t_redir *redir, t_parse *temp, t_mini *prog)
 
 int handle_redir_out(char *file_name, t_parse *temp, t_mini *prog)
 {
-    char *str;
 
     temp->red_out = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (temp->red_out < 0)
     {
-        str = strerror(errno);
-        printf("minishell: %s: %s\n", file_name, str);
+        perror("minishell");
         g_global->exit_status = 1;
         return (-1);
     }
@@ -47,13 +42,10 @@ int handle_redir_out(char *file_name, t_parse *temp, t_mini *prog)
 
 int handle_redir_append(char *file_name, t_parse *temp, t_mini *prog)
 {
-    char *str;
-
     temp->red_out = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
     if (temp->red_out < 0)
     {
-        str = strerror(errno);
-        printf("minishell: %s: %s\n", file_name, str);
+        perror("minishell");
         g_global->exit_status = 1;
         return (-1);
     }
