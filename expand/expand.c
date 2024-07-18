@@ -111,6 +111,12 @@ void	real_expand(t_token **head, t_mini *prog)
 	new_str = NULL;
 	while (temp)
 	{
+		if((temp->type == TOKEN_OUT || temp->type == TOKEN_APPEND) 
+		&& temp->next->type == TOKEN_WORD && check_dollar(temp->next->value))
+	     {
+			temp = temp->next->next;
+			continue;
+		 }	
 		if (temp->type == TOKEN_WORD)
 		{
 			if (check_dollar(temp->value))

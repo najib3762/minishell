@@ -95,7 +95,9 @@ char	*skip_quotes(char *str)
 	char	*eof;
 	int		len;
 	int		qoutes;
-
+	
+    if(!str)
+		return (NULL);
 	qoutes = calcule_qoutes(str);
 	len = ft_strlen(str) - qoutes;
 	eof = malloc(sizeof(char) * (len + 1));

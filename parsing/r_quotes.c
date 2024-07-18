@@ -19,6 +19,12 @@ void	r_quotes(t_token **head)
 	temp = *head;
 	while (temp)
 	{
+		if((temp->type == TOKEN_OUT || temp->type == TOKEN_APPEND) 
+		&& temp->next->type == TOKEN_WORD && check_qoutes(temp->next->value))
+	     {
+			temp = temp->next->next;
+			continue;
+		 }
 		if (temp->type == TOKEN_WORD)
 		{
 			if (check_qoutes(temp->value))
@@ -27,3 +33,4 @@ void	r_quotes(t_token **head)
 		temp = temp->next;
 	}
 }
+
