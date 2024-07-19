@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:27:52 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/14 18:27:53 by namoussa         ###   ########.fr       */
+/*   Updated: 2024/07/19 22:59:37 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	fork_heredoc(char *eof, int fd, int qoutes, t_mini *prog)
 		printf("minishell: warning: here-doc delimited by EOF (wanted `%s')\n", eof);
 		return (0);
 	    }
+		
 	return (0);
 }
 

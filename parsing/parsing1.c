@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 15:40:31 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/14 15:40:32 by namoussa         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:19:47 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	parse_input(t_token **tokens, t_parse **parse)
 	{
 		args = NULL;
 		redir = NULL;
+		
 		parse_token(&temp, &args, &redir);
 		add_cmd_node(&cmd_head, cmd_node(args, redir));
 		if (temp && temp->type == TOKEN_PIPE)

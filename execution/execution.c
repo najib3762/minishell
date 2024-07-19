@@ -6,11 +6,45 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:01:08 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/19 11:45:31 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:27:38 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+
+void h_p_sig(int sig)
+{ 
+    if (sig == SIGINT)
+    {
+        // printf("im here\n");
+        g_global->exit_status = 130;
+        write(1, "\n", 1);
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();
+    }
+    // else if (sig == SIGQUIT)
+    // {
+    //     write(1, "Quit (core dumped)\n", 20);
+    //     // rl_replace_line("", 0);
+    //     // rl_on_new_line();
+    //     // exit(EXIT_SUCCESS); 
+    // }
+}
+
+
+// void void_sig(int sig)
+// {
+//     (void)sig;
+// }
+
+
+void handler_p_signal()
+{
+    signal(SIGQUIT, SIG_IGN);
+    signal(SIGINT, SIG_IGN);
+}
 
 
 char **conv_cmd(t_args *prog)
@@ -69,12 +103,17 @@ char **conv_env(t_list *prog)
 }
 void execute(t_parse **redr, char **cmd, char **env)
 {
+    (void)redr;
     char *path;
     pid_t   pid;
+    int status;
 
     path = get_path(cmd[0], env);
     if(!path)
         printf("no path\n");
+    handler_p_signal();
+    // signal(SIGINT, h_p_sig);
+    // signal(SIGQUIT, SIG_DFL);
     pid = fork();
     if (pid < 0)
     {
@@ -84,19 +123,26 @@ void execute(t_parse **redr, char **cmd, char **env)
     if (!pid)
     {
         
-        dup2(redr->red_in, 0);
-        dup2(redr->red_out, 1);
+        // dup2(redr->red_in, 0);
+        // dup2(redr->red_out, 1);
+        printf("im here\n");
+        signal(SIGINT, h_p_sig);
+        signal(SIGQUIT, SIG_DFL);
+
         if(execve(path, cmd, env) == -1)
         {
             perror("execve");
             exit(g_global->exit_status = 1);
         }
-        close_fd_pipe(prog);
-        free_fd_pipe(prog);
+        // close_fd_pipe(prog);
+        // free_fd_pipe(prog);
         
     }
     else
-        wait(NULL);
+    {
+        signal(SIGINT, handle_sigint);
+        waitpid(pid, &status, 0);
+    }
 }
 
 void ft_executer(t_parse **parse, t_mini *prog)
@@ -109,14 +155,14 @@ void ft_executer(t_parse **parse, t_mini *prog)
     env = conv_env(prog->env_head);
     cmd = conv_cmd((*parse)->cmd_args);
     tmp = *parse;
-    create_multiple_pipe(parse, prog);
-    set_pipe_fd(prog, parse);
-    redirection(parse, prog);
-    while (tmp)
-    {
-        cmd_parse = tmp->cmd_args;
-        while(cmd_parse)
-        {
+    // create_multiple_pipe(parse, prog);
+    // set_pipe_fd(prog, parse);
+    // redirection(parse, prog);
+    // while (tmp)
+    // {
+    //     cmd_parse = tmp->cmd_args;
+    //     while(cmd_parse)
+    //     {
             if (!ft_strncmp(tmp->cmd_args->content, "exit", 5))
                 ft_exit(tmp);
             if(!ft_strncmp(tmp->cmd_args->content, "echo", 5))
@@ -133,13 +179,13 @@ void ft_executer(t_parse **parse, t_mini *prog)
                 ft_unset(&prog->env_head, &prog->export_head, tmp);
         else
             execute(parse, cmd, env);
-        cmd_parse = cmd_parse->content;
-        }
-        tmp = tmp->next;
-        close_fd_pipe(prog);
-        free_fd_pipe(prog);
+    //     cmd_parse = cmd_parse->content;
+    //     }
+    //     tmp = tmp->next;
+    //     close_fd_pipe(prog);
+    //     free_fd_pipe(prog);
         
-    }
+    // }
 }    
 
 char	*get_env_value_char(char *key, char **env)
