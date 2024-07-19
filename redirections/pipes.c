@@ -84,6 +84,7 @@ int	create_multiple_pipe(t_parse **parse, t_mini *prog)
 		i++;
 		temp = temp->next;
 	}
+	printf("i = %d\n", i);
 	if (i == 1 || i == 0)
 		return (0);
 	prog->fd = (int **)malloc(sizeof(int *) * i);
@@ -92,7 +93,7 @@ int	create_multiple_pipe(t_parse **parse, t_mini *prog)
 		return (-1);
 	while (j < i - 1)
 	{
-		prog->fd[j++] = (int *)malloc(sizeof(int) * 2);
+		prog->fd[j] = (int *)malloc(sizeof(int) * 2);
 		addback_node_free(&g_global->address, newnode_free(prog->fd[j]));
 		if (!prog->fd[j])
 			return (-1);
