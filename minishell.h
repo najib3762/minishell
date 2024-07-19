@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:21:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/16 15:47:02 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:38:19 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_mini
 {
 	char			*line;
 	t_list			*env_head;
+	t_list			*export_head;
 	t_fd			*fd_head;
 	int				**fd;
 }					t_mini;
@@ -137,15 +138,15 @@ int					*retur_value(int flag);
 void				sig_here_doc(int sig);
 // int					my_handle(void);
 char				*ft_pwd(int i);
-void				ft_export(t_mini **env, t_mini **export_list, t_parse *cmd);
+void				ft_export(t_list **env, t_list **export_list, t_parse *cmd, char *var_name, char *var_value);
 t_args				*args_node(char *content);
 t_redir				*redir_node(char *filename, t_redir_enum type);
 t_parse				*cmd_node(t_args *cmd_args, t_redir *redir_list);
 void				add_args_node(t_args **list, t_args *new_node);
 void 				ft_executer(t_parse *parse, t_mini *prog);
-void				ft_echo(t_parse *arg);
+void				ft_echo(t_parse *arg, int n_line);
 char				*ft_pwd(int i);
-void				ft_cd(t_parse *arg, t_args *env);
+// void				ft_cd(t_parse *arg, t_args *env);
 void				ft_addback_fd(t_fd **head, t_fd *new_node);
 t_fd				*ft_new_fd(int fd);
 int					close_free(t_fd **head);
@@ -158,5 +159,21 @@ int					redirection(t_parse **parse, t_mini *prog);
 t_fd				*ft_new_fd(int fd);
 void				ft_addback_fd(t_fd **head, t_fd *new_node);
 
+void				ft_cd(t_parse *arg, t_list **env);
+void 				ft_executer(t_parse *parse, t_mini *prog);
+char 				*g_env(t_list *env, char *str);
+void 				ft_env(t_list *env);
+void				my_print_list(t_list *head);
+void 				adding(t_list *tmp, t_list **export_list, char *var_name, char *var_value, t_list **env);
+void 				adding_exp(t_list **tmp_exp, char *var_name, char *var, char *new_var, int *flag1);
+void 				add_var(t_list *tmp, char *var_name, t_list **export_list);
+// void 				var_split(t_args *cur, char *equal, char *var_name, char *var_value, char *var);
+void 				add_to_exp(char *var_name, char *var_value, t_list **env, t_list **export_list);
+void 				ft_unset(t_list **env, t_list **exp_list, t_parse *cmd);
+void 				ft_exit(t_parse *cmd);
+void				handle_sigint(int sig);
+int 				ft_isnumeric(char *str);
+void				set_unset(t_list **head, char *var_name);
+char    *get_path(char *cmd, char **env);
 
 #endif

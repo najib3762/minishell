@@ -24,6 +24,8 @@ SRC_M = parsing/error.c \
 		execution/execution.c\
 		Built_in/Built-in2.c\
 		Built_in/Built-in.c\
+		Built_in/Built-in_utils.c\
+		signal.c\
 
 		
 

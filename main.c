@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:17:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/19 10:31:33 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:36:44 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	print_parse(t_parse **parse)
 
 void	main2(t_mini *prog, t_token **head, t_parse **parse)
 {
+	
 	while (1)
 	{
 		if (check_quotes(prog) == 1)
@@ -146,7 +147,7 @@ void	print_list(t_list *head)
 {
 	while (head)
 	{
-		printf("%s\n\n", (char *)head->content);
+		printf("%s\n", (char *)head->content);
 		head = head->next;
 	}
 }
@@ -160,6 +161,7 @@ int	main(int ac, char **av, char **env)
 	head = NULL;
 	parse = NULL;
 	(void)av;
+	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	init_data(ac, env, &prog);
 	prog.line = readline("\x1b[32m minishell$ \x1b[0m");

@@ -6,23 +6,27 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 16:42:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/16 15:46:34 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:02:47 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_echo(t_parse *arg)
+void	ft_echo(t_parse *arg, int n_line)
 {
-	int		n_line;
+	int i;
 	t_args	*tmp;
 
-	n_line = 1;
 	tmp = arg->cmd_args;
 	if (!ft_strncmp(tmp->content, "echo", 5))
 		tmp = tmp->next;
-	while (tmp && ft_strncmp(tmp->content, "-n", 2) == 0)
+	while (tmp && !ft_strncmp(tmp->content, "-n", 2))
 	{
+		i = 2;
+		while (tmp->content[i] == 'n')
+			i++;
+		if (tmp->content[i] != '\0')
+			break;
 		n_line = 0;
 		tmp = tmp->next;
 	}
@@ -37,11 +41,11 @@ void	ft_echo(t_parse *arg)
 		write(1, "\n", 1);
 }
 
-void ft_env(t_mini *prog)
+void ft_env(t_list *prog)
 {
 	t_list *env;
 
-	env = prog->env_head;
+	env = prog;
 	while(env)
 	{
 		printf("%s\n", (char *)env->content);
@@ -49,61 +53,104 @@ void ft_env(t_mini *prog)
 	}
 }
 
-char *g_env(t_args *env, char *str)
+char *g_env(t_list *env, char *str)
 {
 	while(env)
 	{
 		if(ft_strnstr((char *)env->content, str, sizeof(env)))
 			return(env->content);
-		env = env->next;
+		env = (env)->next;
 	}
 	return(NULL);
 }
 
-void	ft_cd(t_parse *arg, t_args *env)
+void	ft_cd(t_parse *arg, t_list **env)
 {
 	char *path;
+	t_args *current;
 	
-	if (!ft_strncmp(arg->cmd_args->content, "cd", 3))
-		arg->cmd_args = arg->cmd_args->next;
-	if(!arg->cmd_args->content)
+	current = arg->cmd_args;
+	if (!ft_strncmp(current->content, "cd", 3))
+		current = current->next;
+	if(!current || !current->content)
 	{
-		path = g_env(env, "HOME=");
-		chdir(path + 5);
-	}
-	else if (ft_strncmp(arg->cmd_args->content,"-", 2) == 0)
-	{
-		path = g_env(env, "OLDPWD=");
-		// ft_export((t_mini **)env, (t_mini **)env, "OLDPWD=", ft_pwd(1));
-		if (chdir(path + 7) == 0)
-			printf("%s\n", path + 7);
+		path = g_env(*env, "HOME=");
+		if (path)
+			chdir(path + 5);
+		else
+			printf("cd: HOME not set\n");
 	}
 	else
-		if (chdir(arg->cmd_args->content) < 0)
-			printf("cd: no such file or directory: %s\n", arg->cmd_args->content);
+		if (chdir(current->content) < 0)
+			{
+				printf("%s\n", current->content);
+				printf("cd: no such file or directory: %s\n", (char *)current->content);}
 }
 
-void ft_unset(t_args **head, char *var_name) {
-    t_args *current;
-    t_args *prev;
+void ft_unset(t_list **env, t_list **exp_list, t_parse *cmd)
+{
+	(void)exp_list;
+	t_args	*cur;
+	char *var_name;
+	
+	cur = cmd->cmd_args;
+	if (!ft_strncmp(cur->content, "unset", 6))
+		cur = cur->next;
+	var_name = NULL;
+	if (cur && cur->content)
+		var_name = ft_strdup(cur->content);
+	if (!var_name)
+		return;
+	set_unset(env, var_name);
+	set_unset(exp_list, var_name);
+	free(var_name);
+}
+
+void	set_unset(t_list **head ,char *var_name)
+{
+	t_list *current;
+	t_list *prev;
 
 	current = *head;
 	prev = NULL;
-	if (!var_name)
-		return;
-    while (current)
+	while (current)
 	{
         if (ft_strnstr(current->content, var_name, ft_strlen(var_name)))
 		{
 			if (prev == NULL)
                 *head = current->next;
             else
+			{
+				
                 prev->next = current->next;
-            free(current->content);
+			}
             free(current);
-            return;
+            break;
         }
         prev = current;
         current = current->next;
     }
+
+	
+}
+
+void ft_exit(t_parse *cmd)
+{
+    t_args *cur;
+
+    cur = cmd->cmd_args;
+	if (!ft_strncmp(cur->content, "exit", 5))
+        cur = cur->next;
+	if (cur && cur->content)
+    {
+        if (ft_isnumeric(cur->content))
+            exit(g_global->exit_status = ft_atoi(cur->content) % 256);
+        else
+        {
+            printf("exit: %s: numeric argument required\n", cur->content);
+            exit(g_global->exit_status = 255);
+        }
+    }
+    else
+        exit(g_global->exit_status = 0);
 }
