@@ -129,7 +129,7 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 				real_expand(head, prog);
 				r_quotes(head);
 				parse_input(head, parse);
-				// print_parse(parse);
+				print_parse(parse);
 				ft_executer(parse, prog);
 			}
 		}

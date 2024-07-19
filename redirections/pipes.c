@@ -44,6 +44,7 @@ void	free_fd_pipe(t_mini *prog)
 		i++;
 	}
 	free(fd);
+	prog->fd = NULL;
 }
 
 int	set_pipe_fd(t_mini *prog, t_parse **parse)
@@ -84,9 +85,8 @@ int	create_multiple_pipe(t_parse **parse, t_mini *prog)
 		i++;
 		temp = temp->next;
 	}
-	printf("i = %d\n", i);
 	if (i == 1 || i == 0)
-		return (0);
+		return (prog->fd = NULL, 0);
 	prog->fd = (int **)malloc(sizeof(int *) * i);
 	addback_node_free(&g_global->address, newnode_free(prog->fd));
 	if (!prog->fd)
