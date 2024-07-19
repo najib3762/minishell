@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:51:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/19 12:41:48 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:30:49 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	ft_export(t_list **env, t_list **export_list, t_parse *cmd, char *var_name,
 	char	*var;
 	char 	*equal;
 	t_args 	*cur;
+
 	cur = cmd->cmd_args;
 	
 	if (!ft_strncmp(cur->content, "export", 7))

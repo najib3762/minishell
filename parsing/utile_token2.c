@@ -22,7 +22,6 @@ t_token	*create_newnode(t_type new_type, char *new_value)
 	t_token	*ptr;
 
 	ptr = malloc(sizeof(t_token));
-	addback_node_free(&g_global->address, newnode_free(ptr));
 	if (!ptr)
 	{
 		perror("malloc");

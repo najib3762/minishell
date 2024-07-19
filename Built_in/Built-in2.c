@@ -83,8 +83,8 @@ void	ft_cd(t_parse *arg, t_list **env)
 	else
 		if (chdir(current->content) < 0)
 			{
-				printf("%s\n", current->content);
-				printf("cd: no such file or directory: %s\n", (char *)current->content);}
+				perror("cd");
+			}
 }
 
 void ft_unset(t_list **env, t_list **exp_list, t_parse *cmd)

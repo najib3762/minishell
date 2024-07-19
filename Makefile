@@ -19,6 +19,7 @@ SRC_M = parsing/error.c \
 		expand/expand_utils2.c\
 		redirections/redirections1.c\
 		redirections/redirections2.c\
+		redirections/pipes.c\
 		main.c \
 		free.c\
 		execution/execution.c\
