@@ -26,7 +26,7 @@
 # include <errno.h>
 # include <sys/types.h>
 
-
+#define PROMPT "\x1b[32m minishell$ \x1b[0m"
 typedef struct s_free
 {
 	void			*address;
@@ -159,10 +159,10 @@ t_fd				*ft_new_fd(int fd);
 void				ft_addback_fd(t_fd **head, t_fd *new_node);
 
 void				ft_cd(t_parse *arg, t_list **env);
-void 				ft_executer(t_parse **parse, t_mini *prog);
+int					ft_executer(t_parse **parse, t_mini *prog);
 char 				*g_env(t_list *env, char *str);
 void 				ft_env(t_list *env);
-void				my_print_list(t_args *head);
+void				my_print_list(t_list *head);
 void 				adding(t_list *tmp, t_list **export_list, char *var_name, char *var_value, t_list **env);
 void 				adding_exp(t_list **tmp_exp, char *var_name, char *var, char *new_var, int *flag1);
 void 				add_var(t_list *tmp, char *var_name, t_list **export_list);
@@ -173,8 +173,10 @@ void 				ft_exit(t_parse *cmd);
 void				handle_sigint(int sig);
 int 				ft_isnumeric(char *str);
 void				set_unset(t_list **head, char *var_name);
-char    *get_path(char *cmd, char **env);
-void	free_fd_pipe(t_mini *prog);
-void	close_fd_pipe(t_mini *prog);
+char				*get_path(char *cmd, char **env);
+void				free_fd_pipe(t_mini *prog);
+void				close_fd_pipe(t_mini *prog);
+int					set_pipe_fd(t_mini *prog, t_parse **parse);
+int					create_multiple_pipe(t_parse **parse, t_mini *prog);
 
 #endif

@@ -76,22 +76,46 @@ int	num_words(char const *s, char sep)
 	return (i);
 }
 
+int check_sqoutes(char *str)
+{
+    int i;
+     
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == '\'')
+            return (1);
+        i++;
+    }
+    return (0);
+}
+
 int process_redir(t_redir *temp_redir, t_parse *temp, t_mini *prog, int *is_qoutes)
 {
-    char *str = ft_expand(temp_redir->filename, prog);
+    char *str;
+    char *temp_str;
+    int num_file;
+
+    str = NULL;
+    if(!check_sqoutes(temp_redir->filename))
+    {
+    str = ft_expand(temp_redir->filename, prog);
     if (!str)
         str = m_strdup("");
-    char *temp_str = skip_quotes(str);
-    int num_file = num_words(temp_str, ' ');
+    temp_str = skip_quotes(str);
+    }
+    else
+         temp_str = skip_quotes(temp_redir->filename);
+    num_file = num_words(temp_str, ' ');
     if ((num_file > 1 || num_file == 0) && *is_qoutes == 0)
     {
-        printf("minishell:%s: ambiguous redirect\n", temp_redir->filename);
+        print_error("minishell: ambiguous redirect\n");
         g_global->exit_status = 1;
         return (-1);
     }
     else if (num_file == 0 && *is_qoutes == 1)
     {
-        printf("minishell: : No such file or directory\n");
+        print_error("minishell: : No such file or directory\n");
         g_global->exit_status = 1;
         return (-1);
     }
@@ -113,9 +137,8 @@ int handle_redirection(t_parse *temp, t_mini *prog)
     {
         if (check_qoutes(temp_redir->filename) == 1)
             is_qoutes = 1;
-
         if (process_redir(temp_redir, temp, prog, &is_qoutes) < 0)
-            break;
+            return (-1);
 
         temp_redir = temp_redir->next;
     }
@@ -130,7 +153,8 @@ int redirection(t_parse **parse, t_mini *prog)
     temp = *parse;
     while (temp)
     {
-        handle_redirection(temp, prog);
+        if(handle_redirection(temp, prog) < 0)
+            return (-1);
         temp = temp->next;
     }
     return (0);

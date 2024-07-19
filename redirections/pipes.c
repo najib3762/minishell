@@ -18,6 +18,8 @@ void	close_fd_pipe(t_mini *prog)
 	int	i;
 
 	i = 0;
+	if(prog->fd == NULL)
+		return ;
 	fd = prog->fd;
 	while (fd[i])
 	{
@@ -33,6 +35,8 @@ void	free_fd_pipe(t_mini *prog)
 	int	i;
 
 	i = 0;
+	if(prog->fd == NULL)
+		return ;
 	fd = prog->fd;
 	while (fd[i])
 	{
@@ -49,7 +53,7 @@ int	set_pipe_fd(t_mini *prog, t_parse **parse)
 	int		i;
 
 	i = 1;
-	if (!prog->fd)
+	if (prog->fd == NULL)
 		return (0);
 	fd_arr = prog->fd;
 	temp = *parse;
@@ -66,7 +70,7 @@ int	set_pipe_fd(t_mini *prog, t_parse **parse)
 	return (0);
 }
 
-int	**create_multiple_pipe(t_parse **parse, t_mini *prog)
+int	create_multiple_pipe(t_parse **parse, t_mini *prog)
 {
 	t_parse	*temp;
 	int		i;
@@ -80,19 +84,19 @@ int	**create_multiple_pipe(t_parse **parse, t_mini *prog)
 		i++;
 		temp = temp->next;
 	}
-	if (i == 1)
+	if (i == 1 || i == 0)
 		return (0);
 	prog->fd = (int **)malloc(sizeof(int *) * i);
 	addback_node_free(&g_global->address, newnode_free(prog->fd));
 	if (!prog->fd)
-		return (0);
+		return (-1);
 	while (j < i - 1)
 	{
 		prog->fd[j++] = (int *)malloc(sizeof(int) * 2);
 		addback_node_free(&g_global->address, newnode_free(prog->fd[j]));
 		if (!prog->fd[j])
-			return (0);
+			return (-1);
 		pipe(prog->fd[j++]);
 	}
-	return (prog->fd[j] = NULL, prog->fd);
+	return (prog->fd[j] = NULL, 0);
 }

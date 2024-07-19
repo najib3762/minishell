@@ -109,17 +109,19 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 	
 	while (1)
 	{
+		prog->line = readline(PROMPT);
+	     addback_node_free(&g_global->address, newnode_free(prog->line));
+	        if (!prog->line)
+		         break ;
+			if(prog->line[0] == '\0')
+				continue;
+		add_history(prog->line);
 		if (check_quotes(prog) == 1)
 		{
 			ft_lexer(prog, head);
 			if(ft_here_doc(head, prog) < 0)
 			{
 				free_token_list(head);
-				add_history(prog->line);
-				prog->line = readline("\x1b[32m minishell$ \x1b[0m");
-				addback_node_free(&g_global->address, newnode_free(prog->line));
-				if (!prog->line)
-			         exit(1);
 				  continue;
 			}
 			if (!check_syntax_errors(head))
@@ -127,19 +129,12 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 				real_expand(head, prog);
 				r_quotes(head);
 				parse_input(head, parse);
-				print_parse(parse);
-				redirection(parse, prog);
-				// close_free(&prog->fd_head);
-				// g->g_status = oumft_executer(parse, prog);
+				// print_parse(parse);
 				ft_executer(parse, prog);
 			}
 		}
-		add_history(prog->line);
-		prog->line = readline("\x1b[32m minishell$ \x1b[0m");
-		addback_node_free(&g_global->address, newnode_free(prog->line));
-		if (!prog->line)
-			exit(1);
 		free_token_list(head);
+		free_parse_list(parse);
 	}
 }
 
@@ -161,14 +156,10 @@ int	main(int ac, char **av, char **env)
 	head = NULL;
 	parse = NULL;
 	(void)av;
-	signal(SIGINT, handle_sigint);
+	// signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	init_data(ac, env, &prog);
-	prog.line = readline("\x1b[32m minishell$ \x1b[0m");
-	addback_node_free(&g_global->address, newnode_free(prog.line));
-	if (!prog.line)
-		exit(1);
 	main2(&prog, &head, &parse);
-	free_address(&g_global->address);
+	// free_address(&g_global->address);
 	return (0);
 }
