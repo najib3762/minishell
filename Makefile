@@ -21,10 +21,9 @@ SRC_M = parsing/error.c \
 		redirections/redirections2.c\
 		main.c \
 		free.c\
-
-		# execution/execution.c\
-		# Built_in/Built-in2.c\
-		# Built_in/Built-in.c\
+		execution/execution.c\
+		Built_in/Built-in2.c\
+		Built_in/Built-in.c\
 
 		
 

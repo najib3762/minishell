@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:17:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/16 15:36:00 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:31:33 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 				redirection(parse, prog);
 				// close_free(&prog->fd_head);
 				// g->g_status = oumft_executer(parse, prog);
-				// ft_executer(*parse, prog);
+				ft_executer(*parse, prog);
 			}
 		}
 		add_history(prog->line);
