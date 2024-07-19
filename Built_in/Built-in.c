@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:51:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/18 15:03:19 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:20:27 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ char	*ft_pwd(int i)
 	return (NULL);
 }
 
-void	my_print_list(t_list *head)
+void	my_print_list(t_args *head)
 {
 	while (head)
 	{
-		printf("%s\n", (char *)head->content);
+		printf("%s\n", head->content);
 		head = head->next;
 	}
 }
@@ -70,7 +70,7 @@ void	ft_export(t_list **env, t_list **export_list, t_parse *cmd, char *var_name,
 	char	*var;
 	char 	*equal;
 	t_args 	*cur;
-
+	my_print_list(cmd->cmd_args);
 	cur = cmd->cmd_args;
 	if (!ft_strncmp(cur->content, "export", 7))
 		cur = cur->next;
@@ -93,7 +93,7 @@ void add_to_exp(char *var_name, char *var_value, t_list **env, t_list **export_l
 	if (!var_name)
 	{
 		sort_exp(export_list);
-		my_print_list(*export_list);
+		//my_print_list(*export_list);
 		return;
 	}
 	if (var_name && !var_value) //adding variable to the export list

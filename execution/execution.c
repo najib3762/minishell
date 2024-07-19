@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:01:08 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/19 09:49:14 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:45:31 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,11 @@ char **conv_env(t_list *prog)
     env[i] = NULL;
     return(env);
 }
-void execute(char **cmd, char **env)
+void execute(t_parse **redr, char **cmd, char **env)
 {
     char *path;
     pid_t   pid;
 
-    //c = ft_split(*cmd, ' ');
     path = get_path(cmd[0], env);
     if(!path)
         printf("no path\n");
@@ -84,42 +83,64 @@ void execute(char **cmd, char **env)
     }
     if (!pid)
     {
+        
+        dup2(redr->red_in, 0);
+        dup2(redr->red_out, 1);
         if(execve(path, cmd, env) == -1)
         {
             perror("execve");
             exit(g_global->exit_status = 1);
         }
+        close_fd_pipe(prog);
+        free_fd_pipe(prog);
+        
     }
     else
         wait(NULL);
 }
 
-void ft_executer(t_parse *parse, t_mini *prog)
+void ft_executer(t_parse **parse, t_mini *prog)
 {
     char **env;
     char **cmd;
     t_parse *tmp;
+    // t_args *cmd_parse;
 
     env = conv_env(prog->env_head);
-    cmd = conv_cmd(parse->cmd_args);
-    tmp = parse;
-    if (!ft_strncmp(tmp->cmd_args->content, "exit", 5))
-        ft_exit(tmp);
-    if(!ft_strncmp(tmp->cmd_args->content, "echo", 5))
-        ft_echo(tmp, 1);
-    else if (!ft_strncmp(tmp->cmd_args->content, "cd", 3))
-        ft_cd(tmp, &prog->env_head);
-    else if (!ft_strncmp(tmp->cmd_args->content, "pwd", 4))
-        ft_pwd(0);
-    else if (!ft_strncmp(tmp->cmd_args->content, "export", 7))
-        ft_export(&prog->env_head, &prog->export_head, tmp, NULL, NULL);
-    else if (!ft_strncmp(tmp->cmd_args->content, "env", 4))
-        ft_env(prog->env_head);
-    else if (!ft_strncmp(tmp->cmd_args->content, "unset", 6))
-        ft_unset(&prog->env_head, &prog->export_head, tmp);
-    else
-        execute(cmd, env);
-}
+    cmd = conv_cmd((*parse)->cmd_args);
+    tmp = *parse;
+    create_multiple_pipe(parse, prog);
+    set_pipe_fd(prog, parse);
+    redirection(parse, prog);
+    while (tmp)
+    {
+        cmd_parse = tmp->cmd_args;
+        while(cmd_parse)
+        {
+            if (!ft_strncmp(tmp->cmd_args->content, "exit", 5))
+                ft_exit(tmp);
+            if(!ft_strncmp(tmp->cmd_args->content, "echo", 5))
+                ft_echo(tmp, 1);
+            else if (!ft_strncmp(tmp->cmd_args->content, "cd", 3))
+                ft_cd(tmp, &prog->env_head);
+            else if (!ft_strncmp(tmp->cmd_args->content, "pwd", 4))
+                ft_pwd(0);
+            else if (!ft_strncmp(tmp->cmd_args->content, "export", 7))
+                ft_export(&prog->env_head, &prog->export_head, tmp, NULL, NULL);
+            else if (!ft_strncmp(tmp->cmd_args->content, "env", 4))
+                ft_env(prog->env_head);
+            else if (!ft_strncmp(tmp->cmd_args->content, "unset", 6))
+                ft_unset(&prog->env_head, &prog->export_head, tmp);
+        else
+            execute(parse, cmd, env);
+        cmd_parse = cmd_parse->content;
+        }
+        tmp = tmp->next;
+        close_fd_pipe(prog);
+        free_fd_pipe(prog);
+        
+    }
+}    
 
 char	*get_env_value_char(char *key, char **env)
 {

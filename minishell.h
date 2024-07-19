@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:21:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/19 10:38:19 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:36:00 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,6 @@ t_args				*args_node(char *content);
 t_redir				*redir_node(char *filename, t_redir_enum type);
 t_parse				*cmd_node(t_args *cmd_args, t_redir *redir_list);
 void				add_args_node(t_args **list, t_args *new_node);
-void 				ft_executer(t_parse *parse, t_mini *prog);
 void				ft_echo(t_parse *arg, int n_line);
 char				*ft_pwd(int i);
 // void				ft_cd(t_parse *arg, t_args *env);
@@ -160,10 +159,10 @@ t_fd				*ft_new_fd(int fd);
 void				ft_addback_fd(t_fd **head, t_fd *new_node);
 
 void				ft_cd(t_parse *arg, t_list **env);
-void 				ft_executer(t_parse *parse, t_mini *prog);
+void 				ft_executer(t_parse **parse, t_mini *prog);
 char 				*g_env(t_list *env, char *str);
 void 				ft_env(t_list *env);
-void				my_print_list(t_list *head);
+void				my_print_list(t_args *head);
 void 				adding(t_list *tmp, t_list **export_list, char *var_name, char *var_value, t_list **env);
 void 				adding_exp(t_list **tmp_exp, char *var_name, char *var, char *new_var, int *flag1);
 void 				add_var(t_list *tmp, char *var_name, t_list **export_list);
@@ -175,5 +174,7 @@ void				handle_sigint(int sig);
 int 				ft_isnumeric(char *str);
 void				set_unset(t_list **head, char *var_name);
 char    *get_path(char *cmd, char **env);
+void	free_fd_pipe(t_mini *prog);
+void	close_fd_pipe(t_mini *prog);
 
 #endif
