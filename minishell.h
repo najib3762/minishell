@@ -35,9 +35,8 @@ typedef struct s_free
 
 typedef struct s_global
 {
-	int				g_qoutes;
 	int				exit_status;
-	int                is_true;
+	int             is_true;
 	t_free			*address;
 }					t_global;
 
@@ -137,7 +136,6 @@ void				real_expand(t_token **head, t_mini *prog);
 char				*ft_expand(char *line, t_mini *prog);
 int					*retur_value(int flag);
 void				sig_here_doc(int sig);
-// int					my_handle(void);
 char				*ft_pwd(int i);
 void				ft_export(t_list **env, t_list **export_list, t_parse *cmd, char *var_name, char *var_value);
 t_args				*args_node(char *content);
@@ -146,7 +144,6 @@ t_parse				*cmd_node(t_args *cmd_args, t_redir *redir_list);
 void				add_args_node(t_args **list, t_args *new_node);
 void				ft_echo(t_parse *arg, int n_line);
 char				*ft_pwd(int i);
-// void				ft_cd(t_parse *arg, t_args *env);
 void				ft_addback_fd(t_fd **head, t_fd *new_node);
 t_fd				*ft_new_fd(int fd);
 int					close_free(t_fd **head);
@@ -158,7 +155,6 @@ void				free_address(t_free **head);
 int					redirection(t_parse **parse, t_mini *prog);
 t_fd				*ft_new_fd(int fd);
 void				ft_addback_fd(t_fd **head, t_fd *new_node);
-
 void				ft_cd(t_parse *arg, t_list **env);
 int					ft_executer(t_parse **parse, t_mini *prog);
 char 				*g_env(t_list *env, char *str);
@@ -167,7 +163,6 @@ void				my_print_list(t_list *head);
 void 				adding(t_list *tmp, t_list **export_list, char *var_name, char *var_value, t_list **env);
 void 				adding_exp(t_list **tmp_exp, char *var_name, char *var, char *new_var, int *flag1);
 void 				add_var(t_list *tmp, char *var_name, t_list **export_list);
-// void 				var_split(t_args *cur, char *equal, char *var_name, char *var_value, char *var);
 void 				add_to_exp(char *var_name, char *var_value, t_list **env, t_list **export_list);
 void 				ft_unset(t_list **env, t_list **exp_list, t_parse *cmd);
 void 				ft_exit(t_parse *cmd);
