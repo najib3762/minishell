@@ -20,6 +20,11 @@ char	*handle_dollar(char *str, int *i, t_mini *prog)
 
 	var_name = NULL;
 	var_value = NULL;
+	if(str[*i] == '$' && (str[*i + 1] == '\'' || str[*i + 1] == '\"'))
+	{
+		  (*i)++;
+	       return (NULL);
+	}
 	(*i)++;
 	if (str[*i] == '?')
 	{
@@ -27,7 +32,7 @@ char	*handle_dollar(char *str, int *i, t_mini *prog)
 		(*i)++;
 		return (var_name);
 	}
-	if (ft_isalpha(str[*i]) || ft_isdigit(str[*i]))
+	if (all_dollar(str[*i]))
 		var_name = take_var_name(str, i);
 	var_value = get_env_value(var_name, prog->env_head);
 	num = count_strings(var_value , 32, 9);
@@ -77,6 +82,13 @@ char	*handle_squotes(char *str, int *i)
 	return (single_quote);
 }
 
+int all_dollar(char c)
+{
+	if (ft_isalpha(c) || ft_isdigit(c) || c == '?' || c == '\"' || c == '\'' || c == '_')
+		return (1);
+	return (0);
+}
+
 char	*dollar_expand(char *str, t_mini *prog)
 {
 	char	*temp;
@@ -89,8 +101,7 @@ char	*dollar_expand(char *str, t_mini *prog)
 	{
 		if (str[i] == '$' && (ft_isdigit(str[i + 1])) && str[i + 2] != '\0')
 			i += 2;
-		else if (str[i] == '$' && (ft_isalpha(str[i + 1]) || ft_isdigit(str[i
-						+ 1])))
+		else if (str[i] == '$' && all_dollar(str[i + 1]))
 			temp = my_strjoin(temp, handle_dollar(str, &i, prog));
 		else if (str[i] == '\"')
 			temp = my_strjoin(temp, handle_dquotes(str, &i, prog));

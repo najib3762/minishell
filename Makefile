@@ -10,6 +10,7 @@ SRC_M = parsing/error.c \
 		parsing/r_quotes.c\
 		parsing/parsing2.c\
 		parsing/utils3.c\
+		parsing/utils4.c\
 		here_doc/here_doc.c\
 		here_doc/here_doc1.c\
 		here_doc/here_doc_utils.c\
@@ -33,7 +34,7 @@ SRC_M = parsing/error.c \
 OBJ_M = $(SRC_M:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address -g3
 LDFLAGS = -Llibft -lft -lreadline
 
 all: $(NAME)

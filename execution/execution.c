@@ -22,8 +22,8 @@ char **conv_cmd(t_args *prog)
     int count;
 
     i = 0;
-	// if(prog == NULL)
-	// 	return(NULL);
+	if(prog == NULL)
+		return (NULL);
     cur = prog;
     count = 0;
     tmp = prog;
@@ -97,8 +97,25 @@ int execute(t_parse *redr, char **cmd, char **env, t_mini *prog)
             exit(g_global->exit_status = 1);
         }
     }
+    if(redr->next == NULL)
+        prog->last_pid = pid;
     return 0;
 
+}
+
+int count_cmd(t_parse *prog)
+{
+    int i;
+    t_parse *tmp;
+
+    i = 0;
+    tmp = prog;
+    while(tmp)
+    {
+        i++;
+        tmp = tmp->next;
+    }
+    return(i);
 }
 
 int ft_executer(t_parse **parse, t_mini *prog)
@@ -110,6 +127,7 @@ int ft_executer(t_parse **parse, t_mini *prog)
     
 	if(*parse == NULL)
 		return(-1);
+    prog->nbr_cmd = count_cmd(*parse);
     env = conv_env(prog->env_head);
     tmp = *parse;
     if(create_multiple_pipe(parse, prog) < 0)
@@ -139,9 +157,12 @@ int ft_executer(t_parse **parse, t_mini *prog)
 			execute(tmp, cmd, env, prog);
         tmp = tmp->next;
     }
-        close_fd_pipe(prog);
-        free_fd_pipe(prog);
-        close_free(&prog->fd_head);
+    close_fd_pipe(prog);
+    free_fd_pipe(prog);
+    close_free(&prog->fd_head);
+    waitpid(prog->last_pid, &g_global->exit_status, 0);
+    if(WIFEXITED(g_global->exit_status))
+        g_global->exit_status = WEXITSTATUS(g_global->exit_status);
     while(wait(NULL) > 0)
     {}
       return (0);
@@ -191,3 +212,4 @@ char    *get_path(char *cmd, char **env)
     // ft_free_tab(s_cmd);
     return (cmd);
 }
+

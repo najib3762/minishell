@@ -97,6 +97,8 @@ typedef struct s_mini
 	t_list			*env_head;
 	t_list			*export_head;
 	t_fd			*fd_head;
+	int 			last_pid;
+	int 			nbr_cmd;
 	int				**fd;
 }					t_mini;
 
@@ -177,5 +179,6 @@ int					create_multiple_pipe(t_parse **parse, t_mini *prog);
 char				**m_split(char *s, char c1, char c2);
 void				word_token2(t_args **args, char *str);
 size_t				count_strings(char *s, char c1, char c2);
+int					all_dollar(char c);
 
 #endif

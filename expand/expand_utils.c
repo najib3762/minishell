@@ -102,7 +102,7 @@ char	*take_var_name(char *str, int *i)
 			return (NULL);
 		var_name[0] = '\0';
 	}
-	while (ft_isalpha(str[*i]) || ft_isdigit(str[*i]) || str[*i] == '_')
+	while (all_dollar(str[*i]) && str[*i])
 	{
 		var_name = ft_strjoin_char(var_name, str[*i]);
 		(*i)++;
