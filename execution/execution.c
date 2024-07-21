@@ -74,7 +74,7 @@ int execute(t_parse *redr, char **cmd, char **env, t_mini *prog)
     char *path;
     pid_t   pid;
     
-
+   
     path = get_path(cmd[0], env);
     if(!path)
         perror("no path");
@@ -125,7 +125,7 @@ int ft_executer(t_parse **parse, t_mini *prog)
     t_parse *tmp;
    
     
-	if(*parse == NULL)
+	if(*parse == NULL || (*parse)->cmd_args == NULL || (*parse)->cmd_args->content == NULL )
 		return(-1);
     prog->nbr_cmd = count_cmd(*parse);
     env = conv_env(prog->env_head);
@@ -146,11 +146,11 @@ int ft_executer(t_parse **parse, t_mini *prog)
 		else if (!ft_strncmp(tmp->cmd_args->content, "cd", 3))
 			ft_cd(tmp, &prog->env_head);
 		else if (!ft_strncmp(tmp->cmd_args->content, "pwd", 4))
-			ft_pwd(0);
+			ft_pwd(0, tmp);
 		else if (!ft_strncmp(tmp->cmd_args->content, "export", 7))
-			ft_export(&prog->env_head, &prog->export_head, tmp, NULL, NULL);
+			ft_export(&prog->env_head, &prog->export_head, tmp);
 		else if (!ft_strncmp(tmp->cmd_args->content, "env", 4))
-			ft_env(prog->env_head);
+			ft_env(prog->env_head, tmp);
 		else if (!ft_strncmp(tmp->cmd_args->content, "unset", 6))
 			ft_unset(&prog->env_head, &prog->export_head, tmp);
 		else
@@ -190,15 +190,13 @@ char    *get_path(char *cmd, char **env)
     char    *exec;
     char    **allpath;
     char    *path_part;
-    char    **s_cmd;
 
     i = -1;
     allpath = ft_split(get_env_value_char("PATH", env), ':');
-    s_cmd = ft_split(cmd, ' ');
     while (allpath[++i])
     {
         path_part = ft_strjoin(allpath[i], "/");
-        exec = ft_strjoin(path_part, s_cmd[0]);
+        exec = ft_strjoin(path_part, cmd);
         free(path_part);
         if (access(exec, F_OK | X_OK) == 0)
         {

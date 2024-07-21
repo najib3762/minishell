@@ -32,23 +32,23 @@ void	ft_echo(t_parse *arg, int n_line)
 	}
 	while (tmp)
 	{
-		write(1, tmp->content, ft_strlen(tmp->content));
+		write(arg->red_out, tmp->content, ft_strlen(tmp->content));
 		if (tmp->next)
-			write(1, " ", 1);
+			write(arg->red_out, " ", 1);
 		tmp = tmp->next;
 	}
 	if (n_line)
-		write(1, "\n", 1);
+		write(arg->red_out, "\n", 1);
 }
 
-void ft_env(t_list *prog)
+void ft_env(t_list *prog, t_parse *cmd)
 {
 	t_list *env;
 
 	env = prog;
 	while(env)
 	{
-		printf("%s\n", (char *)env->content);
+		ft_putendl_fd((char *)env->content, cmd->red_out);
 		env = env->next;
 	}
 }

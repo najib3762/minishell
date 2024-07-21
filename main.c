@@ -127,7 +127,6 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 			if (!check_syntax_errors(head))
 			{
 				real_expand(head, prog);
-				
 				parse_input(head, parse);
 				r_quotes(parse);
 				print_parse(parse);

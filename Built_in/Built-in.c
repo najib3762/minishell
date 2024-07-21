@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-char	*ft_pwd(int i)
+char	*ft_pwd(int i, t_parse *cmd)
 {
 	char	wd[1024];
 	int		len;
@@ -22,21 +22,22 @@ char	*ft_pwd(int i)
 	if (i == 0 && cwd)
 	{
 		len = ft_strlen(cwd);
-		printf("%s\n", cwd);
+		ft_putendl_fd( cwd, cmd->red_out);
 	}
 	else
 		return (cwd);
 	return (NULL);
 }
 
-void	my_print_list(t_list *head)
+void	my_print_list(t_list *head, t_parse *cmd)
 {
 	while (head)
 	{
-		printf("%s\n", (char *)head->content);
+		ft_putendl_fd((char *)head->content, cmd->red_out);
 		head = head->next;
 	}
 }
+
 void	sort_exp(t_list **start)
 {
 	int		swapped;
@@ -65,12 +66,17 @@ void	sort_exp(t_list **start)
 	}
 }
 
-void	ft_export(t_list **env, t_list **export_list, t_parse *cmd, char *var_name, char *var_value)
+void	ft_export(t_list **env, t_list **export_list, t_parse *cmd)
 {
 	char	*var;
 	char 	*equal;
+	char	*var_name;
+	char	*var_value;
 	t_args 	*cur;
 
+
+	var_name = NULL;
+	var_value = NULL;
 	cur = cmd->cmd_args;
 	if (!ft_strncmp(cur->content, "export", 7))
 		cur = cur->next;
@@ -86,16 +92,16 @@ void	ft_export(t_list **env, t_list **export_list, t_parse *cmd, char *var_name,
 		else
 			var_name = ft_strdup(cur->content);
 	}
+	if (!var_name)
+	{
+		sort_exp(export_list);
+		my_print_list(*export_list, cmd);
+		return;
+	}
 	add_to_exp(var_name, var_value, env, export_list);
 }
 void add_to_exp(char *var_name, char *var_value, t_list **env, t_list **export_list)
 {
-	if (!var_name)
-	{
-		sort_exp(export_list);
-		my_print_list(*export_list);
-		return;
-	}
 	if (var_name && !var_value) //adding variable to the export list
         add_var(*export_list, var_name, export_list);
 	if (var_name && var_value) //adding the variable and the value to env and export list
