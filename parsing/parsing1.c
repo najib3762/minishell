@@ -75,7 +75,7 @@ void	parse_token(t_token **temp, t_args **args, t_redir **redir)
 			parse_redirection(temp, redir);
 		else
 		{
-			add_args_node(args, args_node((*temp)->value));
+			word_token2(args, (*temp)->value);
 			*temp = (*temp)->next;
 		}
 	}

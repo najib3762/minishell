@@ -86,14 +86,14 @@ int execute(t_parse *redr, char **cmd, char **env, t_mini *prog)
     }
     if (!pid)
     {
-        
         dup2(redr->red_in, 0);
         dup2(redr->red_out, 1);
         close_fd_pipe(prog);
         free_fd_pipe(prog);
         if(execve(path, cmd, env) == -1)
         {
-            perror("execve");
+            ft_putstr_fd("minishell: command not found: ", 2);
+		    ft_putendl_fd(cmd[0], 2);
             exit(g_global->exit_status = 1);
         }
     }
@@ -112,15 +112,12 @@ int ft_executer(t_parse **parse, t_mini *prog)
 		return(-1);
     env = conv_env(prog->env_head);
     tmp = *parse;
-
-    if(create_multiple_pipe(parse, prog) < 0|| 
-	 redirection(parse, prog) < 0 || set_pipe_fd(prog, parse) < 0)
-	{
-		free_fd_pipe(prog);
-		close_fd_pipe(prog);
-		close_free(&prog->fd_head);
-        return (-1);
-	}
+    if(create_multiple_pipe(parse, prog) < 0)
+        return(-1);
+    if(set_pipe_fd(prog, parse) < 0)
+        return(-1);
+    if(redirection(parse, prog) < 0)
+        return(-1);
     while (tmp)
     {
         cmd = conv_cmd(tmp->cmd_args);
@@ -145,7 +142,8 @@ int ft_executer(t_parse **parse, t_mini *prog)
         close_fd_pipe(prog);
         free_fd_pipe(prog);
         close_free(&prog->fd_head);
-    while(wait(NULL) > 0);
+    while(wait(NULL) > 0)
+    {}
       return (0);
 }    
 

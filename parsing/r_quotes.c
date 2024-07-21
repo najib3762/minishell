@@ -12,23 +12,29 @@
 
 #include "../minishell.h"
 
-void	r_quotes(t_token **head)
+void	r_quotes(t_parse **head)
 {
-	t_token	*temp;
+	t_parse	*temp;
+	t_args	*temp_args;
+	t_redir	*temp_redir;
 
 	temp = *head;
+
 	while (temp)
 	{
-		if((temp->type == TOKEN_OUT || temp->type == TOKEN_APPEND) 
-		&& temp->next->type == TOKEN_WORD && check_qoutes(temp->next->value))
-	     {
-			temp = temp->next->next;
-			continue;
-		 }
-		if (temp->type == TOKEN_WORD)
+		temp_args = temp->cmd_args;
+		while (temp_args)
 		{
-			if (check_qoutes(temp->value))
-				temp->value = skip_quotes(temp->value);
+			if (check_qoutes(temp_args->content))
+				temp_args->content = skip_quotes(temp_args->content);
+			temp_args = temp_args->next;
+		}
+		temp_redir = temp->redir_list;
+		while (temp_redir)
+		{
+			if (check_qoutes(temp_redir->filename))
+				temp_redir->filename = skip_quotes(temp_redir->filename);
+			temp_redir = temp_redir->next;
 		}
 		temp = temp->next;
 	}

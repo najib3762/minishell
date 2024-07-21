@@ -16,6 +16,7 @@ char	*handle_dollar(char *str, int *i, t_mini *prog)
 {
 	char	*var_name;
 	char	*var_value;
+	int      num;
 
 	var_name = NULL;
 	var_value = NULL;
@@ -29,6 +30,9 @@ char	*handle_dollar(char *str, int *i, t_mini *prog)
 	if (ft_isalpha(str[*i]) || ft_isdigit(str[*i]))
 		var_name = take_var_name(str, i);
 	var_value = get_env_value(var_name, prog->env_head);
+	num = count_strings(var_value	, 32, 9);
+	if (num > 1 || num == 0 )
+	   g_global->is_true = 1;
 	if (var_value)
 		return (free(var_name), var_value);
 	return (free(var_name), NULL);
@@ -77,7 +81,8 @@ char	*dollar_expand(char *str, t_mini *prog)
 {
 	char	*temp;
 	int		i;
-
+    
+	  
 	i = 0;
 	temp = NULL;
 	while (str[i])
@@ -99,6 +104,7 @@ char	*dollar_expand(char *str, t_mini *prog)
 		if (str[i] == '\0')
 			break ;
 	}
+
 	return (temp);
 }
 
@@ -110,13 +116,7 @@ void	real_expand(t_token **head, t_mini *prog)
 	temp = *head;
 	new_str = NULL;
 	while (temp)
-	{
-		if((temp->type == TOKEN_OUT || temp->type == TOKEN_APPEND) 
-		&& temp->next->type == TOKEN_WORD && check_dollar(temp->next->value))
-	     {
-			temp = temp->next->next;
-			continue;
-		 }	
+	{	
 		if (temp->type == TOKEN_WORD)
 		{
 			if (check_dollar(temp->value))

@@ -12,6 +12,27 @@
 
 #include "../minishell.h"
 
+int check_Parenthesis(char *str)
+{
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '(' || str[i] == ')')
+			count++;
+		i++;
+	}
+	if (count != 0)
+	{
+		print_error("syntax error near unexpected token Parenthesis\n");
+		return (-1);
+	}
+	return (0);
+}
+
 int	syntax_redirections(t_token **current)
 {
 	if ((*current)->type == TOKEN_OUT || (*current)->type == TOKEN_APPEND \
@@ -23,6 +44,8 @@ int	syntax_redirections(t_token **current)
 			return (-1);
 		}
 	}
+	if((*current)->type == TOKEN_WORD && check_Parenthesis((*current)->value) < 0)
+		return (-1);
 	return (0);
 }
 
@@ -33,7 +56,7 @@ int	check_syntax_errors(t_token **head)
 	current = *head;
 	if (current && current->type == TOKEN_PIPE)
 	{
-		print_error("syntax error near unexpected token `|'\n");
+		print_error("syntax error near unexpected token pipes\n");
 		return (-1);
 	}
 	while (current)
@@ -42,7 +65,7 @@ int	check_syntax_errors(t_token **head)
 		{
 			if (!current->next || current->next->type == TOKEN_PIPE)
 			{
-				print_error("syntax error near unexpected token `|'\n");
+				print_error("syntax error near unexpected token pipes\n");
 				return (-1);
 			}
 		}

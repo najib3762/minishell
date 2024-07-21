@@ -37,6 +37,31 @@ char	*dollar_here_doc(char *line, int *i, t_mini *prog)
 	return (free(var_name), NULL);
 }
 
+void   skip_spaces_add_one_space(char **line)
+{
+	int i;
+	int j;
+	char *new_line;
+
+	i = 0;
+	j = 0;
+	new_line = NULL;
+	while ((*line)[i])
+	{
+		if ((*line)[i] == ' ' && (*line)[i + 1] == ' ')
+		{
+			new_line = ft_strjoin_char(new_line, (*line)[i]);
+			i++;
+			while ((*line)[i] == ' ')
+				i++;
+		}
+		new_line = ft_strjoin_char(new_line, (*line)[i]);
+		i++;
+	}
+	free(*line);
+	*line = new_line;
+}
+
 char	*ft_expand(char *line, t_mini *prog)
 {
 	char	*new_line;
@@ -57,5 +82,7 @@ char	*ft_expand(char *line, t_mini *prog)
 			i++;
 		}
 	}
+	// skip_spaces_add_one_space(&new_line);
+	// printf("new_line : %s\n", new_line);
 	return (new_line);
 }

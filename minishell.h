@@ -37,6 +37,7 @@ typedef struct s_global
 {
 	int				g_qoutes;
 	int				exit_status;
+	int                is_true;
 	t_free			*address;
 }					t_global;
 
@@ -122,7 +123,7 @@ char				*random_file(void);
 void				free_address(t_free **head);
 t_free				*newnode_free(void *content);
 void				addback_node_free(t_free **head, t_free *new);
-void				r_quotes(t_token **head);
+void				r_quotes(t_parse **head);
 int					calcule_qoutes(char *str);
 int					check_qoutes(char *str);
 char				*ft_strdup_char(char c);
@@ -178,5 +179,8 @@ void				free_fd_pipe(t_mini *prog);
 void				close_fd_pipe(t_mini *prog);
 int					set_pipe_fd(t_mini *prog, t_parse **parse);
 int					create_multiple_pipe(t_parse **parse, t_mini *prog);
+char				**m_split(char *s, char c1, char c2);
+void				word_token2(t_args **args, char *str);
+size_t				count_strings(char *s, char c1, char c2);
 
 #endif

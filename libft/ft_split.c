@@ -99,9 +99,10 @@ char	**ft_split(char const *s, char c)
 	int		number;
 	char	**ptr;
 
-	number = num_words(s, c);
+	
 	if (!s || s == 0)
 		return (NULL);
+	number = num_words(s, c);
 	ptr = (char **)malloc((number + 1) * sizeof(char *));
 	if (!ptr)
 		return (NULL);

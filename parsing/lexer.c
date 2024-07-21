@@ -14,7 +14,7 @@
 
 int	ft_sp(char c)
 {
-	return ((c == '>' || c == '<' || c == '|' || ft_isspace(c)));
+	return ((c == '>' || c == '<' || c == '|' || ft_isspace(c)) || c == '\t');
 }
 
 int	word_token(t_mini *prog, t_token **head, int i)
@@ -73,3 +73,43 @@ void	ft_lexer(t_mini *prog, t_token **head)
 		i++;
 	}
 }
+
+
+void word_token2(t_args **args, char *str)
+{
+	char *ptr;
+	int dflag;
+	int sflag;
+	int len;
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		dflag = 0;
+		sflag = 0;
+		len = -1; 
+
+		while (str[i + (++len)])
+		{
+			if (dflag == 0 && sflag == 0 && ft_sp(str[i + len]))
+				break;
+			if (str[i + len] == '\"' && sflag == 0)
+				dflag = !dflag;
+			else if (str[i + len] == '\'' && dflag == 0)
+				sflag = !sflag;
+		}
+		ptr = malloc(sizeof(char) * (len + 1));
+		if (!ptr)
+			exit(1);
+		addback_node_free(&g_global->address, newnode_free(ptr));
+		ft_strncpy(ptr, str + i, len + 1);
+		ptr[len] = '\0';
+		add_args_node(args, args_node(ptr));
+		i += len;
+		while (str[i] && ft_sp(str[i]))
+			i++;
+	}
+}
+
+	
