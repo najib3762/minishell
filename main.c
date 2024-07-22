@@ -13,7 +13,6 @@
 #include "minishell.h"
 
 t_global	*g_global;
-
 void	print_lexer(t_token **head)
 {
 	t_token	*temp;
@@ -103,7 +102,7 @@ void	print_parse(t_parse **parse)
 		temp = temp->next;
 	}
 }
-void main3(t_mini *prog, t_token **head, t_parse **parse)
+void	main3(t_mini *prog, t_token **head, t_parse **parse)
 {
 	real_expand(head, prog);
 	parse_input(head, parse);
@@ -113,31 +112,30 @@ void main3(t_mini *prog, t_token **head, t_parse **parse)
 }
 void	main2(t_mini *prog, t_token **head, t_parse **parse)
 {
-	
 	while (1)
 	{
 		prog->line = readline(PROMPT);
-	     addback_node_free(&g_global->address, newnode_free(prog->line));
-	        if (!prog->line)
-		         break ;
-			if(prog->line[0] == '\0')
-				continue;
+		addback_node_free(&g_global->address, newnode_free(prog->line));
+		if (!prog->line)
+			break ;
+		if (prog->line[0] == '\0')
+			continue ;
 		add_history(prog->line);
 		if (check_quotes(prog) == 1)
 		{
 			ft_lexer(prog, head);
 			if (!check_syntax_errors(head))
 			{
-				if(ft_here_doc(head, prog) < 0)
-			    {
-				 free_token_list(head);
-				  continue;
-			    }
-		        main3(prog, head, parse);
+				if (ft_here_doc(head, prog) < 0)
+				{
+					free_token_list(head);
+					continue ;
+				}// free_address(&g_global->address);
+				main3(prog, head, parse);
 			}
 		}
 		free_token_list(head);
-		free_parse_list(parse);
+		// free_parse_list(parse);
 	}
 }
 

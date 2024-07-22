@@ -32,7 +32,7 @@ char	*handle_dollar(char *str, int *i, t_mini *prog)
 	if (all_dollar(str[*i]))
 		var_name = take_var_name(str, i);
 	var_value = get_env_value(var_name, prog->env_head);
-	num = count_strings(var_value , 32, 9);
+	num = count_str(var_value , 32, 9);
 	if (num > 1 || num == 0 )
 	   g_global->is_true = 1;
 	if (var_value)

@@ -18,7 +18,7 @@ void	close_fd_pipe(t_mini *prog)
 	int	i;
 
 	i = 0;
-	if(prog->fd == NULL)
+	if (prog->fd == NULL)
 		return ;
 	fd = prog->fd;
 	while (fd[i])
@@ -35,7 +35,7 @@ void	free_fd_pipe(t_mini *prog)
 	int	i;
 
 	i = 0;
-	if(prog->fd == NULL)
+	if (prog->fd == NULL)
 		return ;
 	fd = prog->fd;
 	while (fd[i])
@@ -80,11 +80,7 @@ int	create_multiple_pipe(t_parse **parse, t_mini *prog)
 	i = 0;
 	j = 0;
 	temp = *parse;
-	while (temp)
-	{
-		i++;
-		temp = temp->next;
-	}
+	i = prog->nbr_cmd;
 	if (i == 1 || i == 0)
 		return (prog->fd = NULL, 0);
 	prog->fd = (int **)malloc(sizeof(int *) * i);

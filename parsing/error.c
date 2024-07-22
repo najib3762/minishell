@@ -17,7 +17,7 @@ void	print_error(char *error)
 	write(2, error, strlen(error));
 }
 
-int my_lstsize(t_args *lst)
+int	my_lstsize(t_args *lst)
 {
 	int		count;
 	t_args	*p;

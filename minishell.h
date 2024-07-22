@@ -14,19 +14,20 @@
 # define MINISHELL_H
 
 # include "include/libft.h"
+# include <errno.h>
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <sys/types.h>
 
-#define PROMPT "\x1b[32m minishell$ \x1b[0m"
+# define PROMPT "\x1b[32m minishell$ \x1b[0m"
+
 typedef struct s_free
 {
 	void			*address;
@@ -36,7 +37,7 @@ typedef struct s_free
 typedef struct s_global
 {
 	int				exit_status;
-	int             is_true;
+	int				is_true;
 	t_free			*address;
 }					t_global;
 
@@ -97,8 +98,9 @@ typedef struct s_mini
 	t_list			*env_head;
 	t_list			*export_head;
 	t_fd			*fd_head;
-	int 			last_pid;
-	int 			nbr_cmd;
+	int				last_pid;
+	int				nbr_cmd;
+	char 			**env;
 	int				**fd;
 }					t_mini;
 
@@ -157,17 +159,21 @@ int					redirection(t_parse **parse, t_mini *prog);
 t_fd				*ft_new_fd(int fd);
 void				ft_addback_fd(t_fd **head, t_fd *new_node);
 int					ft_executer(t_parse **parse, t_mini *prog);
-char 				*g_env(t_list *env, char *str);
-void 				ft_env(t_list *env, t_parse *cmd);
+char				*g_env(t_list *env, char *str);
+void				ft_env(t_list *env, t_parse *cmd);
 void				my_print_list(t_list *head, t_parse *cmd);
-void 				adding(t_list *tmp, t_list **export_list, char *var_name, char *var_value, t_list **env);
-void 				adding_exp(t_list **tmp_exp, char *var_name, char *var, char *new_var, int *flag1);
-void 				add_var(t_list *tmp, char *var_name, t_list **export_list);
-void 				add_to_exp(char *var_name, char *var_value, t_list **env, t_list **export_list);
-void 				ft_unset(t_list **env, t_list **exp_list, t_parse *cmd);
-void 				ft_exit(t_parse *cmd);
+void				adding(t_list *tmp, t_list **export_list, char *var_name,char *var_value, t_list **env);
+void				adding_exp(t_list **tmp_exp, char *var_name, char *var,
+						char *new_var, int *flag1);
+void				add_var(t_list *tmp, char *var_name, t_list **export_list);
+void				add_to_exp(char *var_name, char *var_value, t_list **env,
+						t_list **export_list);
+void				ft_unset(t_list **env, t_list **exp_list, t_parse *cmd);
+int					handle_redir_in(t_redir *redir, t_parse *temp,
+						t_mini *prog);
+void				ft_exit(t_parse *cmd);
 void				handle_sigint(int sig);
-int 				ft_isnumeric(char *str);
+int					ft_isnumeric(char *str);
 int					ft_cd(t_parse *arg, t_list **env);
 void				set_unset(t_list **head, char *var_name);
 char				*get_path(char *cmd, char **env);
@@ -175,10 +181,20 @@ void				free_fd_pipe(t_mini *prog);
 void				close_fd_pipe(t_mini *prog);
 int					set_pipe_fd(t_mini *prog, t_parse **parse);
 int					create_multiple_pipe(t_parse **parse, t_mini *prog);
+int					execute(t_parse *redr, char **cmd, char **env, t_mini *prog);
 char				**m_split(char *s, char c1, char c2);
 void				word_token2(t_args **args, char *str);
-size_t				count_strings(char *s, char c1, char c2);
+size_t				count_str(char *s, char c1, char c2);
+char				**ft_split(const char *s, char c);
+char				*ft_strjoin(char const *s1, char const *s2);
 int					all_dollar(char c);
+int					my_handle(void);
 int					my_lstsize(t_args *lst);
+char				**conv_env(t_list *prog);
+int					count_cmd(t_parse *prog);
+int					check_builtin(char **cmd);
+void				builtin1(t_mini *prog, t_parse *tmp);
+char				**conv_cmd(t_args *prog);
+
 
 #endif

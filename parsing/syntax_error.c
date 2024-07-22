@@ -12,10 +12,10 @@
 
 #include "../minishell.h"
 
-int check_Parenthesis(char *str)
+int	check_parenthesis(char *str)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -36,7 +36,7 @@ int check_Parenthesis(char *str)
 
 int	syntax_redirections(t_token **current)
 {
-	if ((*current)->type == TOKEN_OUT || (*current)->type == TOKEN_APPEND \
+	if ((*current)->type == TOKEN_OUT || (*current)->type == TOKEN_APPEND
 		|| (*current)->type == TOKEN_IN || (*current)->type == TOKEN_HERE)
 	{
 		if (!(*current)->next || (*current)->next->type != TOKEN_WORD)
@@ -46,7 +46,8 @@ int	syntax_redirections(t_token **current)
 			return (-1);
 		}
 	}
-	if((*current)->type == TOKEN_WORD && check_Parenthesis((*current)->value) < 0)
+	if ((*current)->type == TOKEN_WORD
+		&& check_parenthesis((*current)->value) < 0)
 		return (-1);
 	return (0);
 }

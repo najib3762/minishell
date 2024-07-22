@@ -19,7 +19,6 @@ void	r_quotes(t_parse **head)
 	t_redir	*temp_redir;
 
 	temp = *head;
-
 	while (temp)
 	{
 		temp_args = temp->cmd_args;
@@ -39,4 +38,3 @@ void	r_quotes(t_parse **head)
 		temp = temp->next;
 	}
 }
-

@@ -20,14 +20,16 @@ void	get_env(char **env, t_list **head)
 	while (env[i])
 		ft_lstadd_back(head, m_lstnew(env[i++]));
 }
-void export_env(char **env, t_list **head)
+
+void	export_env(char **env, t_list **head)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(env[i])
-	  ft_lstadd_back(head, ft_lstnew(env[i++]));
+	while (env[i])
+		ft_lstadd_back(head, ft_lstnew(env[i++]));
 }
+
 void	init_data(int ac, char **env, t_mini *prog)
 {
 	prog->line = NULL;
@@ -35,9 +37,10 @@ void	init_data(int ac, char **env, t_mini *prog)
 	prog->fd_head = NULL;
 	prog->export_head = NULL;
 	prog->fd = NULL;
+	prog->env = NULL;
 	if (ac != 1)
 		exit(1);
-    g_global = malloc(sizeof(t_global));
+	g_global = malloc(sizeof(t_global));
 	if (!g_global)
 		exit(1);
 	g_global->exit_status = 0;

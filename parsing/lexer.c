@@ -74,26 +74,24 @@ void	ft_lexer(t_mini *prog, t_token **head)
 	}
 }
 
-
-void word_token2(t_args **args, char *str)
+void	word_token2(t_args **args, char *str)
 {
-	char *ptr;
-	int dflag;
-	int sflag;
-	int len;
-	int i;
+	char	*ptr;
+	int		dflag;
+	int		sflag;
+	int		len;
+	int		i;
 
 	i = 0;
 	while (str[i])
 	{
 		dflag = 0;
 		sflag = 0;
-		len = -1; 
-
+		len = -1;
 		while (str[i + (++len)])
 		{
 			if (dflag == 0 && sflag == 0 && ft_sp(str[i + len]))
-				break;
+				break ;
 			if (str[i + len] == '\"' && sflag == 0)
 				dflag = !dflag;
 			else if (str[i + len] == '\'' && dflag == 0)
@@ -111,5 +109,3 @@ void word_token2(t_args **args, char *str)
 			i++;
 	}
 }
-
-	
