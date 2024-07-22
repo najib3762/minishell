@@ -12,13 +12,13 @@
 
 #include "../include/libft.h"
 
-void	ft_putendl_fd(char *s, int fd)
+int 	ft_putendl_fd(char *s, int fd)
 {
 	int	i;
 
 	i = 0;
 	if (!s)
-		return ;
+		return (-1);
 	if (fd > 0)
 	{
 		while (s[i])
@@ -27,6 +27,7 @@ void	ft_putendl_fd(char *s, int fd)
 		}
 		write(fd, "\n", 1);
 	}
+	return (1);
 }
 /*
 #include <stdio.h>

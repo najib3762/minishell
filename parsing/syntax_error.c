@@ -28,6 +28,7 @@ int check_Parenthesis(char *str)
 	if (count != 0)
 	{
 		print_error("syntax error near unexpected token Parenthesis\n");
+		g_global->exit_status = 2;
 		return (-1);
 	}
 	return (0);
@@ -41,6 +42,7 @@ int	syntax_redirections(t_token **current)
 		if (!(*current)->next || (*current)->next->type != TOKEN_WORD)
 		{
 			print_error("Syntax error  invalid redirection\n");
+			g_global->exit_status = 2;
 			return (-1);
 		}
 	}
@@ -57,6 +59,7 @@ int	check_syntax_errors(t_token **head)
 	if (current && current->type == TOKEN_PIPE)
 	{
 		print_error("syntax error near unexpected token pipes\n");
+		g_global->exit_status = 2;
 		return (-1);
 	}
 	while (current)
@@ -66,6 +69,7 @@ int	check_syntax_errors(t_token **head)
 			if (!current->next || current->next->type == TOKEN_PIPE)
 			{
 				print_error("syntax error near unexpected token pipes\n");
+				g_global->exit_status = 2;
 				return (-1);
 			}
 		}

@@ -156,7 +156,6 @@ void				free_address(t_free **head);
 int					redirection(t_parse **parse, t_mini *prog);
 t_fd				*ft_new_fd(int fd);
 void				ft_addback_fd(t_fd **head, t_fd *new_node);
-void				ft_cd(t_parse *arg, t_list **env);
 int					ft_executer(t_parse **parse, t_mini *prog);
 char 				*g_env(t_list *env, char *str);
 void 				ft_env(t_list *env, t_parse *cmd);
@@ -169,6 +168,7 @@ void 				ft_unset(t_list **env, t_list **exp_list, t_parse *cmd);
 void 				ft_exit(t_parse *cmd);
 void				handle_sigint(int sig);
 int 				ft_isnumeric(char *str);
+int					ft_cd(t_parse *arg, t_list **env);
 void				set_unset(t_list **head, char *var_name);
 char				*get_path(char *cmd, char **env);
 void				free_fd_pipe(t_mini *prog);
@@ -179,5 +179,6 @@ char				**m_split(char *s, char c1, char c2);
 void				word_token2(t_args **args, char *str);
 size_t				count_strings(char *s, char c1, char c2);
 int					all_dollar(char c);
+int					my_lstsize(t_args *lst);
 
 #endif

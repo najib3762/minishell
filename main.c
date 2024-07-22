@@ -103,7 +103,14 @@ void	print_parse(t_parse **parse)
 		temp = temp->next;
 	}
 }
-
+void main3(t_mini *prog, t_token **head, t_parse **parse)
+{
+	real_expand(head, prog);
+	parse_input(head, parse);
+	r_quotes(parse);
+	// print_parse(parse);
+	ft_executer(parse, prog);
+}
 void	main2(t_mini *prog, t_token **head, t_parse **parse)
 {
 	
@@ -119,18 +126,14 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 		if (check_quotes(prog) == 1)
 		{
 			ft_lexer(prog, head);
-			if(ft_here_doc(head, prog) < 0)
-			{
-				free_token_list(head);
-				  continue;
-			}
 			if (!check_syntax_errors(head))
 			{
-				real_expand(head, prog);
-				parse_input(head, parse);
-				r_quotes(parse);
-				print_parse(parse);
-				ft_executer(parse, prog);
+				if(ft_here_doc(head, prog) < 0)
+			    {
+				 free_token_list(head);
+				  continue;
+			    }
+		        main3(prog, head, parse);
 			}
 		}
 		free_token_list(head);

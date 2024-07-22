@@ -117,6 +117,56 @@ int count_cmd(t_parse *prog)
     }
     return(i);
 }
+int check_builtin(char **cmd)
+{
+    if(ft_strcmp(cmd[0], "echo") == 0 || ft_strcmp(cmd[0], "cd") == 0 || 
+    ft_strcmp(cmd[0], "pwd") == 0 || ft_strcmp(cmd[0], "export") == 0 || 
+    ft_strcmp(cmd[0], "unset") == 0 || ft_strcmp(cmd[0], "env") == 0 || 
+    ft_strcmp(cmd[0], "exit") == 0)
+        return(1);
+    return(0);
+}
+
+void builtin1(t_mini *prog, t_parse *tmp)
+{
+    if (!ft_strncmp(tmp->cmd_args->content, "exit", 5))
+		ft_exit(tmp);
+	else if(!ft_strncmp(tmp->cmd_args->content, "echo", 5))
+		ft_echo(tmp, 1);
+	else if (!ft_strncmp(tmp->cmd_args->content, "cd", 3))
+		ft_cd(tmp, &prog->env_head);
+	else if (!ft_strncmp(tmp->cmd_args->content, "pwd", 4))
+		ft_pwd(0, tmp);
+	else if (!ft_strncmp(tmp->cmd_args->content, "export", 7))
+		ft_export(&prog->env_head, &prog->export_head, tmp);
+	else if (!ft_strncmp(tmp->cmd_args->content, "env", 4))
+		ft_env(prog->env_head, tmp);
+	else if (!ft_strncmp(tmp->cmd_args->content, "unset", 6))
+		ft_unset(&prog->env_head, &prog->export_head, tmp);
+}
+void handle_builtin(t_mini *prog, t_parse *tmp)
+{
+    pid_t   pid;
+
+
+    if(prog->nbr_cmd > 1)
+    {
+        pid = fork();
+        if(pid < 0)
+        {
+            perror("fork");
+            return;
+        }
+        if(pid == 0)
+        {
+        builtin1(prog, tmp);
+        exit(g_global->exit_status);
+        }
+        waitpid(pid, &g_global->exit_status, 0);
+    }
+    else
+      builtin1(prog, tmp);
+}
 
 int ft_executer(t_parse **parse, t_mini *prog)
 {
@@ -139,22 +189,11 @@ int ft_executer(t_parse **parse, t_mini *prog)
     while (tmp)
     {
         cmd = conv_cmd(tmp->cmd_args);
-		if (!ft_strncmp(tmp->cmd_args->content, "exit", 5))
-			ft_exit(tmp);
-		else if(!ft_strncmp(tmp->cmd_args->content, "echo", 5))
-			ft_echo(tmp, 1);
-		else if (!ft_strncmp(tmp->cmd_args->content, "cd", 3))
-			ft_cd(tmp, &prog->env_head);
-		else if (!ft_strncmp(tmp->cmd_args->content, "pwd", 4))
-			ft_pwd(0, tmp);
-		else if (!ft_strncmp(tmp->cmd_args->content, "export", 7))
-			ft_export(&prog->env_head, &prog->export_head, tmp);
-		else if (!ft_strncmp(tmp->cmd_args->content, "env", 4))
-			ft_env(prog->env_head, tmp);
-		else if (!ft_strncmp(tmp->cmd_args->content, "unset", 6))
-			ft_unset(&prog->env_head, &prog->export_head, tmp);
+        if(check_builtin(cmd))
+        handle_builtin(prog, tmp);  	
 		else
-			execute(tmp, cmd, env, prog);
+         execute(tmp, cmd, env, prog);
+			
         tmp = tmp->next;
     }
     close_fd_pipe(prog);

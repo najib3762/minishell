@@ -64,12 +64,17 @@ char *g_env(t_list *env, char *str)
 	return(NULL);
 }
 
-void	ft_cd(t_parse *arg, t_list **env)
+int 	ft_cd(t_parse *arg, t_list **env)
 {
 	char *path;
 	t_args *current;
 	
 	current = arg->cmd_args;
+	if(my_lstsize(current) > 2)
+	{
+		g_global->exit_status = 1;
+		return(ft_putendl_fd("cd: too many arguments", 2));
+	}
 	if (!ft_strncmp(current->content, "cd", 3))
 		current = current->next;
 	if(!current || !current->content)
@@ -84,7 +89,9 @@ void	ft_cd(t_parse *arg, t_list **env)
 		if (chdir(current->content) < 0)
 			{
 				perror("cd");
+				g_global->exit_status = 1;
 			}
+			return (0);
 }
 
 void ft_unset(t_list **env, t_list **exp_list, t_parse *cmd)

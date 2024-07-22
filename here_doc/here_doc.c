@@ -104,7 +104,7 @@ int	ft_here_doc(t_token **token, t_mini *prog)
 	while (tmp)
 	{
 		if (tmp->type == TOKEN_HERE && tmp->next && here_doc2(tmp, prog) < 0)
-			return (-1);
+				return (-1);
 		tmp = tmp->next;
 	}
 	return (0);
