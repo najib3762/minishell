@@ -14,6 +14,12 @@
 
 t_global	*g_global;
 
+int set_status(int status)
+{
+	g_global->exit_status = status;
+	return (1);
+}
+
 void	main3(t_mini *prog, t_token **head, t_parse **parse)
 {
 	real_expand(head, prog);
@@ -31,7 +37,7 @@ int	main2(t_mini *prog, t_token **head, t_parse **parse)
 		prog->line = readline(PROMPT);
 		if (!prog->line)
 			return (ft_putendl_fd("\033[31mexit\033[0m", 1));
-		if (prog->line[0] == '\0')
+		if (prog->line[0] == '\0' && set_status(0))
 			continue ;
 		signal(SIGINT, handle_sigint2);
 		signal(SIGQUIT, handle_sigquit);
