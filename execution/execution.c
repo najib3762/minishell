@@ -71,7 +71,6 @@ int	ft_executer(t_parse **parse, t_mini *prog)
 	close_fd_pipe(prog);
 	free_fd_pipe(prog);
 	close_free(&prog->fd_head);
-	waitpid(prog->last_pid, &g_global->exit_status, 0);
 	if (WIFEXITED(g_global->exit_status))
 		g_global->exit_status = WEXITSTATUS(g_global->exit_status);
 	while (wait(NULL) > 0)
