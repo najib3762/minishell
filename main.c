@@ -110,14 +110,14 @@ void	main3(t_mini *prog, t_token **head, t_parse **parse)
 	// print_parse(parse);
 	ft_executer(parse, prog);
 }
-void	main2(t_mini *prog, t_token **head, t_parse **parse)
+int	main2(t_mini *prog, t_token **head, t_parse **parse)
 {
 	while (1)
 	{
 		prog->line = readline(PROMPT);
 		addback_node_free(&g_global->address, newnode_free(prog->line));
 		if (!prog->line)
-			break ;
+          return(ft_putendl_fd("\033[31mexit\033[0m", 2));
 		if (prog->line[0] == '\0')
 			continue ;
 		add_history(prog->line);
@@ -130,13 +130,13 @@ void	main2(t_mini *prog, t_token **head, t_parse **parse)
 				{
 					free_token_list(head);
 					continue ;
-				}// free_address(&g_global->address);
+			   }
 				main3(prog, head, parse);
 			}
 		}
 		free_token_list(head);
-		// free_parse_list(parse);
 	}
+	return (0);
 }
 
 void	print_list(t_list *head)

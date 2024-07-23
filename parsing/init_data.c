@@ -38,6 +38,9 @@ void	init_data(int ac, char **env, t_mini *prog)
 	prog->export_head = NULL;
 	prog->fd = NULL;
 	prog->env = NULL;
+	prog->path = NULL;
+	prog->last_pid = 0;
+	prog->nbr_cmd = 0;
 	if (ac != 1)
 		exit(1);
 	g_global = malloc(sizeof(t_global));

@@ -1,4 +1,16 @@
-#include "../minishell"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution1.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: namoussa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/23 10:52:33 by namoussa          #+#    #+#             */
+/*   Updated: 2024/07/23 10:52:34 by namoussa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
 
 char	**conv_env(t_list *prog)
 {
@@ -26,13 +38,13 @@ char	**conv_env(t_list *prog)
 	env[i] = NULL;
 	return (env);
 }
+
 int	execute(t_parse *redr, char **cmd, char **env, t_mini *prog)
 {
-	char	*path;
 	pid_t	pid;
 
-	path = get_path(cmd[0], env);
-	if (!path)
+	prog->path = get_path(cmd[0], env);
+	if (!prog->path)
 		perror("no path");
 	pid = fork();
 	if (pid < 0)
@@ -42,16 +54,7 @@ int	execute(t_parse *redr, char **cmd, char **env, t_mini *prog)
 	}
 	if (!pid)
 	{
-		dup2(redr->red_in, 0);
-		dup2(redr->red_out, 1);
-		close_fd_pipe(prog);
-		free_fd_pipe(prog);
-		if (execve(path, cmd, env) == -1)
-		{
-			ft_putstr_fd("minishell: command not found: ", 2);
-			ft_putendl_fd(cmd[0], 2);
-			exit(g_global->exit_status = 1);
-		}
+		ft_exec(redr, cmd, env, prog);
 	}
 	if (redr->next == NULL)
 		prog->last_pid = pid;
@@ -72,12 +75,13 @@ int	count_cmd(t_parse *prog)
 	}
 	return (i);
 }
+
 int	check_builtin(char **cmd)
 {
-	if (ft_strcmp(cmd[0], "echo") == 0 || ft_strcmp(cmd[0], "cd") == 0 ||
-		ft_strcmp(cmd[0], "pwd") == 0 || ft_strcmp(cmd[0], "export") == 0 ||
-		ft_strcmp(cmd[0], "unset") == 0 || ft_strcmp(cmd[0], "env") == 0 ||
-		ft_strcmp(cmd[0], "exit") == 0)
+	if (ft_strcmp(cmd[0], "echo") == 0 || ft_strcmp(cmd[0], "cd") == 0
+		|| ft_strcmp(cmd[0], "pwd") == 0 || ft_strcmp(cmd[0], "export") == 0
+		|| ft_strcmp(cmd[0], "unset") == 0 || ft_strcmp(cmd[0], "env") == 0
+		|| ft_strcmp(cmd[0], "exit") == 0)
 		return (1);
 	return (0);
 }

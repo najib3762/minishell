@@ -24,6 +24,9 @@ SRC_M = parsing/error.c \
 		main.c \
 		free.c\
 		execution/execution.c\
+		execution/execution1.c\
+		execution/execution2.c\
+		execution/execution3.c\
 		Built_in/Built-in2.c\
 		Built_in/Built-in.c\
 		Built_in/Built-in_utils.c\
@@ -34,7 +37,7 @@ SRC_M = parsing/error.c \
 OBJ_M = $(SRC_M:.c=.o)
 
 CC = cc
-CFLAGS = #-Wall -Wextra -Werror -g -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address -g3
 LDFLAGS = -Llibft -lft -lreadline
 
 all: $(NAME)

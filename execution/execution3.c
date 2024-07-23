@@ -1,4 +1,16 @@
-#include "../minishell"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution3.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: namoussa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/23 10:53:25 by namoussa          #+#    #+#             */
+/*   Updated: 2024/07/23 10:53:26 by namoussa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -14,4 +26,18 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcpy(p, s1, len + 1);
 	ft_strlcat(p, s2, len + 1);
 	return (p);
+}
+
+void	ft_exec(t_parse *redr, char **cmd, char **env, t_mini *prog)
+{
+	dup2(redr->red_in, 0);
+	dup2(redr->red_out, 1);
+	close_fd_pipe(prog);
+	free_fd_pipe(prog);
+	if (execve(prog->path, cmd, env) == -1)
+	{
+		ft_putstr_fd("minishell: command not found: ", 2);
+		ft_putendl_fd(cmd[0], 2);
+		exit(g_global->exit_status = 127);
+	}
 }

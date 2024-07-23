@@ -16,12 +16,13 @@ char	*handle_dollar(char *str, int *i, t_mini *prog)
 {
 	char	*var_name;
 	char	*var_value;
-	int      num;
+	int		num;
 
 	var_name = NULL;
 	var_value = NULL;
-	if(str[*i] == '$' && (str[*i + 1] == '\'' || str[*i + 1] == '\"') && ++(*i))
-	       return (NULL);
+	if (str[*i] == '$' && (str[*i + 1] == '\'' || str[*i + 1] == '\"')
+		&& ++(*i))
+		return (NULL);
 	(*i)++;
 	if (str[*i] == '?')
 	{
@@ -32,9 +33,9 @@ char	*handle_dollar(char *str, int *i, t_mini *prog)
 	if (all_dollar(str[*i]))
 		var_name = take_var_name(str, i);
 	var_value = get_env_value(var_name, prog->env_head);
-	num = count_str(var_value , 32, 9);
-	if (num > 1 || num == 0 )
-	   g_global->is_true = 1;
+	num = count_str(var_value, 32, 9);
+	if (num > 1 || num == 0)
+		g_global->is_true = 1;
 	if (var_value)
 		return (free(var_name), var_value);
 	return (free(var_name), NULL);
@@ -79,19 +80,11 @@ char	*handle_squotes(char *str, int *i)
 	return (single_quote);
 }
 
-int all_dollar(char c)
-{
-	if (ft_isalpha(c) || ft_isdigit(c) || c == '?' || c == '\"' || c == '\'' || c == '_')
-		return (1);
-	return (0);
-}
-
 char	*dollar_expand(char *str, t_mini *prog)
 {
 	char	*temp;
 	int		i;
-    
-	  
+
 	i = 0;
 	temp = NULL;
 	while (str[i])
@@ -112,7 +105,6 @@ char	*dollar_expand(char *str, t_mini *prog)
 		if (str[i] == '\0')
 			break ;
 	}
-
 	return (temp);
 }
 
@@ -124,7 +116,7 @@ void	real_expand(t_token **head, t_mini *prog)
 	temp = *head;
 	new_str = NULL;
 	while (temp)
-	{	
+	{
 		if (temp->type == TOKEN_WORD)
 		{
 			if (check_dollar(temp->value))

@@ -102,6 +102,7 @@ typedef struct s_mini
 	int				nbr_cmd;
 	char 			**env;
 	int				**fd;
+	char			*path;
 }					t_mini;
 
 int					ft_isspace(char c);
@@ -182,6 +183,7 @@ void				close_fd_pipe(t_mini *prog);
 int					set_pipe_fd(t_mini *prog, t_parse **parse);
 int					create_multiple_pipe(t_parse **parse, t_mini *prog);
 int					execute(t_parse *redr, char **cmd, char **env, t_mini *prog);
+void				ft_exec(t_parse *redr, char **cmd, char **env, t_mini *prog);
 char				**m_split(char *s, char c1, char c2);
 void				word_token2(t_args **args, char *str);
 size_t				count_str(char *s, char c1, char c2);

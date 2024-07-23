@@ -58,3 +58,11 @@ char	*my_strjoin(char *s1, char *s2)
 	array[len] = '\0';
 	return (free(s1), free(s2), array);
 }
+
+int	all_dollar(char c)
+{
+	if (ft_isalpha(c) || ft_isdigit(c) || c == '?' || c == '\"' || c == '\''
+		|| c == '_')
+		return (1);
+	return (0);
+}
