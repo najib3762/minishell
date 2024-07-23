@@ -12,14 +12,24 @@
 
 #include "minishell.h"
 
-void	handle_sigint(int sig)
+void	handle_sigint2(int sig)
 {
-	 if (sig == SIGINT)
-    {
-        g_global->exit_status = 130;
-        write(1, "\n", 1);
-        rl_replace_line("", 0);
-        rl_on_new_line();
-        rl_redisplay();
-    }
+	(void)sig;
+	write(1, "\n", 1);
+}
+
+void	handle_sigquit(int sig)
+{
+	(void)sig;
+	g_global->exit_status = 131;
+	ft_putendl_fd("Quit (core dumped)", 2);
+}
+
+void	handle_sigint1(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }

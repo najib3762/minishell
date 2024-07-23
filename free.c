@@ -34,7 +34,7 @@ t_free	*newnode_free(void *content)
 	if (!new)
 	{
 		perror("malloc");
-		exit(1);
+		return (NULL);
 	}
 	new->address = content;
 	new->next = NULL;

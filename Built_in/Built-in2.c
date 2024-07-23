@@ -105,7 +105,7 @@ void ft_unset(t_list **env, t_list **exp_list, t_parse *cmd)
 		cur = cur->next;
 	var_name = NULL;
 	if (cur && cur->content)
-		var_name = ft_strdup(cur->content);
+		var_name = m_strdup(cur->content);
 	if (!var_name)
 		return;
 	set_unset(env, var_name);
@@ -141,13 +141,18 @@ void	set_unset(t_list **head ,char *var_name)
 	
 }
 
-void ft_exit(t_parse *cmd)
+int  ft_exit(t_parse *cmd)
 {
     t_args *cur;
 
     cur = cmd->cmd_args;
 	if (!ft_strncmp(cur->content, "exit", 5))
         cur = cur->next;
+	if(my_lstsize(cmd->cmd_args) > 2 && ft_isnumeric(cur->content))
+	{
+		g_global->exit_status = 1;
+		return(ft_putendl_fd("exit: too many arguments", 2));
+	}
 	if (cur && cur->content)
     {
         if (ft_isnumeric(cur->content))
@@ -155,9 +160,10 @@ void ft_exit(t_parse *cmd)
         else
         {
             printf("exit: %s: numeric argument required\n", cur->content);
-            exit(g_global->exit_status = 255);
+            exit(g_global->exit_status = 2);
         }
     }
     else
         exit(g_global->exit_status = 0);
+ return (0);
 }

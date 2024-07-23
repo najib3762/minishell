@@ -25,7 +25,7 @@ t_token	*create_newnode(t_type new_type, char *new_value)
 	if (!ptr)
 	{
 		perror("malloc");
-		exit(1);
+		return (NULL);
 	}
 	ptr->type = new_type;
 	ptr->value = new_value;
@@ -76,7 +76,7 @@ int	check_quotes(t_mini *prog)
 	return (res);
 }
 
-void	free_token_list(t_token **head)
+int 	free_token_list(t_token **head)
 {
 	t_token	*tmp;
 
@@ -87,4 +87,5 @@ void	free_token_list(t_token **head)
 		free(tmp);
 	}
 	*head = NULL;
+	return (0);
 }

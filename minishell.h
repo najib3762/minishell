@@ -100,7 +100,7 @@ typedef struct s_mini
 	t_fd			*fd_head;
 	int				last_pid;
 	int				nbr_cmd;
-	char 			**env;
+	char			**env;
 	int				**fd;
 	char			*path;
 }					t_mini;
@@ -112,7 +112,7 @@ t_token				*create_newnode(t_type new_type, char *new_value);
 void				print_error(char *error);
 void				init_data(int ac, char **env, t_mini *prog);
 void				ft_lexer(t_mini *prog, t_token **head);
-void				free_token_list(t_token **head);
+int					free_token_list(t_token **head);
 int					check_quotes(t_mini *prog);
 int					check_syntax_errors(t_token **head);
 void				parse_input(t_token **tokens, t_parse **parse);
@@ -163,7 +163,8 @@ int					ft_executer(t_parse **parse, t_mini *prog);
 char				*g_env(t_list *env, char *str);
 void				ft_env(t_list *env, t_parse *cmd);
 void				my_print_list(t_list *head, t_parse *cmd);
-void				adding(t_list *tmp, t_list **export_list, char *var_name,char *var_value, t_list **env);
+void				adding(t_list *tmp, t_list **export_list, char *var_name,
+						char *var_value, t_list **env);
 void				adding_exp(t_list **tmp_exp, char *var_name, char *var,
 						char *new_var, int *flag1);
 void				add_var(t_list *tmp, char *var_name, t_list **export_list);
@@ -172,8 +173,10 @@ void				add_to_exp(char *var_name, char *var_value, t_list **env,
 void				ft_unset(t_list **env, t_list **exp_list, t_parse *cmd);
 int					handle_redir_in(t_redir *redir, t_parse *temp,
 						t_mini *prog);
-void				ft_exit(t_parse *cmd);
-void				handle_sigint(int sig);
+int					ft_exit(t_parse *cmd);
+void				handle_sigint2(int sig);
+void				handle_sigquit(int sig);
+void				handle_sigint1(int sig);
 int					ft_isnumeric(char *str);
 int					ft_cd(t_parse *arg, t_list **env);
 void				set_unset(t_list **head, char *var_name);
@@ -182,8 +185,10 @@ void				free_fd_pipe(t_mini *prog);
 void				close_fd_pipe(t_mini *prog);
 int					set_pipe_fd(t_mini *prog, t_parse **parse);
 int					create_multiple_pipe(t_parse **parse, t_mini *prog);
-int					execute(t_parse *redr, char **cmd, char **env, t_mini *prog);
-void				ft_exec(t_parse *redr, char **cmd, char **env, t_mini *prog);
+int					execute(t_parse *redr, char **cmd, char **env,
+						t_mini *prog);
+void				ft_exec(t_parse *redr, char **cmd, char **env,
+						t_mini *prog);
 char				**m_split(char *s, char c1, char c2);
 void				word_token2(t_args **args, char *str);
 size_t				count_str(char *s, char c1, char c2);
@@ -196,7 +201,7 @@ char				**conv_env(t_list *prog);
 int					count_cmd(t_parse *prog);
 int					check_builtin(char **cmd);
 void				builtin1(t_mini *prog, t_parse *tmp);
+char				*m_substr(char const *s, unsigned int start, size_t len);
 char				**conv_cmd(t_args *prog);
-
 
 #endif

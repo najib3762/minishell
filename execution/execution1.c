@@ -30,6 +30,7 @@ char	**conv_env(t_list *prog)
 		tmp = tmp->next;
 	}
 	env = malloc(sizeof(char *) * (count + 1));
+	addback_node_free(&g_global->address, newnode_free(env));
 	while (cur)
 	{
 		env[i++] = cur->content;

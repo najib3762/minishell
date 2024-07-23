@@ -23,7 +23,7 @@ void adding(t_list *tmp, t_list **export_list, char *var_name, char *var_value, 
 	
 	var = ft_split(var_name, '=');
 	tmp_exp = *export_list;
-	new_var = ft_strjoin(var_name, var_value);
+	new_var = m_strjoin(var_name, var_value);
 	flag = 1;
 	value = 1;
 	flag1 = &flag;
@@ -69,21 +69,21 @@ void add_var(t_list *tmp, char *var_name, t_list **export_list)
 			return;
 		tmp = tmp->next;
 	}
-	ft_lstadd_back(export_list, ft_lstnew(strdup(var_name)));
+	ft_lstadd_back(export_list, ft_lstnew(m_strdup(var_name)));
 	return;
 }
 
 int ft_isnumeric(char *str)
 {
-    if (!str || !*str)
-        return 0;
+    if (str == NULL || *str == '\0')
+        return (1);
     if (*str == '+' || *str == '-')
         str++;
     while (*str)
     {
         if (!ft_isdigit((unsigned char)*str))
-            return 0;
+            return (0);
         str++;
     }
-    return 1;
+    return (1);
 }

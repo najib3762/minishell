@@ -85,12 +85,12 @@ void	ft_export(t_list **env, t_list **export_list, t_parse *cmd)
 		equal = ft_strchr(cur->content, '=');
 		if (equal)
 		{
-			var_name = ft_substr(cur->content, 0, equal - cur->content + 1);
-			var = ft_substr(cur->content, 0, equal - cur->content);
-			var_value = ft_strdup(equal + 1);
+			var_name = m_substr(cur->content, 0, equal - cur->content + 1);
+			var = m_substr(cur->content, 0, equal - cur->content);
+			var_value = m_strdup(equal + 1);
 		}
 		else
-			var_name = ft_strdup(cur->content);
+			var_name = m_strdup(cur->content);
 	}
 	if (!var_name)
 	{

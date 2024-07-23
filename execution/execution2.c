@@ -32,6 +32,7 @@ char	**conv_cmd(t_args *prog)
 		tmp = tmp->next;
 	}
 	env = malloc(sizeof(char *) * (count + 1));
+	addback_node_free(&g_global->address, newnode_free(env));
 	while (cur)
 	{
 		env[i++] = cur->content;
@@ -71,6 +72,7 @@ const char	*dup_word(char **dest, const char *src, char c)
 	while (src[len] != '\0' && src[len] != c)
 		len++;
 	*dest = (char *)malloc(sizeof(char) * (len + 1));
+	addback_node_free(&g_global->address, newnode_free(*dest));
 	if (*dest == NULL)
 		return (NULL);
 	i = 0;
@@ -106,6 +108,7 @@ char	**ft_split(const char *s, char c)
 
 	nbr_strings = count_strings(s, c);
 	strs = (char **)malloc(sizeof(char *) * (nbr_strings + 1));
+	addback_node_free(&g_global->address, newnode_free(strs));
 	if (strs != NULL)
 	{
 		strs[nbr_strings] = NULL;

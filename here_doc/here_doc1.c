@@ -105,7 +105,7 @@ char	*skip_quotes(char *str)
 	if (!eof)
 	{
 		perror("malloc");
-		exit(1);
+		return (NULL);
 	}
 	g_word(str, eof);
 	return (eof);

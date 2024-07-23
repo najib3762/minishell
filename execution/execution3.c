@@ -21,6 +21,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2);
 	p = (char *)malloc(len + 1);
+	addback_node_free(&g_global->address, newnode_free(p));
 	if (!p)
 		return (NULL);
 	ft_strlcpy(p, s1, len + 1);

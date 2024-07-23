@@ -15,6 +15,7 @@
 int	helper_here_doc(int fd, char *eof, int qoutes, t_mini *prog)
 {
 	signal(SIGINT, sig_here_doc);
+	signal(SIGQUIT, SIG_IGN);
 	prog->line = readline(">");
 	while (prog->line)
 	{
