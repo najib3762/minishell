@@ -37,9 +37,6 @@ void	handle_builtin(t_mini *prog, t_parse *tmp)
 
 int	helper_executer(t_mini *prog, t_parse **parse)
 {
-	if (*parse == NULL || (*parse)->cmd_args == NULL
-		|| (*parse)->cmd_args->content == NULL)
-		return (-1);
 	prog->nbr_cmd = count_cmd(*parse);
 	prog->env = conv_env(prog->env_head);
 	if (create_multiple_pipe(parse, prog) < 0)
@@ -47,6 +44,9 @@ int	helper_executer(t_mini *prog, t_parse **parse)
 	if (set_pipe_fd(prog, parse) < 0)
 		return (-1);
 	if (redirection(parse, prog) < 0)
+		return (-1);
+	if (*parse == NULL || (*parse)->cmd_args == NULL
+	|| (*parse)->cmd_args->content == NULL)
 		return (-1);
 	return (0);
 }
