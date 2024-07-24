@@ -73,7 +73,7 @@ void	ft_lexer(t_mini *prog, t_token **head)
 	}
 }
 
-int word_token3( t_args **args, char *str, int i, int len)
+int	word_token3(t_args **args, char *str, int i, int len)
 {
 	char	*ptr;
 
@@ -88,10 +88,10 @@ int word_token3( t_args **args, char *str, int i, int len)
 
 void	word_token2(t_args **args, char *str)
 {
-	int		dflag;
-	int		sflag;
-	int		len;
-	int		i;
+	int	dflag;
+	int	sflag;
+	int	len;
+	int	i;
 
 	i = 0;
 	while (str[i])

@@ -59,7 +59,6 @@ int	execute(t_parse *redr, char **cmd, char **env, t_mini *prog)
 	}
 	if (redr->next == NULL)
 		prog->last_pid = pid;
-	waitpid(prog->last_pid, &g_global->exit_status, 0);
 	return (0);
 }
 

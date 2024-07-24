@@ -76,7 +76,7 @@ int	check_quotes(t_mini *prog)
 	return (res);
 }
 
-int 	free_token_list(t_token **head)
+int	free_token_list(t_token **head)
 {
 	t_token	*tmp;
 

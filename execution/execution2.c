@@ -12,25 +12,19 @@
 
 #include "../minishell.h"
 
-char	**conv_cmd(t_args *prog)
+char	**conv_cmd(t_args *cmd, t_mini *prog)
 {
 	t_args	*cur;
 	int		i;
 	char	**env;
-	t_args	*tmp;
 	int		count;
 
 	i = 0;
-	if (prog == NULL)
-		return (NULL);
-	cur = prog;
 	count = 0;
-	tmp = prog;
-	while (tmp)
-	{
-		count++;
-		tmp = tmp->next;
-	}
+	if (cmd == NULL)
+		return (NULL);
+	cur = cmd;
+	count = prog->nbr_cmd;
 	env = malloc(sizeof(char *) * (count + 1));
 	addback_node_free(&g_global->address, newnode_free(env));
 	while (cur)

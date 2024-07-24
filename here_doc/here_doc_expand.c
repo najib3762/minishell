@@ -62,8 +62,8 @@ char	*ft_expand(char *line, t_mini *prog)
 		if (line[i] == '$' && (ft_isdigit(line[i + 1])) && line[i + 2] != '\0')
 			i += 2;
 		if (line[i] == '$' && (ft_isalpha(line[i + 1])
-			|| ft_isdigit(line[i + 1])
-			|| line[i + 1] == '?' || line[i + 1] == '_'))
+				|| ft_isdigit(line[i + 1]) || line[i + 1] == '?'
+				|| line[i + 1] == '_'))
 		{
 			new_line = my_strjoin(new_line, dollar_here_doc(line, &i, prog));
 		}

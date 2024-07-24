@@ -14,7 +14,7 @@
 
 t_global	*g_global;
 
-int set_status(int status)
+int	set_status(int status)
 {
 	g_global->exit_status = status;
 	return (1);
