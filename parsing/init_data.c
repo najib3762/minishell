@@ -27,7 +27,7 @@ void	export_env(char **env, t_list **head)
 
 	i = 0;
 	while (env[i])
-		ft_lstadd_back(head, ft_lstnew(env[i++]));
+		ft_lstadd_back(head, m_lstnew(env[i++]));
 }
 
 void	init_data(int ac, char **env, t_mini *prog)

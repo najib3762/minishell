@@ -43,11 +43,7 @@ int	helper_executer(t_mini *prog, t_parse **parse)
 		return (-1);
 	if (set_pipe_fd(prog, parse) < 0)
 		return (-1);
-	if (redirection(parse, prog) < 0)
-		return (-1);
-	if (*parse == NULL || (*parse)->cmd_args == NULL
-	|| (*parse)->cmd_args->content == NULL)
-		return (-1);
+	redirection(parse, prog);
 	return (0);
 }
 
@@ -61,6 +57,12 @@ int	ft_executer(t_parse **parse, t_mini *prog)
 	tmp = *parse;
 	while (tmp)
 	{
+		if(prog->is_false || tmp->cmd_args == NULL)
+		{
+			prog->is_false = 0;
+			tmp = tmp->next;
+		   continue;
+		}
 		cmd = conv_cmd(tmp->cmd_args, prog);
 		if (check_builtin(cmd))
 			handle_builtin(prog, tmp);

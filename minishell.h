@@ -102,6 +102,7 @@ typedef struct s_mini
 	int				nbr_cmd;
 	char			**env;
 	int				**fd;
+	int				is_false;
 	char			*path;
 }					t_mini;
 

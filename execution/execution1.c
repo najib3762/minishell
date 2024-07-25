@@ -29,7 +29,7 @@ char	**conv_env(t_list *prog)
 		count++;
 		tmp = tmp->next;
 	}
-	env = malloc(sizeof(char *) * (count + 1));
+	env = (char **)malloc(sizeof(char *) * (count + 1));
 	addback_node_free(&g_global->address, newnode_free(env));
 	while (cur)
 	{
@@ -79,6 +79,8 @@ int	count_cmd(t_parse *prog)
 
 int	check_builtin(char **cmd)
 {
+	if(cmd[0] == NULL || cmd == NULL || cmd[0][0] == '\0')
+		return (0);
 	if (ft_strcmp(cmd[0], "echo") == 0 || ft_strcmp(cmd[0], "cd") == 0
 		|| ft_strcmp(cmd[0], "pwd") == 0 || ft_strcmp(cmd[0], "export") == 0
 		|| ft_strcmp(cmd[0], "unset") == 0 || ft_strcmp(cmd[0], "env") == 0

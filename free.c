@@ -23,7 +23,7 @@ void	free_address(t_free **head)
 		free(temp->address);
 		free(temp);
 	}
-	head = NULL;
+	*head = NULL;
 }
 
 t_free	*newnode_free(void *content)

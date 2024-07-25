@@ -71,5 +71,7 @@ int	main(int ac, char **av, char **env)
 	if (main2(&prog, &head, &parse))
 		return (1);
 	free_address(&g_global->address);
+	rl_clear_history();
+    rl_free_line_state();
 	return (0);
 }
