@@ -84,6 +84,8 @@ void	g_word(char *str, char *eof)
 			dflag = !dflag;
 		else if (str[i] == '\'' && dflag == 0 && ++i)
 			sflag = !sflag;
+		else if ((str[i] == '$' && dflag == 0) || (str[i] == '$' && sflag == 0))
+		i++;
 		else
 			eof[j++] = str[i++];
 	}
