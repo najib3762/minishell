@@ -193,6 +193,7 @@ void				ft_exec(t_parse *redr, char **cmd, char **env,
 char				**m_split(char *s, char c1, char c2);
 void				word_token2(t_args **args, char *str);
 size_t				count_str(char *s, char c1, char c2);
+int					all_dollar1(char c);
 char				**ft_split(const char *s, char c);
 char				*ft_strjoin(char const *s1, char const *s2);
 int					all_dollar(char c);

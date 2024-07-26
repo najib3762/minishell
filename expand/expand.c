@@ -20,8 +20,8 @@ char	*handle_dollar(char *str, int *i, t_mini *prog)
 
 	var_name = NULL;
 	var_value = NULL;
-	if (str[*i] == '$' && (str[*i + 1] == '\'' || str[*i + 1] == '\"')
-		&& ++(*i))
+	if (str[*i] == '$' && (str[*i + 1] == '\''
+			|| str[*i + 1] == '\"') && ++(*i))
 		return (NULL);
 	(*i)++;
 	if (str[*i] == '?')

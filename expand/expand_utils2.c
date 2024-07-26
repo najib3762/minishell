@@ -66,3 +66,10 @@ int	all_dollar(char c)
 		return (1);
 	return (0);
 }
+
+int	all_dollar1(char c)
+{
+	if (ft_isalpha(c) || ft_isdigit(c) || c == '?' || c == '_')
+		return (1);
+	return (0);
+}
