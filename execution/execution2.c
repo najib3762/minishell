@@ -20,6 +20,7 @@ char	**conv_cmd(t_args *cmd, t_mini *prog)
 	int		count;
 
 	i = 0;
+	count = 0;
 	if (cmd == NULL || prog == NULL)
 		return (NULL);
 	count = nbr_args(cmd);
