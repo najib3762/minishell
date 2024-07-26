@@ -72,6 +72,5 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	free_address(&g_global->address);
 	rl_clear_history();
-    rl_free_line_state();
 	return (0);
 }

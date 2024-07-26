@@ -25,14 +25,14 @@ void	r_quotes(t_parse **head)
 		while (temp_args)
 		{
 			if (check_qoutes(temp_args->content))
-				temp_args->content = skip_quotes(temp_args->content);
+				temp_args->content = skip_quotes2(temp_args->content);
 			temp_args = temp_args->next;
 		}
 		temp_redir = temp->redir_list;
 		while (temp_redir)
 		{
 			if (check_qoutes(temp_redir->filename))
-				temp_redir->filename = skip_quotes(temp_redir->filename);
+				temp_redir->filename = skip_quotes2(temp_redir->filename);
 			temp_redir = temp_redir->next;
 		}
 		temp = temp->next;

@@ -204,6 +204,7 @@ int					count_cmd(t_parse *prog);
 int					check_builtin(char **cmd);
 void				executer_utils(t_mini *prog);
 void				builtin1(t_mini *prog, t_parse *tmp);
+char				*skip_quotes2(char *str);
 char				*m_substr(char const *s, unsigned int start, size_t len);
 char				**conv_cmd(t_args *cmd, t_mini *prog);
 

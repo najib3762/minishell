@@ -39,3 +39,47 @@ void	executer_utils(t_mini *prog)
 	{
 	}
 }
+
+void	g_word2(char *str, char *eof)
+{
+	int	dflag;
+	int	sflag;
+	int	i;
+	int	j;
+
+	dflag = 0;
+	sflag = 0;
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"' && sflag == 0 && ++i)
+			dflag = !dflag;
+		else if (str[i] == '\'' && dflag == 0 && ++i)
+			sflag = !sflag;
+		else
+			eof[j++] = str[i++];
+	}
+	eof[j] = '\0';
+}
+
+char	*skip_quotes2(char *str)
+{
+	char	*eof;
+	int		len;
+	int		qoutes;
+
+	if (!str)
+		return (NULL);
+	qoutes = calcule_qoutes(str);
+	len = ft_strlen(str) - qoutes;
+	eof = malloc(sizeof(char) * (len + 1));
+	addback_node_free(&g_global->address, newnode_free(eof));
+	if (!eof)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+	g_word2(str, eof);
+	return (eof);
+}
