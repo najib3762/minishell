@@ -12,38 +12,30 @@
 
 #include "../minishell.h"
 
-char **conv_cmd(t_args *cmd, t_mini *prog)
+char	**conv_cmd(t_args *cmd, t_mini *prog)
 {
-    t_args *cur;
-	t_args *tmp;
-    int i;
-    char **env;
-    int count;
+	t_args	*cur;
+	int		i;
+	char	**env;
+	int		count;
 
-    i = 0;
-    count = 0;
-    if (cmd == NULL || prog == NULL)
-            return (NULL);
-	tmp = cmd;
-    while (tmp)
-	{
-		count++;
-		tmp = tmp->next;
-	}
-    env = (char **)malloc(sizeof(char *) * (count + 1));
+	i = 0;
+	if (cmd == NULL || prog == NULL)
+		return (NULL);
+	count = nbr_args(cmd);
+	env = (char **)malloc(sizeof(char *) * (count + 1));
 	addback_node_free(&g_global->address, newnode_free(env));
-    if (!env)
-            return (NULL);
-   cur = cmd;
-    while (cur)
-    {
-        env[i] = cur->content;
-        cur = cur->next;
+	if (!env)
+		return (NULL);
+	cur = cmd;
+	while (cur)
+	{
+		env[i] = cur->content;
+		cur = cur->next;
 		i++;
-    }
-    return (env[i] = NULL, env);
+	}
+	return (env[i] = NULL, env);
 }
-
 
 size_t	count_strings(const char *s, char c)
 {

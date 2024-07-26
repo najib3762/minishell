@@ -40,7 +40,7 @@ char	**conv_env(t_list *prog)
 	return (env);
 }
 
-int	execute(t_parse *redr, char **cmd, char **env, t_mini *prog)
+int	execute(t_parse *parse, char **cmd, char **env, t_mini *prog)
 {
 	pid_t	pid;
 
@@ -55,9 +55,9 @@ int	execute(t_parse *redr, char **cmd, char **env, t_mini *prog)
 	}
 	if (!pid)
 	{
-		ft_exec(redr, cmd, env, prog);
+		ft_exec(parse, cmd, env, prog);
 	}
-	if (redr->next == NULL)
+	if (parse->next == NULL)
 		prog->last_pid = pid;
 	return (0);
 }
@@ -79,7 +79,7 @@ int	count_cmd(t_parse *prog)
 
 int	check_builtin(char **cmd)
 {
-	if(cmd[0] == NULL || cmd == NULL || cmd[0][0] == '\0')
+	if (cmd[0] == NULL || cmd == NULL || cmd[0][0] == '\0')
 		return (0);
 	if (ft_strcmp(cmd[0], "echo") == 0 || ft_strcmp(cmd[0], "cd") == 0
 		|| ft_strcmp(cmd[0], "pwd") == 0 || ft_strcmp(cmd[0], "export") == 0

@@ -29,7 +29,8 @@ void	handle_builtin(t_mini *prog, t_parse *tmp)
 			builtin1(prog, tmp);
 			exit(g_global->exit_status);
 		}
-		waitpid(pid, &g_global->exit_status, 0);
+		if (tmp->next == NULL)
+			prog->last_pid = pid;
 	}
 	else
 		builtin1(prog, tmp);
@@ -57,11 +58,11 @@ int	ft_executer(t_parse **parse, t_mini *prog)
 	tmp = *parse;
 	while (tmp)
 	{
-		if(prog->is_false || tmp->cmd_args == NULL)
+		if (prog->is_false || tmp->cmd_args == NULL)
 		{
 			prog->is_false = 0;
 			tmp = tmp->next;
-		   continue;
+			continue ;
 		}
 		cmd = conv_cmd(tmp->cmd_args, prog);
 		if (check_builtin(cmd))
@@ -70,15 +71,7 @@ int	ft_executer(t_parse **parse, t_mini *prog)
 			execute(tmp, cmd, prog->env, prog);
 		tmp = tmp->next;
 	}
-	close_fd_pipe(prog);
-	free_fd_pipe(prog);
-	close_free(&prog->fd_head);
-	waitpid(prog->last_pid, &g_global->exit_status, 0);
-	if (WIFEXITED(g_global->exit_status))
-		g_global->exit_status = WEXITSTATUS(g_global->exit_status);
-	while (wait(NULL) > 0)
-	{
-	}
+	executer_utils(prog);
 	return (0);
 }
 
