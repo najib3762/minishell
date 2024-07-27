@@ -38,6 +38,7 @@ typedef struct s_global
 {
 	int				exit_status;
 	int				is_true;
+	int 			flag_status;
 	t_free			*address;
 }					t_global;
 

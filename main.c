@@ -27,6 +27,11 @@ void	main3(t_mini *prog, t_token **head, t_parse **parse)
 	parse_input(head, parse);
 	r_quotes(parse);
 	ft_executer(parse, prog);
+	if(g_global->flag_status == 1)
+	{
+		g_global->exit_status = 130;
+		g_global->flag_status = 0;
+	}
 }
 
 int	main2(t_mini *prog, t_token **head, t_parse **parse)
