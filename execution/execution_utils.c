@@ -35,6 +35,8 @@ void	executer_utils(t_mini *prog)
 	waitpid(prog->last_pid, &g_global->exit_status, 0);
 	if (WIFEXITED(g_global->exit_status))
 		g_global->exit_status = WEXITSTATUS(g_global->exit_status);
+	else if (WIFSIGNALED(g_global->exit_status))
+		g_global->exit_status = WTERMSIG(g_global->exit_status) + 128;
 	while (wait(NULL) > 0)
 	{
 	}

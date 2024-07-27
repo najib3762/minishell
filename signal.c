@@ -15,15 +15,12 @@
 void	handle_sigint2(int sig)
 {
 	(void)sig;
-	g_global->flag_status = 1;
-	g_global->exit_status = 130;
 	write(1, "\n", 1);
 }
 
 void	handle_sigquit(int sig)
 {
 	(void)sig;
-	g_global->exit_status = 131;
 	ft_putendl_fd("Quit (core dumped)", 2);
 }
 
