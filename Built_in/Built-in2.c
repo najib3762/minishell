@@ -44,13 +44,34 @@ void	ft_echo(t_parse *arg, int n_line)
 void ft_env(t_list *prog, t_parse *cmd)
 {
 	t_list *env;
+	t_list *env_null;
+     
+	if(g_global->env_null == 1)
+	{
+		env_null = prog;
+		while(env_null)
+		{
+			
+			if(ft_strncmp(env_null->content, "PATH", 4) == 0)
+			{
+				env_null = env_null->next;
+				continue;
+			}
+			else
+			 ft_putendl_fd((char *)env_null->content, cmd->red_out);
+			env_null = env_null->next;
+		}
 
+	}
+	else
+	{
 	env = prog;
 	while(env)
 	{
 		ft_putendl_fd((char *)env->content, cmd->red_out);
 		env = env->next;
 	}
+    }
 }
 
 char *g_env(t_list *env, char *str)

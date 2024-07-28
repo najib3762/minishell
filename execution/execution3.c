@@ -29,6 +29,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (p);
 }
 
+void handle_execve_error(char *cmd)
+{
+ 	ft_putstr_fd("minishell: ", STDERR_FILENO);
+    ft_putstr_fd(cmd, STDERR_FILENO);
+    ft_putstr_fd(": command not found", STDERR_FILENO);
+}
+
 void	ft_exec(t_parse *redr, char **cmd, char **env, t_mini *prog)
 {
 	dup2(redr->red_in, 0);
@@ -37,8 +44,7 @@ void	ft_exec(t_parse *redr, char **cmd, char **env, t_mini *prog)
 	free_fd_pipe(prog);
 	if (execve(prog->path, cmd, env) == -1)
 	{
-		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putendl_fd(cmd[0], 2);
+		handle_execve_error(cmd[0]);
 		exit(g_global->exit_status = 127);
 	}
 }

@@ -101,7 +101,7 @@ char	*get_path(char *cmd, char **env)
 	i = -1;
 	allpath = ft_split(get_env_value_char("PATH", env), ':');
 	if (allpath == NULL)
-		return (NULL);
+		return (cmd);
 	while (allpath[++i])
 	{
 		path_part = ft_strjoin(allpath[i], "/");
