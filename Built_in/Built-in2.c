@@ -185,6 +185,9 @@ int  ft_exit(t_parse *cmd)
         }
     }
     else
+	{
+		ft_putendl_fd("\033[31mexit\033[0m", 1);
         exit(g_global->exit_status = 0);
+	}
  return (0);
 }

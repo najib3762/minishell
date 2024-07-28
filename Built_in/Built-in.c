@@ -33,7 +33,7 @@ void	my_print_list(t_list *head, t_parse *cmd)
 {
 	while (head)
 	{
-		ft_putendl_fd((char *)head->content, cmd->red_out);
+		ft_putendl_fd(ft_strjoin("declare -x ",(char *)head->content), cmd->red_out);
 		head = head->next;
 	}
 }
