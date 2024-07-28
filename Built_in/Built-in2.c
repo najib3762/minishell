@@ -94,7 +94,7 @@ int 	ft_cd(t_parse *arg, t_list **env)
 			return (0);
 }
 
-void ft_unset(t_list **env, t_list **exp_list, t_parse *cmd)
+int ft_unset(t_list **env, t_list **exp_list, t_parse *cmd)
 {
 	(void)exp_list;
 	t_args	*cur;
@@ -107,10 +107,10 @@ void ft_unset(t_list **env, t_list **exp_list, t_parse *cmd)
 	if (cur && cur->content)
 		var_name = m_strdup(cur->content);
 	if (!var_name)
-		return;
+		return(g_global->exit_status = 0, 1);
 	set_unset(env, var_name);
 	set_unset(exp_list, var_name);
-	free(var_name);
+	return(free(var_name), g_global->exit_status = 0, 0);
 }
 
 void	set_unset(t_list **head ,char *var_name)

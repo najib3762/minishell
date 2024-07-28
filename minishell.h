@@ -171,7 +171,7 @@ void				adding_exp(t_list **tmp_exp, char *var_name, char *var,
 void				add_var(t_list *tmp, char *var_name, t_list **export_list);
 void				add_to_exp(char *var_name, char *var_value, t_list **env,
 						t_list **export_list);
-void				ft_unset(t_list **env, t_list **exp_list, t_parse *cmd);
+int				ft_unset(t_list **env, t_list **exp_list, t_parse *cmd);
 int					handle_redir_in(t_redir *redir, t_parse *temp,
 						t_mini *prog);
 int					ft_exit(t_parse *cmd);
