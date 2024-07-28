@@ -45,8 +45,13 @@ int	execute(t_parse *parse, char **cmd, char **env, t_mini *prog)
 	pid_t	pid;
 
 	prog->path = get_path(cmd[0], env);
-	if (!prog->path)
-		perror("no path");
+	if (prog->path == NULL)
+	   {
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd[0], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (g_global->exit_status = 127);
+	   }
 	pid = fork();
 	if (pid < 0)
 	{
