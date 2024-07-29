@@ -29,13 +29,30 @@ char	*ft_pwd(int i, t_parse *cmd)
 	return (NULL);
 }
 
-void	my_print_list(t_list *head, t_parse *cmd)
+void my_print_list(t_list *export_list, t_parse *cmd)
 {
-	while (head)
-	{
-		ft_putendl_fd(ft_strjoin("declare -x ",(char *)head->content), cmd->red_out);
-		head = head->next;
-	}
+    t_list *current = export_list;
+    char *equal_sign;
+    char *quoted_value;
+    char *new_var;
+
+    while (current)
+    {
+        equal_sign = strchr(current->content, '=');
+        if (equal_sign)
+        {
+            quoted_value = add_quotes(equal_sign + 1);
+            new_var = m_strjoin(strndup(current->content, equal_sign - (char *)current->content + 1), quoted_value);
+            free(quoted_value);
+			ft_putendl_fd(ft_strjoin("declare -x ",(char *)current->content), cmd->red_out);
+            free(new_var);
+        }
+        else
+        {
+			ft_putendl_fd(ft_strjoin("declare -x ",(char *)current->content), cmd->red_out);
+        }
+        current = current->next;
+    }
 }
 
 void	sort_exp(t_list **start)
@@ -74,7 +91,6 @@ void	ft_export(t_list **env, t_list **export_list, t_parse *cmd)
 	char	*var_value;
 	t_args 	*cur;
 
-
 	var_name = NULL;
 	var_value = NULL;
 	cur = cmd->cmd_args;
@@ -82,6 +98,21 @@ void	ft_export(t_list **env, t_list **export_list, t_parse *cmd)
 		cur = cur->next;
 	if (cur && cur->content)
 	{
+		if (cur->content[0] == '-' && cur->content[1] != '\0')
+        {
+            printf("bash: export: '%c%c': invalid option\n", cur->content[0], cur->content[1]);
+            return;
+        }
+        if (!is_valid_identifier_start(cur->content[0]) || cur->content[0] == '=')
+        {
+            printf("bash: export: '%s': not a valid identifier\n", cur->content);
+            return;
+        }
+        if (has_invalid_characters(cur->content))
+        {
+            print_invalid_identifier(cur->content);
+            return;
+        }
 		equal = ft_strchr(cur->content, '=');
 		if (equal)
 		{
@@ -105,5 +136,36 @@ void add_to_exp(char *var_name, char *var_value, t_list **env, t_list **export_l
 	if (var_name && !var_value) //adding variable to the export list
         add_var(*export_list, var_name, export_list);
 	if (var_name && var_value) //adding the variable and the value to env and export list
-		adding(*env, export_list, var_name, var_value, env);
+		adding(env, export_list, var_name, var_value);
+}
+
+int is_valid_identifier_start(char c)
+{
+    return (ft_isalpha(c) || c == '_');
+}
+
+int is_valid_identifier_char(char c)
+{
+    return (ft_isalnum(c) || c == '_');
+}
+int has_invalid_characters(char *str)
+{
+    while (*str)
+    {
+        if (!is_valid_identifier_char(*str) && *str != '=')
+            return 1;
+        str++;
+    }
+    return 0;
+}
+void print_invalid_identifier(char *str)
+{
+    const char *ptr = str;
+
+    while (*ptr && (isalnum(*ptr) || *ptr == '_'))
+        ptr++;
+    if (*ptr == '!')
+        printf("bash: %c%s: event not found\n", *ptr, ptr + 1);
+    else
+        printf("bash: export: '%s': not a valid identifier\n", str);
 }

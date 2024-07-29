@@ -148,10 +148,7 @@ void	set_unset(t_list **head ,char *var_name)
 			if (prev == NULL)
                 *head = current->next;
             else
-			{
-				
                 prev->next = current->next;
-			}
             free(current);
             break;
         }
@@ -191,3 +188,4 @@ int  ft_exit(t_parse *cmd)
 	}
  return (0);
 }
+

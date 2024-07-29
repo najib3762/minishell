@@ -12,16 +12,19 @@
 
 #include "../minishell.h"
 
-void adding(t_list *tmp, t_list **export_list, char *var_name, char *var_value, t_list **env)
+
+void adding(t_list **env, t_list **export_list, char *var_name, char *var_value)
 {
 	char *new_var;
 	char **var;
 	t_list *tmp_exp;
 	int flag;
 	int *flag1;
+	t_list *tmp;
 	int value;
 	
 	var = ft_split(var_name, '=');
+	tmp = *env;
 	tmp_exp = *export_list;
 	new_var = m_strjoin(var_name, var_value);
 	flag = 1;
@@ -53,7 +56,7 @@ void adding_exp(t_list **tmp_exp, char *var_name, char *var, char *new_var, int 
 	t_list *tmp;
 
 	tmp = *tmp_exp;
-	if (var_name && !ft_strncmp(tmp->content, var, ft_strlen(var_name)))
+	if (var_name && ft_strnstr(tmp->content, var, ft_strlen(var_name)))
     {
 		*flag1 = 0;
         free(tmp->content);
@@ -86,4 +89,21 @@ int ft_isnumeric(char *str)
         str++;
     }
     return (1);
+}
+
+char *add_quotes(char *str)
+{
+    int len;
+    char *quoted_str; 
+
+	len = strlen(str);
+	quoted_str = malloc(len + 3); // 2 for quotes and 1 for null terminator
+    if (!quoted_str)
+        return NULL;
+    quoted_str[0] = '"';
+    ft_strcpy(quoted_str + 1, str);
+    quoted_str[len + 1] = '"';
+    quoted_str[len + 2] = '\0';
+
+    return quoted_str;
 }
