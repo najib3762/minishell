@@ -30,9 +30,6 @@
 # define  ENV1   "PWD=/nfs/homes/namoussa/Desktop/mini"
 # define  ENV2   "_=/usr/bin/env"
 # define  ENV3   "SHLVL=1"
-# define  EXP1   "OLDPWD"
-# define  EXP2    "PWD="/nfs/homes/namoussa/Desktop/mini""
-# define  EXP3     "SHLVL="1""
 # define   ENV4   "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 typedef struct s_free
