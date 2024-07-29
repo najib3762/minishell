@@ -44,7 +44,6 @@ int	execute(t_parse *parse, char **cmd, char **env, t_mini *prog)
 {
 	pid_t	pid;
 
-	prog->path = get_path(cmd[0], env);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -53,6 +52,7 @@ int	execute(t_parse *parse, char **cmd, char **env, t_mini *prog)
 	}
 	if (!pid)
 	{
+		prog->path = get_path(cmd[0], env);
 		ft_exec(parse, cmd, env, prog);
 	}
 	if (parse->next == NULL)

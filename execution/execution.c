@@ -99,6 +99,8 @@ char	*get_path(char *cmd, char **env)
 	char	*path_part;
 
 	i = -1;
+	if (check_command(cmd) != NULL)
+		return (cmd);
 	allpath = ft_split(get_env_value_char("PATH", env), ':');
 	if (allpath == NULL)
 		return (cmd);

@@ -20,7 +20,7 @@ t_list	*m_lstnew(void *content)
 	addback_node_free(&g_global->address, newnode_free(node));
 	if (!node)
 		return (NULL);
-	node->content = content;
+	node->content = m_strdup((char *)content);
 	node->next = NULL;
 	return (node);
 }

@@ -43,7 +43,7 @@ size_t	count_strings(const char *s, char c)
 	size_t	nb_strings;
 
 	nb_strings = 0;
-	if(s == NULL)
+	if (s == NULL)
 		return (0);
 	while (*s != '\0')
 	{
@@ -103,8 +103,8 @@ char	**ft_split(const char *s, char c)
 	char	**strs;
 	size_t	nbr_strings;
 	size_t	i;
-	
-    if(s == NULL)
+
+	if (s == NULL)
 		return (NULL);
 	nbr_strings = count_strings(s, c);
 	strs = (char **)malloc(sizeof(char *) * (nbr_strings + 1));

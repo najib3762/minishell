@@ -25,6 +25,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <sys/types.h>
+# include <sys/stat.h> 
 
 # define PROMPT "\x1b[32m minishell$ \x1b[0m"
 # define  ENV1   "PWD=/nfs/homes/namoussa/Desktop/mini"
@@ -213,5 +215,6 @@ void				builtin1(t_mini *prog, t_parse *tmp);
 char				*skip_quotes2(char *str);
 char				*m_substr(char const *s, unsigned int start, size_t len);
 char				**conv_cmd(t_args *cmd, t_mini *prog);
+char				*check_command(char *cmd);
 
 #endif

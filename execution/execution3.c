@@ -29,11 +29,11 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (p);
 }
 
-void handle_execve_error(char *cmd)
+void	handle_execve_error(char *cmd)
 {
- 	ft_putstr_fd("minishell: ", STDERR_FILENO);
-    ft_putstr_fd(cmd, STDERR_FILENO);
-    ft_putendl_fd(": command not found", STDERR_FILENO);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putendl_fd(": command not found", STDERR_FILENO);
 }
 
 void	ft_exec(t_parse *redr, char **cmd, char **env, t_mini *prog)
