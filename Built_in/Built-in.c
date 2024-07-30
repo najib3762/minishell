@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:51:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/19 11:20:27 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:41:46 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,31 +29,48 @@ char	*ft_pwd(int i, t_parse *cmd)
 	return (NULL);
 }
 
+char *m_strndup(char *s, size_t n)
+{
+    size_t len;
+    char *p;
+
+    len = ft_strlen(s);
+    if (n < len)
+        len = n;
+    p = (char *)malloc(len + 1);
+	addback_node_free(&g_global->address, newnode_free(p));
+    if (!p)
+        return NULL;
+    ft_strncpy(p, s, len);
+    p[len] = '\0';
+    return (p);
+}
+
 void my_print_list(t_list *export_list, t_parse *cmd)
 {
-    t_list *current = export_list;
+    t_list *current;
     char *equal_sign;
     char *quoted_value;
+    char *var_name;
     char *new_var;
 
+	current = export_list;
     while (current)
     {
-        equal_sign = strchr(current->content, '=');
+        equal_sign = ft_strchr(current->content, '=');
         if (equal_sign)
         {
+            var_name = m_strndup(current->content, equal_sign - (char *)current->content + 2);
             quoted_value = add_quotes(equal_sign + 1);
-            new_var = m_strjoin(strndup(current->content, equal_sign - (char *)current->content + 1), quoted_value);
-            free(quoted_value);
-			ft_putendl_fd(ft_strjoin("declare -x ",(char *)current->content), cmd->red_out);
-            free(new_var);
+            new_var = m_strjoin(var_name, quoted_value);
+            ft_putendl_fd(ft_strjoin("declare -x ", new_var), cmd->red_out);
         }
         else
-        {
-			ft_putendl_fd(ft_strjoin("declare -x ",(char *)current->content), cmd->red_out);
-        }
+            ft_putendl_fd(m_strjoin("declare -x ", (char *)current->content), cmd->red_out);
         current = current->next;
     }
 }
+
 
 void	sort_exp(t_list **start)
 {
@@ -96,32 +113,41 @@ void	ft_export(t_list **env, t_list **export_list, t_parse *cmd)
 	cur = cmd->cmd_args;
 	if (!ft_strncmp(cur->content, "export", 7))
 		cur = cur->next;
-	if (cur && cur->content)
+	while (cur)
 	{
-		if (cur->content[0] == '-' && cur->content[1] != '\0')
-        {
-            printf("bash: export: '%c%c': invalid option\n", cur->content[0], cur->content[1]);
-            return;
-        }
-        if (!is_valid_identifier_start(cur->content[0]) || cur->content[0] == '=')
-        {
-            printf("bash: export: '%s': not a valid identifier\n", cur->content);
-            return;
-        }
-        if (has_invalid_characters(cur->content))
-        {
-            print_invalid_identifier(cur->content);
-            return;
-        }
-		equal = ft_strchr(cur->content, '=');
-		if (equal)
+		if (cur && cur->content)
 		{
-			var_name = m_substr(cur->content, 0, equal - cur->content + 1);
-			var = m_substr(cur->content, 0, equal - cur->content);
-			var_value = m_strdup(equal + 1);
+			if (cur->content[0] == '-' && cur->content[1] != '\0')
+			{
+				printf("bash: export: '%c%c': invalid option\n", cur->content[0], cur->content[1]);
+				return;
+			}
+			if (!is_valid_identifier_start(cur->content[0]) || cur->content[0] == '=')
+			{
+				printf("bash: export: '%s': not a valid identifier\n", cur->content);
+				return;
+			}
+			if (has_invalid_characters(cur->content))
+			{
+				print_invalid_identifier(cur->content);
+				return;
+			}
+			equal = ft_strchr(cur->content, '=');
+			if (equal && ft_isspace(*(equal - 1)) && equal > cur->content)
+			{
+				printf("bash: export: '%s': not a valid identifier\n", cur->content);
+				return;
+			}
+			if (equal)
+			{
+				var_name = m_substr(cur->content, 0, equal - cur->content + 1);
+				var = m_substr(cur->content, 0, equal - cur->content);
+				var_value = m_strdup(equal + 1);
+			}
+			else
+				var_name = m_strdup(cur->content);
 		}
-		else
-			var_name = m_strdup(cur->content);
+		cur = cur->next;
 	}
 	if (!var_name)
 	{
@@ -160,8 +186,9 @@ int has_invalid_characters(char *str)
 }
 void print_invalid_identifier(char *str)
 {
-    const char *ptr = str;
+    char *ptr;
 
+	ptr = str;
     while (*ptr && (isalnum(*ptr) || *ptr == '_'))
         ptr++;
     if (*ptr == '!')

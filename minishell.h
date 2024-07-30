@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:21:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/19 11:36:00 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:34:31 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,11 +215,13 @@ char				*skip_quotes2(char *str);
 char				*m_substr(char const *s, unsigned int start, size_t len);
 char				**conv_cmd(t_args *cmd, t_mini *prog);
 char				*check_command(char *cmd);
-int is_valid_identifier_start(char c);
-int is_valid_identifier_char(char c);
-int has_invalid_characters(char *str);
-void print_invalid_identifier(char *str);
-char *add_quotes(char *str);
+int 				is_valid_identifier_start(char c);
+int 				is_valid_identifier_char(char c);
+int 				has_invalid_characters(char *str);
+void 				print_invalid_identifier(char *str);
+char 				*add_quotes(char *str);
+char 				*m_strndup(char *s, size_t n);
+
 
 
 #endif
