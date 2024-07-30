@@ -49,7 +49,7 @@ void	handle_error(int flag, char *cmd)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
-		ft_putendl_fd(":is a directory", 2);
+		ft_putendl_fd(": Is a directory", 2);
 	}
 }
 

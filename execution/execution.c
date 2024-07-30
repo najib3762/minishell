@@ -58,9 +58,8 @@ int	ft_executer(t_parse **parse, t_mini *prog)
 	tmp = *parse;
 	while (tmp)
 	{
-		if (prog->is_false || tmp->cmd_args == NULL)
+		if (tmp->is_false || tmp->cmd_args == NULL)
 		{
-			prog->is_false = 0;
 			tmp = tmp->next;
 			continue ;
 		}
@@ -71,7 +70,7 @@ int	ft_executer(t_parse **parse, t_mini *prog)
 			execute(tmp, cmd, prog->env, prog);
 		tmp = tmp->next;
 	}
-	executer_utils(prog);
+	executer_utils(prog, tmp);
 	return (0);
 }
 

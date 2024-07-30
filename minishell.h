@@ -91,6 +91,7 @@ typedef struct s_parse
 	t_redir			*redir_list;
 	int				red_in;
 	int				red_out;
+	int				is_false;
 	struct s_parse	*next;
 }					t_parse;
 
@@ -109,7 +110,6 @@ typedef struct s_mini
 	int				nbr_cmd;
 	char			**env;
 	int				**fd;
-	int				is_false;
 	char			*path;
 }					t_mini;
 
@@ -209,7 +209,7 @@ int					my_lstsize(t_args *lst);
 char				**conv_env(t_list *prog);
 int					count_cmd(t_parse *prog);
 int					check_builtin(char **cmd);
-void				executer_utils(t_mini *prog);
+void				executer_utils(t_mini *prog, t_parse *cmd);
 void				builtin1(t_mini *prog, t_parse *tmp);
 char				*skip_quotes2(char *str);
 char				*m_substr(char const *s, unsigned int start, size_t len);

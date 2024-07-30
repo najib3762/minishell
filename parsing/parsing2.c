@@ -51,6 +51,7 @@ t_parse	*cmd_node(t_args *cmd_args, t_redir *redir_list)
 	node->redir_list = redir_list;
 	node->red_in = 0;
 	node->red_out = 1;
+	node->is_false = 0;
 	node->next = NULL;
 	return (node);
 }

@@ -19,7 +19,7 @@ int	handle_redir_in(t_redir *redir, t_parse *temp, t_mini *prog)
 	{
 		perror("minishell");
 		g_global->exit_status = 1;
-		prog->is_false = 1;
+		temp->is_false = 1;
 		return (-1);
 	}
 	ft_addback_fd(&prog->fd_head, ft_new_fd(temp->red_in));

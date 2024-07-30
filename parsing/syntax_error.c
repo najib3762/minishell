@@ -12,28 +12,6 @@
 
 #include "../minishell.h"
 
-int	check_parenthesis(char *str)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (str[i] == '(' || str[i] == ')')
-			count++;
-		i++;
-	}
-	if (count != 0)
-	{
-		print_error("syntax error near unexpected token Parenthesis\n");
-		g_global->exit_status = 2;
-		return (-1);
-	}
-	return (0);
-}
-
 int	syntax_redirections(t_token **current)
 {
 	if ((*current)->type == TOKEN_OUT || (*current)->type == TOKEN_APPEND
@@ -46,9 +24,6 @@ int	syntax_redirections(t_token **current)
 			return (-1);
 		}
 	}
-	if ((*current)->type == TOKEN_WORD
-		&& check_parenthesis((*current)->value) < 0)
-		return (-1);
 	return (0);
 }
 

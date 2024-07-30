@@ -38,7 +38,10 @@ void	ft_echo(t_parse *arg, int n_line)
 		tmp = tmp->next;
 	}
 	if (n_line)
+	{
+	  g_global->exit_status = 0;
 		write(arg->red_out, "\n", 1);
+	}
 }
 
 void ft_env(t_list *prog, t_parse *cmd)
