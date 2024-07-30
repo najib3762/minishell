@@ -58,6 +58,21 @@ int	main2(t_mini *prog, t_token **head, t_parse **parse)
 	return (0);
 }
 
+void m_lstclear(t_list **lst, void (*del)(void *))
+{
+	t_list	*tmp;
+
+	if (!lst || !del)
+		return ;
+	while (*lst)
+	{
+		tmp = (*lst)->next;
+		ft_lstdelone(*lst, del);
+		*lst = tmp;
+	}
+	*lst = NULL;
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_mini	prog;
@@ -71,6 +86,5 @@ int	main(int ac, char **av, char **env)
 	if (main2(&prog, &head, &parse))
 		return (1);
 	free_address(&g_global->address);
-	rl_clear_history();
 	return (0);
 }

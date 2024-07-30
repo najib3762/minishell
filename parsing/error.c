@@ -60,6 +60,7 @@ char	*check_command(char *cmd)
 	if (check_slash(cmd) && access(cmd, F_OK) != 0)
 	{
 		handle_error(1, cmd);
+		free_address(&g_global->address);
 		exit(g_global->exit_status = 127);
 	}
 	if (check_slash(cmd) && !stat(cmd, &buf) && access(cmd, F_OK) == 0)
@@ -67,6 +68,7 @@ char	*check_command(char *cmd)
 		if (S_ISREG(buf.st_mode) && access(cmd, X_OK) != 0)
 		{
 			handle_error(2, cmd);
+			free_address(&g_global->address);
 			exit(g_global->exit_status = 126);
 		}
 		if (S_ISREG(buf.st_mode) && access(cmd, X_OK) == 0)
@@ -74,6 +76,7 @@ char	*check_command(char *cmd)
 		if (S_ISDIR(buf.st_mode))
 		{
 			handle_error(3, cmd);
+			free_address(&g_global->address);
 			exit(g_global->exit_status = 126);
 		}
 	}
