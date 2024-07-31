@@ -30,12 +30,12 @@ char	**conv_env(t_list *prog)
 		tmp = tmp->next;
 	}
 	env = (char **)malloc(sizeof(char *) * (count + 1));
-	addback_node_free(&g_global->address, newnode_free(env));
 	while (cur)
 	{
 		env[i++] = cur->content;
 		cur = cur->next;
 	}
+	addback_node_free(&g_global->address, newnode_free(env));
 	env[i] = NULL;
 	return (env);
 }
@@ -52,7 +52,7 @@ int	execute(t_parse *parse, char **cmd, char **env, t_mini *prog)
 	}
 	if (!pid)
 	{
-		prog->path = get_path(cmd[0], env);
+		prog->path = get_path(cmd[0], env, prog);
 		ft_exec(parse, cmd, env, prog);
 	}
 	if (parse->next == NULL)

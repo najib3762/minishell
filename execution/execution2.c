@@ -25,9 +25,9 @@ char	**conv_cmd(t_args *cmd, t_mini *prog)
 		return (NULL);
 	count = nbr_args(cmd);
 	env = (char **)malloc(sizeof(char *) * (count + 1));
-	addback_node_free(&g_global->address, newnode_free(env));
 	if (!env)
 		return (NULL);
+	addback_node_free(&g_global->address, newnode_free(env));
 	cur = cmd;
 	while (cur)
 	{
@@ -70,9 +70,9 @@ const char	*dup_word(char **dest, const char *src, char c)
 	while (src[len] != '\0' && src[len] != c)
 		len++;
 	*dest = (char *)malloc(sizeof(char) * (len + 1));
-	addback_node_free(&g_global->address, newnode_free(*dest));
 	if (*dest == NULL)
 		return (NULL);
+	addback_node_free(&g_global->address, newnode_free(*dest));
 	i = 0;
 	while (i < len)
 	{
@@ -82,20 +82,6 @@ const char	*dup_word(char **dest, const char *src, char c)
 	(*dest)[i] = '\0';
 	src += len + 1;
 	return (src);
-}
-
-void	free_strs(char ***strs, size_t len)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < len)
-	{
-		free((*strs)[i]);
-		i++;
-	}
-	free(*strs);
-	*strs = NULL;
 }
 
 char	**ft_split(const char *s, char c)
@@ -118,7 +104,6 @@ char	**ft_split(const char *s, char c)
 			s = dup_word(strs + i, s, c);
 			if (s == NULL)
 			{
-				free_strs(&strs, i);
 				break ;
 			}
 			i++;

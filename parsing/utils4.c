@@ -43,10 +43,10 @@ char	*dup_words(char **dest, char *src, char c1, char c2)
 	len = 0;
 	while (src[len] != '\0' && (src[len] != c1 && src[len] != c2))
 		len++;
-	*dest = (char *)malloc(sizeof(char) * (len + 1));
-	addback_node_free(&g_global->address, newnode_free(*dest));
+	*dest = (char *)malloc(sizeof(char) * (len + 1));	
 	if (*dest == NULL)
 		return (NULL);
+	addback_node_free(&g_global->address, newnode_free(*dest));
 	i = 0;
 	while (i < len)
 	{
@@ -58,20 +58,6 @@ char	*dup_words(char **dest, char *src, char c1, char c2)
 	return (src);
 }
 
-void	free_strings(char ***strs, size_t len)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < len)
-	{
-		free((*strs)[i]);
-		i++;
-	}
-	free(*strs);
-	*strs = NULL;
-}
-
 char	**m_split(char *s, char c1, char c2)
 {
 	char	**strs;
@@ -80,9 +66,9 @@ char	**m_split(char *s, char c1, char c2)
 
 	nbr_strings = count_str(s, c1, c2);
 	strs = (char **)malloc(sizeof(char *) * (nbr_strings + 1));
-	addback_node_free(&g_global->address, newnode_free(strs));
 	if (strs != NULL)
 	{
+		addback_node_free(&g_global->address, newnode_free(strs));
 		strs[nbr_strings] = NULL;
 		i = 0;
 		while (i < nbr_strings)
@@ -90,7 +76,6 @@ char	**m_split(char *s, char c1, char c2)
 			s = dup_words(strs + i, s, c1, c2);
 			if (s == NULL)
 			{
-				free_strings(&strs, i);
 				break ;
 			}
 			i++;
@@ -118,9 +103,9 @@ char	*m_substr(char const *s, unsigned int start, size_t len)
 		len = len_s - start;
 	}
 	p = (char *)malloc(len + 1);
-	addback_node_free(&g_global->address, newnode_free(p));
 	if (!p)
 		return (NULL);
+	addback_node_free(&g_global->address, newnode_free(p));
 	len += start;
 	while (start < len)
 		p[i++] = s[start++];

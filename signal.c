@@ -15,21 +15,18 @@
 void	handle_sigint2(int sig)
 {
 	(void)sig;
-	free_address(&g_global->address);
 	write(1, "\n", 1);
 }
 
 void	handle_sigquit(int sig)
 {
 	(void)sig;
-	free_address(&g_global->address);
 	ft_putendl_fd("Quit (core dumped)", 2);
 }
 
 void	handle_sigint1(int sig)
 {
 	(void)sig;
-	free_address(&g_global->address);
 	g_global->exit_status = 130;
 	write(1, "\n", 1);
 	rl_on_new_line();

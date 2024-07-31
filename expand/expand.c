@@ -37,8 +37,8 @@ char	*handle_dollar(char *str, int *i, t_mini *prog)
 	if (num > 1 || num == 0)
 		g_global->is_true = 1;
 	if (var_value)
-		return (free(var_name), var_value);
-	return (free(var_name), NULL);
+		return (var_value);
+	return (NULL);
 }
 
 char	*handle_dquotes(char *str, int *i, t_mini *prog)
@@ -59,8 +59,8 @@ char	*handle_dquotes(char *str, int *i, t_mini *prog)
 	(*i)++;
 	temp = ft_expand(double_quote, prog);
 	if (temp)
-		return (free(double_quote), temp);
-	return (free(double_quote), NULL);
+		return (temp);
+	return (NULL);
 }
 
 char	*handle_squotes(char *str, int *i)

@@ -90,7 +90,7 @@ char	*get_env_value_char(char *key, char **env)
 	return (NULL);
 }
 
-char	*get_path(char *cmd, char **env)
+char	*get_path(char *cmd, char **env, t_mini *prog)
 {
 	int		i;
 	char	*exec;
@@ -98,7 +98,7 @@ char	*get_path(char *cmd, char **env)
 	char	*path_part;
 
 	i = -1;
-	if (check_command(cmd) != NULL)
+	if (check_command(cmd, prog) != NULL)
 		return (cmd);
 	allpath = ft_split(get_env_value_char("PATH", env), ':');
 	if (allpath == NULL)
@@ -109,7 +109,6 @@ char	*get_path(char *cmd, char **env)
 		exec = ft_strjoin(path_part, cmd);
 		if (access(exec, F_OK | X_OK) == 0)
 			return (exec);
-		free(exec);
 	}
 	return (cmd);
 }

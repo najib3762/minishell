@@ -79,12 +79,12 @@ char	*skip_quotes2(char *str)
 	qoutes = calcule_qoutes(str);
 	len = ft_strlen(str) - qoutes;
 	eof = malloc(sizeof(char) * (len + 1));
-	addback_node_free(&g_global->address, newnode_free(eof));
 	if (!eof)
 	{
 		perror("malloc");
 		return (NULL);
 	}
+	addback_node_free(&g_global->address, newnode_free(eof));
 	g_word2(str, eof);
 	return (eof);
 }

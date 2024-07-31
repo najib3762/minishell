@@ -17,10 +17,10 @@ t_list	*m_lstnew(void *content)
 	t_list	*node;
 
 	node = malloc(sizeof(t_list));
-	addback_node_free(&g_global->address, newnode_free(node));
 	if (!node)
 		return (NULL);
-	node->content = m_strdup((char *)content);
+	addback_node_free(&g_global->address, newnode_free(node));
+	node->content = m_strdup(content);
 	node->next = NULL;
 	return (node);
 }
@@ -54,9 +54,9 @@ char	*m_itoa(int n)
 	l = len(&n);
 	x = n;
 	p = (char *)malloc(l + 1);
-	addback_node_free(&g_global->address, newnode_free(p));
 	if (!p)
 		return (0);
+	addback_node_free(&g_global->address, newnode_free(p));
 	if (x < 0)
 	{
 		x *= -1;
@@ -83,9 +83,9 @@ char	*m_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2);
 	p = (char *)malloc(len + 1);
-	addback_node_free(&g_global->address, newnode_free(p));
 	if (!p)
 		return (NULL);
+	addback_node_free(&g_global->address, newnode_free(p));
 	ft_strlcpy(p, s1, len + 1);
 	ft_strlcat(p, s2, len + 1);
 	return (p);
@@ -98,9 +98,9 @@ char	*m_strdup(const char *s)
 
 	i = 0;
 	p = (char *)malloc(sizeof(char) * ((ft_strlen(s)) + 1));
-	addback_node_free(&g_global->address, newnode_free(p));
 	if (!p)
 		return (0);
+	addback_node_free(&g_global->address, newnode_free(p));
 	while (*s)
 		p[i++] = *s++;
 	p[i] = '\0';

@@ -28,7 +28,7 @@ char	*random_file(void)
 		perror("malloc");
 		return (NULL);
 	}
-	return (free(temp), filename);
+	return (filename);
 }
 
 void	change_value(t_token *token, char *filename)
@@ -104,12 +104,12 @@ char	*skip_quotes(char *str)
 	qoutes = calcule_qoutes(str);
 	len = ft_strlen(str) - qoutes;
 	eof = malloc(sizeof(char) * (len + 1));
-	addback_node_free(&g_global->address, newnode_free(eof));
 	if (!eof)
 	{
 		perror("malloc");
 		return (NULL);
 	}
+	addback_node_free(&g_global->address, newnode_free(eof));
 	g_word(str, eof);
 	return (eof);
 }
