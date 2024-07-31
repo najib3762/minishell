@@ -178,20 +178,17 @@ int  ft_exit(t_parse *cmd)
     {
         if (ft_isnumeric(cur->content))
 		{
-			free_address(&g_global->address);
             exit(g_global->exit_status = ft_atoi(cur->content) % 256);
 		}
         else
         {
             printf("exit: %s: numeric argument required\n", cur->content);
-			free_address(&g_global->address);
             exit(g_global->exit_status = 2);
         }
     }
     else
 	{
 		ft_putendl_fd("exit", 1);
-		free_address(&g_global->address);
         exit(g_global->exit_status = 0);
 	}
  return (0);
