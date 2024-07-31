@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 12:41:16 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/30 19:22:37 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/31 09:41:33 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void adding(t_list **env, t_list **export_list, char *var_name, char *var_value)
 		tmp_exp = tmp_exp->next;
 	}
 	if (value == 1)
-			ft_lstadd_back(env, ft_lstnew(new_var));
+		ft_lstadd_back(env, ft_lstnew(new_var));
 	if (*flag1 == 1)
 		ft_lstadd_back(export_list, ft_lstnew(new_var));
 }

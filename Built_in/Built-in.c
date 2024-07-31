@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:51:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/30 19:46:56 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:44:56 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,41 @@ void	sort_exp(t_list **start)
 		last = current;
 	}
 }
+t_list	*find_var_in_list(t_list *list, const char *var_name)
+{
+	size_t var_name_len = ft_strlen(var_name);
+
+	while (list)
+	{
+		char *content = (char *)list->content; // Cast to char *
+        if (!ft_strncmp(content, var_name, var_name_len) &&
+            content[var_name_len] == '=')
+			return (list);
+		list = list->next;
+	}
+	return (NULL);
+}
+
+
+char	*get_var_value(const char *var)
+{
+	char *equal = ft_strchr(var, '=');
+	if (equal)
+		return (equal + 1);
+	return (NULL);
+}
 
 void	ft_export(t_list **env, t_list **export_list, t_parse *cmd)
 {
-	// char	*var;
 	char 	*equal;
+	char	*plus_equal;
 	char	*var_name;
 	char	*var_value;
 	t_args 	*cur;
+	t_list	*env_var;
+	int f;
 
+	f = 0;
 	var_name = NULL;
 	var_value = NULL;
 	cur = cmd->cmd_args;
@@ -122,16 +148,7 @@ void	ft_export(t_list **env, t_list **export_list, t_parse *cmd)
 				printf("bash: export: '%c%c': invalid option\n", cur->content[0], cur->content[1]);
 				return;
 			}
-			if (!is_valid_identifier_start(cur->content[0]) || cur->content[0] == '=')
-			{
-				printf("bash: export: '%s': not a valid identifier\n", cur->content);
-				return;
-			}
-			if (has_invalid_characters(cur->content))
-			{
-				print_invalid_identifier(cur->content);
-				return;
-			}
+			plus_equal = ft_strnstr(cur->content, "+=", ft_strlen(cur->content));
 			equal = ft_strchr(cur->content, '=');
 			if (equal && ft_isspace(*(equal - 1)) && equal > cur->content)
 			{
@@ -143,15 +160,40 @@ void	ft_export(t_list **env, t_list **export_list, t_parse *cmd)
 				var_name = m_substr(cur->content, 0, equal - cur->content + 1);
 				var_value = NULL;
 			}	
-				
 			if (equal)
 			{
 				var_name = m_substr(cur->content, 0, equal - cur->content + 1);
-				// var = m_substr(cur->content, 0, equal - cur->content);
 				var_value = m_strdup(equal + 1);
 			}
 			else
+			{
 				var_name = m_strdup(cur->content);
+				var_value = m_strdup("");	
+			}
+			if (plus_equal)
+			{
+				f = 1;
+				var_name = m_substr(cur->content, 0, plus_equal - cur->content);
+				var_value = m_strdup(plus_equal + 2);
+				env_var = find_var_in_list(*env, var_name);
+				if (env_var)
+				{
+					char *existing_value = get_var_value((char *)env_var->content);
+					var_value = m_strjoin(existing_value, var_value);
+				}
+			}
+			if(f == 1)
+				var_name = m_strjoin(var_name, "=");
+			if (!is_valid_identifier_start(var_name[0]) || var_name[0] == '=')
+			{
+				printf("bash: export: '%s': not a valid identifier\n", cur->content);
+				return;
+			}
+			if (has_invalid_characters(var_name))
+			{
+				print_invalid_identifier(cur->content);
+				return;
+			}
 			add_to_exp(var_name, var_value, env, export_list);
 		}
 		cur = cur->next;
