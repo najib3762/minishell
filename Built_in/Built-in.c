@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:51:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/30 13:41:46 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:46:56 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	sort_exp(t_list **start)
 
 void	ft_export(t_list **env, t_list **export_list, t_parse *cmd)
 {
-	char	*var;
+	// char	*var;
 	char 	*equal;
 	char	*var_name;
 	char	*var_value;
@@ -115,7 +115,7 @@ void	ft_export(t_list **env, t_list **export_list, t_parse *cmd)
 		cur = cur->next;
 	while (cur)
 	{
-		if (cur && cur->content)
+		if (cur->content)
 		{
 			if (cur->content[0] == '-' && cur->content[1] != '\0')
 			{
@@ -138,14 +138,21 @@ void	ft_export(t_list **env, t_list **export_list, t_parse *cmd)
 				printf("bash: export: '%s': not a valid identifier\n", cur->content);
 				return;
 			}
+			if (equal && *(equal + 1)== '\0')
+			{
+				var_name = m_substr(cur->content, 0, equal - cur->content + 1);
+				var_value = NULL;
+			}	
+				
 			if (equal)
 			{
 				var_name = m_substr(cur->content, 0, equal - cur->content + 1);
-				var = m_substr(cur->content, 0, equal - cur->content);
+				// var = m_substr(cur->content, 0, equal - cur->content);
 				var_value = m_strdup(equal + 1);
 			}
 			else
 				var_name = m_strdup(cur->content);
+			add_to_exp(var_name, var_value, env, export_list);
 		}
 		cur = cur->next;
 	}
@@ -155,7 +162,6 @@ void	ft_export(t_list **env, t_list **export_list, t_parse *cmd)
 		my_print_list(*export_list, cmd);
 		return;
 	}
-	add_to_exp(var_name, var_value, env, export_list);
 }
 void add_to_exp(char *var_name, char *var_value, t_list **env, t_list **export_list)
 {
