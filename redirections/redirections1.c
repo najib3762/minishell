@@ -84,7 +84,11 @@ int	redirection(t_parse **parse, t_mini *prog)
 	while (temp)
 	{
 		if (handle_redirection(temp, prog) < 0)
-			break ;
+		{
+			temp = temp->next;
+			continue ;
+		}
+			
 		temp = temp->next;
 	}
 	return (0);

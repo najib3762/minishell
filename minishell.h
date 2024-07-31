@@ -22,17 +22,16 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <sys/types.h>
-# include <sys/stat.h> 
 
 # define PROMPT "\x1b[32m minishell$ \x1b[0m"
-# define  ENV1   "PWD=/nfs/homes/namoussa/Desktop/mini"
-# define  ENV2   "_=/usr/bin/env"
-# define  ENV3   "SHLVL=1"
-# define   ENV4   "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+# define ENV1 "PWD=/nfs/homes/namoussa/Desktop/mini"
+# define ENV2 "_=/usr/bin/env"
+# define ENV3 "SHLVL=1"
+# define ENV4 "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 typedef struct s_free
 {
@@ -171,13 +170,14 @@ int					ft_executer(t_parse **parse, t_mini *prog);
 char				*g_env(t_list *env, char *str);
 void				ft_env(t_list *env, t_parse *cmd);
 void				my_print_list(t_list *head, t_parse *cmd);
-void 				adding(t_list **env, t_list **export_list, char *var_name, char *var_value);
+void				adding(t_list **env, t_list **export_list, char *var_name,
+						char *var_value);
 void				adding_exp(t_list **tmp_exp, char *var_name, char *var,
 						char *new_var, int *flag1);
 void				add_var(t_list *tmp, char *var_name, t_list **export_list);
 void				add_to_exp(char *var_name, char *var_value, t_list **env,
 						t_list **export_list);
-int				ft_unset(t_list **env, t_list **exp_list, t_parse *cmd);
+int					ft_unset(t_list **env, t_list **exp_list, t_parse *cmd);
 int					handle_redir_in(t_redir *redir, t_parse *temp,
 						t_mini *prog);
 int					ft_exit(t_parse *cmd);
@@ -216,11 +216,10 @@ void				free_all(t_mini *prog);
 char				*m_substr(char const *s, unsigned int start, size_t len);
 char				**conv_cmd(t_args *cmd, t_mini *prog);
 char				*check_command(char *cmd, t_mini *prog);
-int is_valid_identifier_start(char c);
-int is_valid_identifier_char(char c);
-int has_invalid_characters(char *str);
-void print_invalid_identifier(char *str);
-char *add_quotes(char *str);
-
+int					is_valid_identifier_start(char c);
+int					is_valid_identifier_char(char c);
+int					has_invalid_characters(char *str);
+void				print_invalid_identifier(char *str);
+char				*add_quotes(char *str);
 
 #endif

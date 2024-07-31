@@ -31,7 +31,7 @@ void	main3(t_mini *prog, t_token **head, t_parse **parse)
 
 void free_all(t_mini *prog)
 {
-	free_token_list(prog->token);
+	free_token_list(&prog->token);
 	free_address(&g_global->address);
 	free_fd_pipe(prog);
 	close_fd_pipe(prog);
@@ -45,7 +45,7 @@ int	main2(t_mini *prog, t_token **head, t_parse **parse)
 		signal(SIGQUIT, SIG_IGN);
 		prog->line = readline(PROMPT);
 		if (!prog->line)
-			return (free_all(prog), ft_putendl_fd("\033[31mexit\033[0m", 1));
+			return (ft_putendl_fd("\033[31mexit\033[0m", 1));
 		if (prog->line[0] == '\0' && set_status(0))
 			continue ;
 		signal(SIGINT, handle_sigint2);
@@ -77,6 +77,6 @@ int	main(int ac, char **av, char **env)
 	init_data(ac, env, &prog);
 	if (main2(&prog, &prog.token, &parse))
 		return (1);
-	free_all(&prog, &prog.token);
+	free_all(&prog);
 	return (0);
 }
