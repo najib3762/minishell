@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:52:33 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/23 10:52:34 by namoussa         ###   ########.fr       */
+/*   Updated: 2024/07/31 19:04:14 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	builtin1(t_mini *prog, t_parse *tmp)
 	else if (!ft_strncmp(tmp->cmd_args->content, "pwd", 4))
 		ft_pwd(0, tmp);
 	else if (!ft_strncmp(tmp->cmd_args->content, "export", 7))
-		ft_export(&prog->env_head, &prog->export_head, tmp);
+		ft_export(&prog->env_head, &prog->export_head, tmp, NULL);
 	else if (!ft_strncmp(tmp->cmd_args->content, "env", 4))
 		ft_env(prog->env_head, tmp);
 	else if (!ft_strncmp(tmp->cmd_args->content, "unset", 6))

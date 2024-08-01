@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 16:42:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/18 16:02:47 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/07/31 19:09:10 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void ft_env(t_list *prog, t_parse *cmd)
 			 ft_putendl_fd((char *)env_null->content, cmd->red_out);
 			env_null = env_null->next;
 		}
-
 	}
 	else
 	{
