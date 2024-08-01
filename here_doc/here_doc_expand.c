@@ -46,8 +46,8 @@ char	*dollar_here_doc(char *line, int *i, t_mini *prog)
 	}
 	var_value = get_env_value(var_name, prog->env_head);
 	if (var_value)
-		return (free(var_name), var_value);
-	return (free(var_name), NULL);
+		return (var_value);
+	return (NULL);
 }
 
 char	*ft_expand(char *line, t_mini *prog)

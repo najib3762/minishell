@@ -38,7 +38,10 @@ void	ft_echo(t_parse *arg, int n_line)
 		tmp = tmp->next;
 	}
 	if (n_line)
+	{
+	  g_global->exit_status = 0;
 		write(arg->red_out, "\n", 1);
+	}
 }
 
 void ft_env(t_list *prog, t_parse *cmd)
@@ -130,7 +133,7 @@ int ft_unset(t_list **env, t_list **exp_list, t_parse *cmd)
 		return(g_global->exit_status = 0, 1);
 	set_unset(env, var_name);
 	set_unset(exp_list, var_name);
-	return(free(var_name), g_global->exit_status = 0, 0);
+	return(g_global->exit_status = 0, 0);
 }
 
 void	set_unset(t_list **head ,char *var_name)
@@ -173,10 +176,13 @@ int  ft_exit(t_parse *cmd)
 	if (cur && cur->content)
     {
         if (ft_isnumeric(cur->content))
+		{
             exit(g_global->exit_status = ft_atoi(cur->content) % 256);
+		}
         else
         {
-            printf("exit: %s: numeric argument required\n", cur->content);
+            // printf("exit: %s: numeric argument required\n", cur->content);
+			ft_putendl_fd("exit: numeric argument required", 2);
             exit(g_global->exit_status = 2);
         }
     }

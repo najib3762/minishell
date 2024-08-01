@@ -29,6 +29,14 @@ void	main3(t_mini *prog, t_token **head, t_parse **parse)
 	ft_executer(parse, prog);
 }
 
+void free_all(t_mini *prog)
+{
+	free_token_list(&prog->token);
+	free_address(&g_global->address);
+	free_fd_pipe(prog);
+	close_fd_pipe(prog);
+}
+
 int	main2(t_mini *prog, t_token **head, t_parse **parse)
 {
 	while (1)
@@ -61,16 +69,14 @@ int	main2(t_mini *prog, t_token **head, t_parse **parse)
 int	main(int ac, char **av, char **env)
 {
 	t_mini	prog;
-	t_token	*head;
 	t_parse	*parse;
 
-	head = NULL;
+
 	parse = NULL;
 	(void)av;
 	init_data(ac, env, &prog);
-	if (main2(&prog, &head, &parse))
+	if (main2(&prog, &prog.token, &parse))
 		return (1);
-	free_address(&g_global->address);
-	rl_clear_history();
+	free_all(&prog);
 	return (0);
 }

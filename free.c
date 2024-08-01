@@ -24,6 +24,7 @@ void	free_address(t_free **head)
 		free(temp);
 	}
 	*head = NULL;
+	rl_clear_history();
 }
 
 t_free	*newnode_free(void *content)

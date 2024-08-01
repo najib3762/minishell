@@ -38,9 +38,9 @@ int	word_token(t_mini *prog, t_token **head, int i)
 			sflag = !sflag;
 	}
 	ptr = malloc(sizeof(char) * (len + 1));
-	addback_node_free(&g_global->address, newnode_free(ptr));
 	if (!ptr)
 		return (-1);
+	addback_node_free(&g_global->address, newnode_free(ptr));
 	ft_strncpy(ptr, prog->line + i, len + 1);
 	addback_node(head, create_newnode(TOKEN_WORD, ptr));
 	return (len - 1);
@@ -78,9 +78,9 @@ int	word_token3(t_args **args, char *str, int i, int len)
 	char	*ptr;
 
 	ptr = malloc(sizeof(char) * (len + 1));
-	addback_node_free(&g_global->address, newnode_free(ptr));
 	if (!ptr)
 		return (-1);
+	addback_node_free(&g_global->address, newnode_free(ptr));
 	ft_strncpy(ptr, str + i, len + 1);
 	add_args_node(args, args_node(ptr));
 	return (len);

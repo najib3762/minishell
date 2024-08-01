@@ -22,17 +22,16 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <sys/types.h>
-# include <sys/stat.h> 
 
 # define PROMPT "\x1b[32m minishell$ \x1b[0m"
-# define  ENV1   "PWD=/nfs/homes/namoussa/Desktop/mini"
-# define  ENV2   "_=/usr/bin/env"
-# define  ENV3   "SHLVL=1"
-# define   ENV4   "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+# define ENV1 "PWD=/nfs/homes/namoussa/Desktop/mini"
+# define ENV2 "_=/usr/bin/env"
+# define ENV3 "SHLVL=1"
+# define ENV4 "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 typedef struct s_free
 {
@@ -91,6 +90,7 @@ typedef struct s_parse
 	t_redir			*redir_list;
 	int				red_in;
 	int				red_out;
+	int				is_false;
 	struct s_parse	*next;
 }					t_parse;
 
@@ -109,7 +109,7 @@ typedef struct s_mini
 	int				nbr_cmd;
 	char			**env;
 	int				**fd;
-	int				is_false;
+	t_token			*token;
 	char			*path;
 }					t_mini;
 
@@ -132,7 +132,6 @@ int					check_dollar(char *str);
 char				*ft_expand(char *line, t_mini *prog);
 void				change_value(t_token *token, char *filename);
 char				*random_file(void);
-void				free_address(t_free **head);
 t_free				*newnode_free(void *content);
 void				addback_node_free(t_free **head, t_free *new);
 void				r_quotes(t_parse **head);
@@ -173,6 +172,10 @@ void				ft_env(t_list *env, t_parse *cmd);
 void				my_print_list(t_list *head, t_parse *cmd);
 void 				adding(t_list **env, t_list **export_list, char *var_name, char *var_value);
 void				adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1);
+void				adding(t_list **env, t_list **export_list, char *var_name,
+						char *var_value);
+void				adding_exp(t_list **tmp_exp, char *var_name, char *var,
+						char *new_var, int *flag1);
 void				add_var(t_list *tmp, char *var_name, t_list **export_list);
 void				add_to_exp(char *var_name, char *var_value, t_list **env,
 						t_list **export_list);
@@ -186,7 +189,7 @@ void				handle_sigint1(int sig);
 int					ft_isnumeric(char *str);
 int					ft_cd(t_parse *arg, t_list **env);
 void				set_unset(t_list **head, char *var_name);
-char				*get_path(char *cmd, char **env);
+char				*get_path(char *cmd, char **env, t_mini *prog);
 void				free_fd_pipe(t_mini *prog);
 void				close_fd_pipe(t_mini *prog);
 int					set_pipe_fd(t_mini *prog, t_parse **parse);
@@ -208,9 +211,10 @@ int					my_lstsize(t_args *lst);
 char				**conv_env(t_list *prog);
 int					count_cmd(t_parse *prog);
 int					check_builtin(char **cmd);
-void				executer_utils(t_mini *prog);
+void				executer_utils(t_mini *prog, t_parse *cmd);
 void				builtin1(t_mini *prog, t_parse *tmp);
 char				*skip_quotes2(char *str);
+void				free_all(t_mini *prog);
 char				*m_substr(char const *s, unsigned int start, size_t len);
 char				**conv_cmd(t_args *cmd, t_mini *prog);
 char				*check_command(char *cmd);
@@ -230,6 +234,13 @@ void handle_plus_equal(t_list **env, char **var_name, char **var_value, char *co
 int  check_dash(char *content);
 void adding_env(t_list **tmp, char *var_name, char *new_var, int *value);
 
+
+char				*check_command(char *cmd, t_mini *prog);
+int					is_valid_identifier_start(char c);
+int					is_valid_identifier_char(char c);
+int					has_invalid_characters(char *str);
+void				print_invalid_identifier(char *str);
+char				*add_quotes(char *str);
 
 
 #endif

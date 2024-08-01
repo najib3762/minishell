@@ -21,7 +21,7 @@ int	helper_here_doc(int fd, char *eof, int qoutes, t_mini *prog)
 	{
 		if (!ft_strncmp(prog->line, eof, ft_strlen(eof))
 			&& (ft_strlen(prog->line) == ft_strlen(eof)))
-			return (free(prog->line), close(fd), 0);
+			return (close(fd), 0);
 		if (ft_strncmp(prog->line, eof, ft_strlen(eof)) && qoutes != 1
 			&& check_dollar(prog->line))
 		{
@@ -30,7 +30,6 @@ int	helper_here_doc(int fd, char *eof, int qoutes, t_mini *prog)
 				prog->line = m_strdup("");
 		}
 		ft_putendl_fd(prog->line, fd);
-		free(prog->line);
 		prog->line = readline(">");
 	}
 	if (my_handle() < 0)
@@ -58,7 +57,6 @@ int	read_here_doc(char *eof, int fd, t_mini *prog)
 
 	qoutes = 0;
 	limiter = is_qoutes(eof, &qoutes);
-	printf("limiter = %s\n", limiter);
 	if (!limiter)
 		return (-1);
 	if (fork_heredoc(limiter, fd, qoutes, prog) < 0)
@@ -76,16 +74,16 @@ int	here_doc2(t_token *token, t_mini *prog)
 		return (-1);
 	fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
-		return (free(filename), -1);
+		return (-1);
 	if (token->next->type == TOKEN_WORD)
 	{
 		if (read_here_doc(token->next->value, fd, prog) < 0)
-			return (close(fd), free(filename), -1);
+			return (close(fd), -1);
 		else
 			return (close(fd), change_value(token, filename), 1);
 	}
 	else
-		return (close(fd), free(filename), -1);
+		return (close(fd), -1);
 	return (0);
 }
 

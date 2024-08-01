@@ -19,7 +19,7 @@ int	handle_redir_out(char *file_name, t_parse *temp, t_mini *prog)
 	{
 		perror("minishell");
 		g_global->exit_status = 1;
-		prog->is_false = 1;
+		temp->is_false = 1;
 		return (-1);
 	}
 	ft_addback_fd(&prog->fd_head, ft_new_fd(temp->red_out));
@@ -32,7 +32,7 @@ int	handle_redir_append(char *file_name, t_parse *temp, t_mini *prog)
 	if (temp->red_out < 0)
 	{
 		perror("minishell");
-		prog->is_false = 1;
+		temp->is_false = 1;
 		g_global->exit_status = 1;
 		return (-1);
 	}
@@ -46,7 +46,7 @@ int	process_redir(t_redir *temp_redir, t_parse *temp, t_mini *prog)
 	{
 		print_error("minishell: ambiguous redirect\n");
 		g_global->is_true = 0;
-		prog->is_false = 1;
+		temp->is_false = 1;
 		g_global->exit_status = 1;
 		return (-1);
 	}
@@ -84,7 +84,11 @@ int	redirection(t_parse **parse, t_mini *prog)
 	while (temp)
 	{
 		if (handle_redirection(temp, prog) < 0)
-			break ;
+		{
+			temp = temp->next;
+			continue ;
+		}
+			
 		temp = temp->next;
 	}
 	return (0);

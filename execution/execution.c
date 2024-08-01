@@ -58,9 +58,8 @@ int	ft_executer(t_parse **parse, t_mini *prog)
 	tmp = *parse;
 	while (tmp)
 	{
-		if (prog->is_false || tmp->cmd_args == NULL)
+		if (tmp->is_false || tmp->cmd_args == NULL)
 		{
-			prog->is_false = 0;
 			tmp = tmp->next;
 			continue ;
 		}
@@ -71,7 +70,7 @@ int	ft_executer(t_parse **parse, t_mini *prog)
 			execute(tmp, cmd, prog->env, prog);
 		tmp = tmp->next;
 	}
-	executer_utils(prog);
+	executer_utils(prog, tmp);
 	return (0);
 }
 
@@ -91,7 +90,7 @@ char	*get_env_value_char(char *key, char **env)
 	return (NULL);
 }
 
-char	*get_path(char *cmd, char **env)
+char	*get_path(char *cmd, char **env, t_mini *prog)
 {
 	int		i;
 	char	*exec;
@@ -99,7 +98,7 @@ char	*get_path(char *cmd, char **env)
 	char	*path_part;
 
 	i = -1;
-	if (check_command(cmd) != NULL)
+	if (check_command(cmd, prog) != NULL)
 		return (cmd);
 	allpath = ft_split(get_env_value_char("PATH", env), ':');
 	if (allpath == NULL)
@@ -110,7 +109,6 @@ char	*get_path(char *cmd, char **env)
 		exec = ft_strjoin(path_part, cmd);
 		if (access(exec, F_OK | X_OK) == 0)
 			return (exec);
-		free(exec);
 	}
 	return (cmd);
 }

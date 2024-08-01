@@ -27,11 +27,14 @@ int	nbr_args(t_args *args)
 	return (i);
 }
 
-void	executer_utils(t_mini *prog)
+void	executer_utils(t_mini *prog, t_parse *cmd)
 {
+	(void)cmd;
 	close_fd_pipe(prog);
 	free_fd_pipe(prog);
 	close_free(&prog->fd_head);
+	if (prog->last_pid == 0)
+		return ;
 	waitpid(prog->last_pid, &g_global->exit_status, 0);
 	if (WIFEXITED(g_global->exit_status))
 		g_global->exit_status = WEXITSTATUS(g_global->exit_status);
@@ -76,12 +79,12 @@ char	*skip_quotes2(char *str)
 	qoutes = calcule_qoutes(str);
 	len = ft_strlen(str) - qoutes;
 	eof = malloc(sizeof(char) * (len + 1));
-	addback_node_free(&g_global->address, newnode_free(eof));
 	if (!eof)
 	{
 		perror("malloc");
 		return (NULL);
 	}
+	addback_node_free(&g_global->address, newnode_free(eof));
 	g_word2(str, eof);
 	return (eof);
 }
