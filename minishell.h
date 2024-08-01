@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:21:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/31 19:05:25 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/01 09:14:48 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,12 +170,9 @@ int					ft_executer(t_parse **parse, t_mini *prog);
 char				*g_env(t_list *env, char *str);
 void				ft_env(t_list *env, t_parse *cmd);
 void				my_print_list(t_list *head, t_parse *cmd);
-void 				adding(t_list **env, t_list **export_list, char *var_name, char *var_value);
 void				adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1);
 void				adding(t_list **env, t_list **export_list, char *var_name,
 						char *var_value);
-void				adding_exp(t_list **tmp_exp, char *var_name, char *var,
-						char *new_var, int *flag1);
 void				add_var(t_list *tmp, char *var_name, t_list **export_list);
 void				add_to_exp(char *var_name, char *var_value, t_list **env,
 						t_list **export_list);
@@ -217,7 +214,6 @@ char				*skip_quotes2(char *str);
 void				free_all(t_mini *prog);
 char				*m_substr(char const *s, unsigned int start, size_t len);
 char				**conv_cmd(t_args *cmd, t_mini *prog);
-char				*check_command(char *cmd);
 int 				is_valid_identifier_start(char c);
 int 				is_valid_identifier_char(char c);
 int 				has_invalid_characters(char *str);
@@ -236,11 +232,6 @@ void adding_env(t_list **tmp, char *var_name, char *new_var, int *value);
 
 
 char				*check_command(char *cmd, t_mini *prog);
-int					is_valid_identifier_start(char c);
-int					is_valid_identifier_char(char c);
-int					has_invalid_characters(char *str);
-void				print_invalid_identifier(char *str);
-char				*add_quotes(char *str);
 
 
 #endif
