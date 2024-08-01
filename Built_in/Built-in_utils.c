@@ -37,9 +37,9 @@ void	adding(t_list **env, t_list **export_list, char *var_name,
 		tmp_exp = tmp_exp->next;
 	}
 	if (value == 1)
-		ft_lstadd_back(env, ft_lstnew(new_var));
+		ft_lstadd_back(env, m_lstnew(new_var));
 	if (flag == 1)
-		ft_lstadd_back(export_list, ft_lstnew(new_var));
+		ft_lstadd_back(export_list, m_lstnew(new_var));
 }
 
 void	adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1)
@@ -81,18 +81,3 @@ void	add_var(t_list *tmp, char *var_name, t_list **export_list)
 	return ;
 }
 
-char	*add_quotes(char *str)
-{
-	int		len;
-	char	*quoted_str;
-
-	len = strlen(str);
-	quoted_str = malloc(len + 3);
-	if (!quoted_str)
-		return (NULL);
-	quoted_str[0] = '"';
-	ft_strcpy(quoted_str + 1, str);
-	quoted_str[len + 1] = '"';
-	quoted_str[len + 2] = '\0';
-	return (quoted_str);
-}

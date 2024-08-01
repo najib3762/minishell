@@ -219,13 +219,13 @@ int					is_valid_identifier_start(char c);
 int					is_valid_identifier_char(char c);
 int					has_invalid_characters(char *str);
 int					print_invalid_identifier(char *str, t_mini *prog);
-char				*add_quotes(char *str);
 int					set_status(int status);
 char				*m_strndup(char *s, size_t n);
 void				p_exp(t_list **export_list, t_parse *cmd);
 t_list				*find_var_in_list(t_list *list, const char *var_name);
 char				*get_var_value(const char *var);
 void				sort_exp(t_list **start);
+int					ft_lengh_word(char *str);
 int					export_check(char *var_name, char *content, t_mini *prog);
 void				check_equal(char **var_name, char **var_value,
 						char *content, char *equal);

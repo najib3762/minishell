@@ -33,3 +33,13 @@ void	handle_sigint1(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
+
+int	ft_lengh_word(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	return (i + 1);
+}

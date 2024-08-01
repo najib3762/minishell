@@ -50,9 +50,6 @@ void	my_print_list(t_list *export_list, t_parse *cmd)
 {
 	t_list	*current;
 	char	*equal_sign;
-	char	*quoted_value;
-	char	*var_name;
-	char	*new_var;
 
 	current = export_list;
 	while (current)
@@ -60,15 +57,16 @@ void	my_print_list(t_list *export_list, t_parse *cmd)
 		equal_sign = ft_strchr(current->content, '=');
 		if (equal_sign)
 		{
-			var_name = m_strndup(current->content, equal_sign
-					- (char *)current->content + 2);
-			quoted_value = add_quotes(equal_sign + 1);
-			new_var = m_strjoin(var_name, quoted_value);
-			ft_putendl_fd(ft_strjoin("declare -x ", new_var), cmd->red_out);
+			ft_putstr_fd(m_strjoin("declare -x ", m_substr(current->content, 0,
+							ft_lengh_word(current->content))), cmd->red_out);
+			ft_putstr_fd(m_strjoin("\"", m_substr(current->content,
+						ft_lengh_word(current->content),
+						ft_strlen(current->content))), cmd->red_out);
+			ft_putendl_fd("\"", cmd->red_out);
 		}
 		else
 			ft_putendl_fd(m_strjoin("declare -x ", (char *)current->content),
-					cmd->red_out);
+							cmd->red_out);
 		current = current->next;
 	}
 }
