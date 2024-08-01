@@ -55,6 +55,7 @@ int	ft_executer(t_parse **parse, t_mini *prog)
 
 	if (helper_executer(prog, parse) < 0)
 		return (-1);
+	prog->last_pid = 0;
 	tmp = *parse;
 	while (tmp)
 	{

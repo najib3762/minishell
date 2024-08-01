@@ -65,7 +65,7 @@ char	*my_getenv(char *name, char *env)
 		i++;
 	}
 	if (ft_strcmp(value, name) == 0)
-		return ( m_strdup(env + (i + 1)));
+		return (m_strdup(env + (i + 1)));
 	return (NULL);
 }
 

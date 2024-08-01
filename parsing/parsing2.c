@@ -16,7 +16,7 @@ t_args	*args_node(char *content)
 {
 	t_args	*node;
 
-	node = (t_args *)malloc(sizeof(t_args));	
+	node = (t_args *)malloc(sizeof(t_args));
 	if (!node)
 		return (NULL);
 	addback_node_free(&g_global->address, newnode_free(node));

@@ -29,7 +29,7 @@ void	main3(t_mini *prog, t_token **head, t_parse **parse)
 	ft_executer(parse, prog);
 }
 
-void free_all(t_mini *prog)
+void	free_all(t_mini *prog)
 {
 	free_token_list(&prog->token);
 	free_address(&g_global->address);
@@ -70,7 +70,6 @@ int	main(int ac, char **av, char **env)
 {
 	t_mini	prog;
 	t_parse	*parse;
-
 
 	parse = NULL;
 	(void)av;

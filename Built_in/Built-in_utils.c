@@ -12,15 +12,15 @@
 
 #include "../minishell.h"
 
-
-void adding(t_list **env, t_list **export_list, char *var_name, char *var_value)
+void	adding(t_list **env, t_list **export_list, char *var_name,
+		char *var_value)
 {
-	char *new_var;
-	t_list *tmp_exp;
-	int flag;
-	t_list *tmp;
-	int value;
-	
+	char	*new_var;
+	t_list	*tmp_exp;
+	int		flag;
+	t_list	*tmp;
+	int		value;
+
 	tmp = *env;
 	tmp_exp = *export_list;
 	new_var = m_strjoin(var_name, var_value);
@@ -42,58 +42,57 @@ void adding(t_list **env, t_list **export_list, char *var_name, char *var_value)
 		ft_lstadd_back(export_list, ft_lstnew(new_var));
 }
 
-void adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1)
+void	adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1)
 {
-	t_list *tmp;
-	char **var;
+	t_list	*tmp;
+	char	**var;
 
 	tmp = *tmp_exp;
 	var = ft_split(var_name, '=');
 	if (var_name && ft_strnstr(tmp->content, *var, ft_strlen(var_name)))
-    {
+	{
 		*flag1 = 0;
-        free(tmp->content);
-        tmp->content = new_var;
-    }
+		free(tmp->content);
+		tmp->content = new_var;
+	}
 }
-void adding_env(t_list **tmp, char *var_name, char *new_var, int *value)
+void	adding_env(t_list **tmp, char *var_name, char *new_var, int *value)
 {
-	t_list *t;
+	t_list	*t;
 
 	t = *tmp;
 	if (var_name && ft_strnstr(t->content, var_name, ft_strlen(var_name)))
-    {
+	{
 		*value = 0;
-        free(t->content);
-        t->content = new_var;
-    }
+		free(t->content);
+		t->content = new_var;
+	}
 }
 
-void add_var(t_list *tmp, char *var_name, t_list **export_list)
+void	add_var(t_list *tmp, char *var_name, t_list **export_list)
 {
 	while (tmp)
 	{
 		if (ft_strnstr((char *)tmp->content, var_name, ft_strlen(var_name)))
-			return;
+			return ;
 		tmp = tmp->next;
 	}
 	ft_lstadd_back(export_list, ft_lstnew(m_strdup(var_name)));
-	return;
+	return ;
 }
 
-char *add_quotes(char *str)
+char	*add_quotes(char *str)
 {
-    int len;
-    char *quoted_str; 
+	int		len;
+	char	*quoted_str;
 
 	len = strlen(str);
-	quoted_str = malloc(len + 3); // 2 for quotes and 1 for null terminator
-    if (!quoted_str)
-        return NULL;
-    quoted_str[0] = '"';
-    ft_strcpy(quoted_str + 1, str);
-    quoted_str[len + 1] = '"';
-    quoted_str[len + 2] = '\0';
-
-    return quoted_str;
+	quoted_str = malloc(len + 3);
+	if (!quoted_str)
+		return (NULL);
+	quoted_str[0] = '"';
+	ft_strcpy(quoted_str + 1, str);
+	quoted_str[len + 1] = '"';
+	quoted_str[len + 2] = '\0';
+	return (quoted_str);
 }

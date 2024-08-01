@@ -98,7 +98,7 @@ void	builtin1(t_mini *prog, t_parse *tmp)
 	else if (!ft_strncmp(tmp->cmd_args->content, "pwd", 4))
 		ft_pwd(0, tmp);
 	else if (!ft_strncmp(tmp->cmd_args->content, "export", 7))
-		ft_export(&prog->env_head, &prog->export_head, tmp, NULL);
+		ft_export(prog, tmp, NULL);
 	else if (!ft_strncmp(tmp->cmd_args->content, "env", 4))
 		ft_env(prog->env_head, tmp);
 	else if (!ft_strncmp(tmp->cmd_args->content, "unset", 6))

@@ -12,43 +12,59 @@
 
 #include "../minishell.h"
 
-int is_valid_identifier_start(char c)
+int	is_valid_identifier_start(char c)
 {
-    return (ft_isalpha(c) || c == '_');
+	return (ft_isalpha(c) || c == '_');
 }
 
-int is_valid_identifier_char(char c)
+int	is_valid_identifier_char(char c)
 {
-    return (ft_isalnum(c) || c == '_');
+	return (ft_isalnum(c) || c == '_');
 }
 
-int has_invalid_characters(char *str)
+int	has_invalid_characters(char *str)
 {
-    while (*str)
-    {
-        if (!is_valid_identifier_char(*str) && *str != '=')
-            return 1;
-        str++;
-    }
-    return 0;
+	while (*str)
+	{
+		if (!is_valid_identifier_char(*str) && *str != '=')
+			return (1);
+		str++;
+	}
+	return (0);
 }
 
-void print_invalid_identifier(char *str)
+int	print_invalid_identifier(char *str, t_mini *prog)
 {
-    char *ptr;
+	char	*ptr;
 
+	(void)prog;
 	ptr = str;
-    while (*ptr && (isalnum(*ptr) || *ptr == '_'))
-        ptr++;
-    if (*ptr == '!')
-        printf("bash: %c%s: event not found\n", *ptr, ptr + 1);
-    else
-        printf("bash: export: '%s': not a valid identifier\n", str);
+	while (*ptr && (isalnum(*ptr) || *ptr == '_'))
+		ptr++;
+	if (*ptr == '!')
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putchar_fd(*ptr, 2);
+		ft_putstr_fd(ptr + 1, 2);
+		ft_putendl_fd(": event not found", 2);
+		g_global->exit_status = 1;
+		return (-1);
+	}
+	else
+	{
+		ft_putstr_fd("minishell: export: '", 2);
+		ft_putstr_fd(str, 2);
+		ft_putendl_fd("': not a valid identifier", 2);
+		g_global->exit_status = 1;
+		return (-1);
+	}
+	return (0);
 }
 
-void p_exp(t_list **export_list, t_parse *cmd)
+void	p_exp(t_list **export_list, t_parse *cmd)
 {
 	sort_exp(export_list);
 	my_print_list(*export_list, cmd);
-	return;
+	g_global->exit_status = 0;
+	return ;
 }

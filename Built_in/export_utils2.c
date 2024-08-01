@@ -14,13 +14,15 @@
 
 t_list	*find_var_in_list(t_list *list, const char *var_name)
 {
-	size_t var_name_len = ft_strlen(var_name);
+	size_t	var_name_len;
+	char	*content;
 
+	var_name_len = ft_strlen(var_name);
 	while (list)
 	{
-		char *content = (char *)list->content;
-        if (!ft_strncmp(content, var_name, var_name_len) &&
-            content[var_name_len] == '=')
+		content = (char *)list->content;
+		if (!ft_strncmp(content, var_name, var_name_len) &&
+			content[var_name_len] == '=')
 			return (list);
 		list = list->next;
 	}
@@ -29,7 +31,9 @@ t_list	*find_var_in_list(t_list *list, const char *var_name)
 
 char	*get_var_value(const char *var)
 {
-	char *equal = ft_strchr(var, '=');
+	char	*equal;
+
+	equal = ft_strchr(var, '=');
 	if (equal)
 		return (equal + 1);
 	return (NULL);
@@ -63,13 +67,14 @@ void	sort_exp(t_list **start)
 	}
 }
 
-void check_equal(char **var_name, char **var_value, char *content, char	*equal)
+void	check_equal(char **var_name, char **var_value, char *content,
+		char *equal)
 {
-	if (equal && *(equal + 1)== '\0')
+	if (equal && *(equal + 1) == '\0')
 	{
 		*var_name = m_substr(content, 0, equal - content + 1);
 		*var_value = NULL;
-	}	
+	}
 	else if (equal)
 	{
 		*var_name = m_substr(content, 0, equal - content + 1);
@@ -78,6 +83,6 @@ void check_equal(char **var_name, char **var_value, char *content, char	*equal)
 	else
 	{
 		*var_name = m_strdup(content);
-		*var_value = NULL;	
+		*var_value = NULL;
 	}
 }

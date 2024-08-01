@@ -43,7 +43,7 @@ char	*dup_words(char **dest, char *src, char c1, char c2)
 	len = 0;
 	while (src[len] != '\0' && (src[len] != c1 && src[len] != c2))
 		len++;
-	*dest = (char *)malloc(sizeof(char) * (len + 1));	
+	*dest = (char *)malloc(sizeof(char) * (len + 1));
 	if (*dest == NULL)
 		return (NULL);
 	addback_node_free(&g_global->address, newnode_free(*dest));

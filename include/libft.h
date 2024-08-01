@@ -69,7 +69,6 @@ char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 char				*ft_itoa(int n);
 size_t				ft_strncpy(char *dst, const char *src, size_t dstsize);
-char *ft_strcpy(char *dest, const char *src);
-
+char				*ft_strcpy(char *dest, const char *src);
 
 #endif

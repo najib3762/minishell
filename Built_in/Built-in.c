@@ -22,60 +22,62 @@ char	*ft_pwd(int i, t_parse *cmd)
 	if (i == 0 && cwd)
 	{
 		len = ft_strlen(cwd);
-		ft_putendl_fd( cwd, cmd->red_out);
+		ft_putendl_fd(cwd, cmd->red_out);
 	}
 	else
 		return (cwd);
 	return (NULL);
 }
 
-char *m_strndup(char *s, size_t n)
+char	*m_strndup(char *s, size_t n)
 {
-    size_t len;
-    char *p;
+	size_t	len;
+	char	*p;
 
-    len = ft_strlen(s);
-    if (n < len)
-        len = n;
-    p = (char *)malloc(len + 1);
+	len = ft_strlen(s);
+	if (n < len)
+		len = n;
+	p = (char *)malloc(len + 1);
 	addback_node_free(&g_global->address, newnode_free(p));
-    if (!p)
-        return NULL;
-    ft_strncpy(p, s, len);
-    p[len] = '\0';
-    return (p);
+	if (!p)
+		return (NULL);
+	ft_strncpy(p, s, len);
+	p[len] = '\0';
+	return (p);
 }
 
-void my_print_list(t_list *export_list, t_parse *cmd)
+void	my_print_list(t_list *export_list, t_parse *cmd)
 {
-    t_list *current;
-    char *equal_sign;
-    char *quoted_value;
-    char *var_name;
-    char *new_var;
+	t_list	*current;
+	char	*equal_sign;
+	char	*quoted_value;
+	char	*var_name;
+	char	*new_var;
 
 	current = export_list;
-    while (current)
-    {
-        equal_sign = ft_strchr(current->content, '=');
-        if (equal_sign)
-        {
-            var_name = m_strndup(current->content, equal_sign - (char *)current->content + 2);
-            quoted_value = add_quotes(equal_sign + 1);
-            new_var = m_strjoin(var_name, quoted_value);
-            ft_putendl_fd(ft_strjoin("declare -x ", new_var), cmd->red_out);
-        }
-        else
-            ft_putendl_fd(m_strjoin("declare -x ", (char *)current->content), cmd->red_out);
-        current = current->next;
-    }
+	while (current)
+	{
+		equal_sign = ft_strchr(current->content, '=');
+		if (equal_sign)
+		{
+			var_name = m_strndup(current->content, equal_sign
+					- (char *)current->content + 2);
+			quoted_value = add_quotes(equal_sign + 1);
+			new_var = m_strjoin(var_name, quoted_value);
+			ft_putendl_fd(ft_strjoin("declare -x ", new_var), cmd->red_out);
+		}
+		else
+			ft_putendl_fd(m_strjoin("declare -x ", (char *)current->content),
+					cmd->red_out);
+		current = current->next;
+	}
 }
 
-void	ft_export(t_list **env, t_list **export_list, t_parse *cmd, char *var_name)
+void	ft_export(t_mini *prog, t_parse *cmd, char *var_name)
 {
-	char 	*equal;
+	char	*equal;
 	char	*var_value;
-	t_args 	*cur;
+	t_args	*cur;
 
 	var_value = NULL;
 	cur = cmd->cmd_args;
@@ -84,27 +86,29 @@ void	ft_export(t_list **env, t_list **export_list, t_parse *cmd, char *var_name)
 	while (cur)
 	{
 		if (cur->content)
-		{  
-            if (check_dash(cur->content))
-                return;
+		{
+			if (check_dash(cur->content, prog))
+				return ;
 			equal = ft_strchr(cur->content, '=');
 			check_equal(&var_name, &var_value, cur->content, equal);
-			handle_plus_equal(env, &var_name, &var_value, cur->content);
-			export_check(var_name, cur->content);
-			add_to_exp(var_name, var_value, env, export_list);
+			handle_plus_equal(&prog->env_head, &var_name, &var_value,
+					cur->content);
+			if (export_check(var_name, cur->content, prog))
+				return ;
+			add_to_exp(var_name, var_value, &prog->env_head,
+					&prog->export_head);
 		}
 		cur = cur->next;
 	}
 	if (!var_name)
-		p_exp(export_list, cmd);
+		p_exp(&prog->export_head, cmd);
+	g_global->exit_status = 0;
 }
-void add_to_exp(char *var_name, char *var_value, t_list **env, t_list **export_list)
+void	add_to_exp(char *var_name, char *var_value, t_list **env,
+		t_list **export_list)
 {
-	if (var_name && !var_value) //adding variable to the export list
-        add_var(*export_list, var_name, export_list);
-	if (var_name && var_value) //adding the variable and the value to env and export list
+	if (var_name && !var_value)
+		add_var(*export_list, var_name, export_list);
+	if (var_name && var_value)
 		adding(env, export_list, var_name, var_value);
 }
-
-
-

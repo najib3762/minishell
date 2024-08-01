@@ -88,7 +88,6 @@ int	redirection(t_parse **parse, t_mini *prog)
 			temp = temp->next;
 			continue ;
 		}
-			
 		temp = temp->next;
 	}
 	return (0);

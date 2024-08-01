@@ -149,7 +149,7 @@ char				*ft_expand(char *line, t_mini *prog);
 int					*retur_value(int flag);
 void				sig_here_doc(int sig);
 char				*ft_pwd(int i, t_parse *cmd);
-void				ft_export(t_list **env, t_list **export_list, t_parse *cmd, char *var_name);
+void				ft_export(t_mini *prog, t_parse *cmd, char *var_name);
 t_args				*args_node(char *content);
 t_redir				*redir_node(char *filename, t_redir_enum type);
 t_parse				*cmd_node(t_args *cmd_args, t_redir *redir_list);
@@ -170,7 +170,8 @@ int					ft_executer(t_parse **parse, t_mini *prog);
 char				*g_env(t_list *env, char *str);
 void				ft_env(t_list *env, t_parse *cmd);
 void				my_print_list(t_list *head, t_parse *cmd);
-void				adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1);
+void				adding_exp(t_list **tmp_exp, char *var_name, char *new_var,
+						int *flag1);
 void				adding(t_list **env, t_list **export_list, char *var_name,
 						char *var_value);
 void				add_var(t_list *tmp, char *var_name, t_list **export_list);
@@ -214,24 +215,26 @@ char				*skip_quotes2(char *str);
 void				free_all(t_mini *prog);
 char				*m_substr(char const *s, unsigned int start, size_t len);
 char				**conv_cmd(t_args *cmd, t_mini *prog);
-int 				is_valid_identifier_start(char c);
-int 				is_valid_identifier_char(char c);
-int 				has_invalid_characters(char *str);
-void 				print_invalid_identifier(char *str);
-char 				*add_quotes(char *str);
-char 				*m_strndup(char *s, size_t n);
-void 				p_exp(t_list **export_list, t_parse *cmd);
+int					is_valid_identifier_start(char c);
+int					is_valid_identifier_char(char c);
+int					has_invalid_characters(char *str);
+int					print_invalid_identifier(char *str, t_mini *prog);
+char				*add_quotes(char *str);
+int					set_status(int status);
+char				*m_strndup(char *s, size_t n);
+void				p_exp(t_list **export_list, t_parse *cmd);
 t_list				*find_var_in_list(t_list *list, const char *var_name);
 char				*get_var_value(const char *var);
 void				sort_exp(t_list **start);
-void 				export_check(char *var_name, char *content);
-void 				check_equal(char **var_name, char **var_value, char *content, char	*equal);
-void handle_plus_equal(t_list **env, char **var_name, char **var_value, char *content);
-int  check_dash(char *content);
-void adding_env(t_list **tmp, char *var_name, char *new_var, int *value);
-
+int					export_check(char *var_name, char *content, t_mini *prog);
+void				check_equal(char **var_name, char **var_value,
+						char *content, char *equal);
+void				handle_plus_equal(t_list **env, char **var_name,
+						char **var_value, char *content);
+int					check_dash(char *content, t_mini *prog);
+void				adding_env(t_list **tmp, char *var_name, char *new_var,
+						int *value);
 
 char				*check_command(char *cmd, t_mini *prog);
-
 
 #endif
