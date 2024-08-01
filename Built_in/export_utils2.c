@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:43:06 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/31 18:26:48 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/01 09:56:09 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void check_equal(char **var_name, char **var_value, char *content, char	*equal)
 {
 	if (equal && *(equal + 1)== '\0')
 	{
-		printf("here\n");
 		*var_name = m_substr(content, 0, equal - content + 1);
 		*var_value = NULL;
 	}	
