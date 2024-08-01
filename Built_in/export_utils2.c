@@ -73,7 +73,7 @@ void	check_equal(char **var_name, char **var_value, char *content,
 	if (equal && *(equal + 1) == '\0')
 	{
 		*var_name = m_substr(content, 0, equal - content + 1);
-		*var_value = NULL;
+		*var_value = m_strdup("");
 	}
 	else if (equal)
 	{
