@@ -18,9 +18,11 @@ char	**conv_cmd(t_args *cmd, t_mini *prog)
 	int		i;
 	char	**env;
 	int		count;
+	t_global	*g_global;
 
 	i = 0;
 	count = 0;
+	g_global = global_function();
 	if (cmd == NULL || prog == NULL)
 		return (NULL);
 	count = nbr_args(cmd);
@@ -63,10 +65,12 @@ const char	*dup_word(char **dest, const char *src, char c)
 {
 	size_t	len;
 	size_t	i;
+	t_global	*g_global;
 
 	while (*src == c)
 		src++;
 	len = 0;
+	g_global = global_function();
 	while (src[len] != '\0' && src[len] != c)
 		len++;
 	*dest = (char *)malloc(sizeof(char) * (len + 1));
@@ -89,9 +93,11 @@ char	**ft_split(const char *s, char c)
 	char	**strs;
 	size_t	nbr_strings;
 	size_t	i;
+	t_global	*g_global;
 
 	if (s == NULL)
 		return (NULL);
+	g_global = global_function();
 	nbr_strings = count_strings(s, c);
 	strs = (char **)malloc(sizeof(char *) * (nbr_strings + 1));
 	addback_node_free(&g_global->address, newnode_free(strs));

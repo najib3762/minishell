@@ -57,8 +57,7 @@ void del_node(t_list **head, t_list *node)
 	{
 		prev = temp->next;
 		temp->next = temp->next->next;
-		free(prev->content);
-		free(prev);
+	    prev = NULL;
 		return;
 	}
 	temp = temp->next;
@@ -76,7 +75,7 @@ int	adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1, t_li
 	{
 		*flag1 = 0;
 		del_node(export_list, tmp);
-		ft_lstadd_back(export_list, ft_lstnew(new_var));
+		ft_lstadd_back(export_list, m_lstnew(new_var));
     return (1);
 	}
 	return (0);
@@ -90,7 +89,6 @@ void	adding_env(t_list **tmp, char *var_name, char *new_var, int *value)
 	if (var_name && ft_strnstr(t->content, var_name, ft_strlen(var_name)))
 	{
 		*value = 0;
-		free(t->content);
 		t->content = new_var;
 	}
 }

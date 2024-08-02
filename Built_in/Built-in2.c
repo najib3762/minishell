@@ -45,7 +45,9 @@ void	ft_env(t_list *prog, t_parse *cmd)
 {
 	t_list	*env;
 	t_list	*env_null;
+	t_global	*g_global;
 
+	g_global = global_function();
 	if (g_global->env_null == 1)
 	{
 		env_null = prog;
@@ -87,7 +89,9 @@ int	ft_cd(t_parse *arg, t_list **env)
 {
 	char	*path;
 	t_args	*current;
+	t_global	*g_global;
 
+	g_global = global_function();
 	current = arg->cmd_args;
 	if (my_lstsize(current) > 2)
 	{
@@ -116,8 +120,10 @@ int	ft_unset(t_list **env, t_list **exp_list, t_parse *cmd)
 {
 	t_args	*cur;
 	char	*var_name;
+	t_global	*g_global;
 
 	(void)exp_list;
+	g_global = global_function();
 	cur = cmd->cmd_args;
 	if (!ft_strncmp(cur->content, "unset", 6))
 		cur = cur->next;
@@ -154,29 +160,38 @@ void	set_unset(t_list **head, char *var_name)
 	}
 }
 
-int	ft_exit(t_parse *cmd)
+int	ft_exit(t_parse *cmd, t_mini *prog)
 {
 	t_args	*cur;
+	t_global	*g_global;
+	int content;
 
 	cur = cmd->cmd_args;
+	g_global = global_function();
 	if (!ft_strncmp(cur->content, "exit", 5))
 		cur = cur->next;
+	content = ft_atoi(cur->content);
 	if (my_lstsize(cmd->cmd_args) > 2 && ft_isnumeric(cur->content))
-		return (g_global->exit_status = 1, ft_putendl_fd("exit: too many arguments", 2));
+		return (ft_putendl_fd("exit: too many arguments", 2), 1);
 	if (cur && cur->content)
 	{
-		if (ft_isnumeric(cur->content))
-			exit(g_global->exit_status = ft_atoi(cur->content) % 256);
+		if (ft_isnumeric(cur->content) && free_all(prog))
+		{
+		  ft_putendl_fd("exit", 1);
+		  exit(content % 256);
+		}
 		else
 		{
 			ft_putendl_fd("exit: numeric argument required", 2);
-			exit(g_global->exit_status = 2);
+			free_all(prog);
+			exit(2);
 		}
 	}
 	else
 	{
 		ft_putendl_fd("exit", 1);
-		exit(g_global->exit_status = 0);
+		free_all(prog);
+		exit(0);
 	}
 	return (0);
 }

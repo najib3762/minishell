@@ -18,12 +18,14 @@ void	free_address(t_free **head)
 
 	while (*head)
 	{
+		temp = NULL;
 		temp = *head;
 		*head = (*head)->next;
 		free(temp->address);
 		free(temp);
 	}
 	*head = NULL;
+	rl_clear_history();
 }
 
 t_free	*newnode_free(void *content)

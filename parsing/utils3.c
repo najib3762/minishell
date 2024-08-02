@@ -15,7 +15,9 @@
 t_list	*m_lstnew(void *content)
 {
 	t_list	*node;
+	t_global	*g_global;
 
+	g_global = global_function();
 	node = malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
@@ -50,7 +52,9 @@ char	*m_itoa(int n)
 	long	x;
 	long	l;
 	char	*p;
+	t_global	*g_global;
 
+	g_global = global_function();
 	l = len(&n);
 	x = n;
 	p = (char *)malloc(l + 1);
@@ -78,9 +82,11 @@ char	*m_strjoin(char const *s1, char const *s2)
 {
 	char	*p;
 	size_t	len;
+	t_global	*g_global;
 
 	if (!s1 || !s2)
 		return (NULL);
+	g_global = global_function();
 	len = ft_strlen(s1) + ft_strlen(s2);
 	p = (char *)malloc(len + 1);
 	if (!p)
@@ -95,8 +101,10 @@ char	*m_strdup(const char *s)
 {
 	char	*p;
 	size_t	i;
+	t_global	*g_global;
 
 	i = 0;
+	g_global = global_function();
 	p = (char *)malloc(sizeof(char) * ((ft_strlen(s)) + 1));
 	if (!p)
 		return (0);

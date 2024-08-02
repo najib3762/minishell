@@ -23,10 +23,12 @@ int	word_token(t_mini *prog, t_token **head, int i)
 	int		dflag;
 	int		sflag;
 	int		len;
+	t_global	*g_global;
 
 	dflag = 0;
 	sflag = 0;
 	len = -1;
+	g_global = global_function();
 	while (prog->line[i + (++len)])
 	{
 		if (dflag == 0 && sflag == 0)
@@ -76,7 +78,9 @@ void	ft_lexer(t_mini *prog, t_token **head)
 int	word_token3(t_args **args, char *str, int i, int len)
 {
 	char	*ptr;
-
+	t_global	*g_global;
+ 
+	g_global = global_function();
 	ptr = malloc(sizeof(char) * (len + 1));
 	if (!ptr)
 		return (-1);

@@ -14,6 +14,9 @@
 
 int	export_check(char *var_name, char *content, t_mini *prog)
 {
+	t_global	*g_global;
+
+	g_global = global_function();
 	(void)prog;
 	if (!is_valid_identifier_start(var_name[0]) || var_name[0] == '=')
 	{
@@ -33,6 +36,9 @@ int	export_check(char *var_name, char *content, t_mini *prog)
 
 int	check_dash(char *content, int i)
 {
+	t_global	*g_global;
+	
+	g_global = global_function();
 	if (content[0] == '-' && content[1] != '\0')
 	{
 		if (i == 1)
@@ -44,8 +50,7 @@ int	check_dash(char *content, int i)
 		{
 			ft_putstr_fd("minishell: export: '", 2);
 			g_global->exit_status = 1;
-		}	
-		// ft_putstr_fd(content, 2);
+		}		
 		write(2, content, 2);
 		ft_putendl_fd("': invalid option", 2);
 		return (1);

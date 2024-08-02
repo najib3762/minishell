@@ -29,6 +29,9 @@ int	nbr_args(t_args *args)
 
 void	executer_utils(t_mini *prog, t_parse *cmd)
 {
+	t_global	*g_global;
+
+	g_global = global_function();
 	(void)cmd;
 	close_fd_pipe(prog);
 	free_fd_pipe(prog);
@@ -70,12 +73,14 @@ void	g_word2(char *str, char *eof)
 
 char	*skip_quotes2(char *str)
 {
+	t_global	*g_global;
 	char	*eof;
 	int		len;
 	int		qoutes;
 
 	if (!str)
 		return (NULL);
+	g_global = global_function();
 	qoutes = calcule_qoutes(str);
 	len = ft_strlen(str) - qoutes;
 	eof = malloc(sizeof(char) * (len + 1));

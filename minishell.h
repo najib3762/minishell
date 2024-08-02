@@ -47,7 +47,7 @@ typedef struct s_global
 	t_free			*address;
 }					t_global;
 
-extern t_global		*g_global;
+// extern t_global		*g_global;
 typedef enum e_type
 {
 	TOKEN_WORD,
@@ -169,6 +169,7 @@ t_fd				*ft_new_fd(int fd);
 void				ft_addback_fd(t_fd **head, t_fd *new_node);
 int					ft_executer(t_parse **parse, t_mini *prog);
 char				*g_env(t_list *env, char *str);
+void				*global_function(void);
 void				ft_env(t_list *env, t_parse *cmd);
 void				my_print_list(t_list *head, t_parse *cmd);
 void				adding(t_list **env, t_list **export_list, char *var_name,
@@ -179,7 +180,7 @@ void				add_to_exp(char *var_name, char *var_value, t_list **env,
 int					ft_unset(t_list **env, t_list **exp_list, t_parse *cmd);
 int					handle_redir_in(t_redir *redir, t_parse *temp,
 						t_mini *prog);
-int					ft_exit(t_parse *cmd);
+int					ft_exit(t_parse *cmd, t_mini *prog);
 void				handle_sigint2(int sig);
 void				handle_sigquit(int sig);
 void				handle_sigint1(int sig);
@@ -211,7 +212,7 @@ int					check_builtin(char **cmd);
 void				executer_utils(t_mini *prog, t_parse *cmd);
 void				builtin1(t_mini *prog, t_parse *tmp);
 char				*skip_quotes2(char *str);
-void				free_all(t_mini *prog);
+int				free_all(t_mini *prog);
 char				*m_substr(char const *s, unsigned int start, size_t len);
 char				**conv_cmd(t_args *cmd, t_mini *prog);
 int					is_valid_identifier_start(char c);

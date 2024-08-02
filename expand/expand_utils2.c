@@ -16,9 +16,11 @@ char	*my_strdup(char *str, int len)
 {
 	char	*array;
 	int		i;
+	t_global	*g_global;
 
 	if (!str || !len)
 		return (NULL);
+	g_global = global_function();
 	i = -1;
 	array = (char *)malloc((len + 1) * sizeof(char));
 	if (!array)
@@ -35,9 +37,11 @@ char	*my_strjoin(char *s1, char *s2)
 	size_t	i;
 	int		len;
 	char	*array;
+	t_global	*g_global;
 
 	i = 0;
 	len = 0;
+	g_global = global_function();
 	if (!s1 && !s2)
 		return (NULL);
 	if (!s1)

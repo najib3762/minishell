@@ -12,16 +12,21 @@
 
 #include "minishell.h"
 
-t_global	*g_global;
-
 int	set_status(int status)
 {
+	t_global	*g_global;
+	
+	g_global = global_function();
+
 	g_global->exit_status = status;
 	return (1);
 }
 
 void	main3(t_mini *prog, t_token **head, t_parse **parse)
 {
+	t_global	*g_global;
+	
+	g_global = global_function();
 	g_global->is_true = 0;
 	real_expand(head, prog);
 	parse_input(head, parse);
@@ -29,16 +34,23 @@ void	main3(t_mini *prog, t_token **head, t_parse **parse)
 	ft_executer(parse, prog);
 }
 
-void	free_all(t_mini *prog)
+int	free_all(t_mini *prog)
 {
+	t_global	*g_global;
+
+	g_global = global_function();
 	free_token_list(&prog->token);
 	free_address(&g_global->address);
 	free_fd_pipe(prog);
 	close_fd_pipe(prog);
+	close_free(&prog->fd_head);
+	free(prog->line);
+	return (1);
 }
 
 int	main2(t_mini *prog, t_token **head, t_parse **parse)
 {
+	
 	while (1)
 	{
 		signal(SIGINT, handle_sigint1);
@@ -66,11 +78,18 @@ int	main2(t_mini *prog, t_token **head, t_parse **parse)
 	return (0);
 }
 
+void *global_function(void)
+{
+	static t_global	global;
+
+	return (&global);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_mini	prog;
 	t_parse	*parse;
-
+	
 	parse = NULL;
 	(void)av;
 	init_data(ac, env, &prog);

@@ -19,11 +19,13 @@ char	**conv_env(t_list *prog)
 	char	**env;
 	t_list	*tmp;
 	int		count;
+	t_global	*g_global;
 
 	i = 0;
 	cur = prog;
 	count = 0;
 	tmp = prog;
+	g_global = global_function();
 	while (tmp)
 	{
 		count++;
@@ -90,7 +92,7 @@ int	check_builtin(char **cmd)
 void	builtin1(t_mini *prog, t_parse *tmp)
 {
 	if (!ft_strncmp(tmp->cmd_args->content, "exit", 5))
-		ft_exit(tmp);
+		ft_exit(tmp, prog);
 	else if (!ft_strncmp(tmp->cmd_args->content, "echo", 5))
 		ft_echo(tmp, 1);
 	else if (!ft_strncmp(tmp->cmd_args->content, "cd", 3))

@@ -14,6 +14,9 @@
 
 int	my_handle(void)
 {
+	t_global	*g_global;
+
+	g_global = global_function();
 	if (*retur_value(0) != 0)
 	{
 		dup2(*retur_value(0), 0);
@@ -29,9 +32,11 @@ char	*dollar_here_doc(char *line, int *i, t_mini *prog)
 {
 	char	*var_name;
 	char	*var_value;
+	t_global	*g_global;
 
 	var_name = NULL;
 	var_value = NULL;
+	g_global = global_function();
 	(*i)++;
 	if (line[*i] == '?')
 	{

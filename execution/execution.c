@@ -15,7 +15,9 @@
 void	handle_builtin(t_mini *prog, t_parse *tmp)
 {
 	pid_t	pid;
+	t_global	*g_global;
 
+	g_global = global_function();
 	if (prog->nbr_cmd > 1)
 	{
 		pid = fork();

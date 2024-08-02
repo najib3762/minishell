@@ -17,9 +17,11 @@ char	*handle_dollar(char *str, int *i, t_mini *prog)
 	char	*var_name;
 	char	*var_value;
 	int		num;
+	t_global	*g_global;
 
 	var_name = NULL;
 	var_value = NULL;
+	g_global = global_function();
 	if (str[*i] == '$' && (str[*i + 1] == '\''
 			|| str[*i + 1] == '\"') && ++(*i))
 		return (NULL);

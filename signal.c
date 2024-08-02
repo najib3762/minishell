@@ -27,6 +27,9 @@ void	handle_sigquit(int sig)
 void	handle_sigint1(int sig)
 {
 	(void)sig;
+	t_global	*g_global;
+	
+	g_global = global_function();
 	g_global->exit_status = 130;
 	write(1, "\n", 1);
 	rl_on_new_line();

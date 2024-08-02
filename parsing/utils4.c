@@ -37,7 +37,9 @@ char	*dup_words(char **dest, char *src, char c1, char c2)
 {
 	size_t	len;
 	size_t	i;
+	t_global	*g_global;
 
+	g_global = global_function();
 	while (*src == c1 || *src == c2)
 		src++;
 	len = 0;
@@ -63,7 +65,9 @@ char	**m_split(char *s, char c1, char c2)
 	char	**strs;
 	size_t	nbr_strings;
 	size_t	i;
-
+	t_global	*g_global;
+  
+	g_global = global_function();
 	nbr_strings = count_str(s, c1, c2);
 	strs = (char **)malloc(sizeof(char *) * (nbr_strings + 1));
 	if (strs != NULL)
@@ -89,8 +93,10 @@ char	*m_substr(char const *s, unsigned int start, size_t len)
 	size_t	i;
 	char	*p;
 	size_t	len_s;
+	t_global	*g_global;
 
 	i = 0;
+	g_global = global_function();
 	if (!s)
 		return (NULL);
 	len_s = ft_strlen(s);

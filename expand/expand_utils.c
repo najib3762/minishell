@@ -15,7 +15,9 @@
 char	*ft_strdup_char(char c)
 {
 	char	*array;
-
+	t_global	*g_global;
+    
+	g_global = global_function();
 	array = (char *)malloc(sizeof(char) * 2);
 	if (!array)
 		return (NULL);
@@ -30,9 +32,11 @@ char	*ft_strjoin_char(char *s1, char c)
 	char	*array;
 	int		i;
 	int		len;
+	t_global	*g_global;
 
 	i = 0;
 	len = 0;
+	g_global = global_function();
 	if (!s1)
 		return (ft_strdup_char(c));
 	len = ft_strlen(s1);
@@ -89,8 +93,10 @@ char	*take_var_name(char *str, int *i)
 {
 	int		j;
 	char	*var_name;
+	t_global	*g_global;
 
 	var_name = NULL;
+	g_global = global_function();
 	j = 0;
 	if (!var_name)
 	{

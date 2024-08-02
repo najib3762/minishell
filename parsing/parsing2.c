@@ -15,7 +15,9 @@
 t_args	*args_node(char *content)
 {
 	t_args	*node;
+	t_global	*g_global;
 
+	g_global = global_function();
 	node = (t_args *)malloc(sizeof(t_args));
 	if (!node)
 		return (NULL);
@@ -28,7 +30,9 @@ t_args	*args_node(char *content)
 t_redir	*redir_node(char *filename, t_redir_enum type)
 {
 	t_redir	*node;
+	t_global	*g_global;
 
+	g_global = global_function();
 	node = (t_redir *)malloc(sizeof(t_redir));
 	if (!node)
 		return (NULL);
@@ -42,7 +46,9 @@ t_redir	*redir_node(char *filename, t_redir_enum type)
 t_parse	*cmd_node(t_args *cmd_args, t_redir *redir_list)
 {
 	t_parse	*node;
+	t_global	*g_global;
 
+	g_global = global_function();
 	node = (t_parse *)malloc(sizeof(t_parse));
 	if (!node)
 		return (NULL);

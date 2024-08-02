@@ -37,9 +37,11 @@ char	*ft_pwd(int i, t_parse *cmd)
 
 char	*m_strndup(char *s, size_t n)
 {
+	t_global	*g_global;
 	size_t	len;
 	char	*p;
-
+	
+	g_global = global_function();
 	len = ft_strlen(s);
 	if (n < len)
 		len = n;
@@ -82,8 +84,10 @@ void	ft_export(t_mini *prog, t_parse *cmd, char *var_name)
 	char	*equal;
 	char	*var_value;
 	t_args	*cur;
+	t_global	*g_global;
 
 	var_value = NULL;
+	g_global = global_function();
 	cur = cmd->cmd_args;
 	if (!ft_strncmp(cur->content, "export", 7))
 		cur = cur->next;
