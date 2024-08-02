@@ -15,6 +15,7 @@ SRC_M = parsing/error.c \
 		here_doc/here_doc1.c\
 		here_doc/here_doc_utils.c\
 		here_doc/here_doc_expand.c\
+		here_doc/utile1.c\
 		expand/expand.c\
 		expand/expand_utils.c\
 		expand/expand_utils2.c\

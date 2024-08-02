@@ -12,25 +12,6 @@
 
 #include "../minishell.h"
 
-#define FILENAME "/tmp/here_doc_"
-
-char	*random_file(void)
-{
-	char		*filename;
-	static int	i;
-	char		*temp;
-
-	temp = NULL;
-	temp = m_itoa(i++);
-	filename = m_strjoin(FILENAME, temp);
-	if (!filename)
-	{
-		perror("malloc");
-		return (NULL);
-	}
-	return (filename);
-}
-
 void	change_value(t_token *token, char *filename)
 {
 	token->value = "<";
