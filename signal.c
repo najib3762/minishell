@@ -26,15 +26,22 @@ void	handle_sigquit(int sig)
 
 void	handle_sigint1(int sig)
 {
-	(void)sig;
 	t_global	*g_global;
-	
+
+	(void)sig;
 	g_global = global_function();
 	g_global->exit_status = 130;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+void	*global_function(void)
+{
+	static t_global	global;
+
+	return (&global);
 }
 
 int	ft_lengh_word(char *str)

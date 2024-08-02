@@ -49,9 +49,9 @@ int	close_free(t_fd **head)
 
 t_fd	*ft_new_fd(int fd)
 {
-	t_fd	*new_node;
+	t_fd		*new_node;
 	t_global	*g_global;
-  
+
 	g_global = global_function();
 	new_node = (t_fd *)malloc(sizeof(t_fd));
 	addback_node_free(&g_global->address, newnode_free(new_node));

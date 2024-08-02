@@ -14,9 +14,9 @@
 
 char	*ft_strdup_char(char c)
 {
-	char	*array;
+	char		*array;
 	t_global	*g_global;
-    
+
 	g_global = global_function();
 	array = (char *)malloc(sizeof(char) * 2);
 	if (!array)
@@ -29,9 +29,9 @@ char	*ft_strdup_char(char c)
 
 char	*ft_strjoin_char(char *s1, char c)
 {
-	char	*array;
-	int		i;
-	int		len;
+	char		*array;
+	int			i;
+	int			len;
 	t_global	*g_global;
 
 	i = 0;
@@ -91,8 +91,8 @@ char	*get_env_value(char *key, t_list *env)
 
 char	*take_var_name(char *str, int *i)
 {
-	int		j;
-	char	*var_name;
+	int			j;
+	char		*var_name;
 	t_global	*g_global;
 
 	var_name = NULL;

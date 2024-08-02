@@ -170,11 +170,11 @@ int	ft_exit(t_parse *cmd, t_mini *prog)
 	g_global = global_function();
 	if (!ft_strncmp(cur->content, "exit", 5))
 		cur = cur->next;
-	content = ft_atoi(cur->content);
 	if (my_lstsize(cmd->cmd_args) > 2 && ft_isnumeric(cur->content))
-		return (ft_putendl_fd("exit: too many arguments", 2), 1);
+		return (g_global->exit_status = 1, ft_putendl_fd("exit: too many arguments", 2));
 	if (cur && cur->content)
 	{
+			content = ft_atoi(cur->content);
 		if (ft_isnumeric(cur->content) && free_all(prog))
 		{
 		  ft_putendl_fd("exit", 1);

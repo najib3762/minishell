@@ -212,7 +212,7 @@ int					check_builtin(char **cmd);
 void				executer_utils(t_mini *prog, t_parse *cmd);
 void				builtin1(t_mini *prog, t_parse *tmp);
 char				*skip_quotes2(char *str);
-int				free_all(t_mini *prog);
+int					free_all(t_mini *prog);
 char				*m_substr(char const *s, unsigned int start, size_t len);
 char				**conv_cmd(t_args *cmd, t_mini *prog);
 int					is_valid_identifier_start(char c);

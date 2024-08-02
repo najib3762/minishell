@@ -30,8 +30,8 @@ int	my_handle(void)
 
 char	*dollar_here_doc(char *line, int *i, t_mini *prog)
 {
-	char	*var_name;
-	char	*var_value;
+	char		*var_name;
+	char		*var_value;
 	t_global	*g_global;
 
 	var_name = NULL;

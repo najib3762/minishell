@@ -14,11 +14,11 @@
 
 char	**conv_cmd(t_args *cmd, t_mini *prog)
 {
-	t_args	*cur;
-	int		i;
-	char	**env;
-	int		count;
+	t_args		*cur;
 	t_global	*g_global;
+	int			i;
+	char		**env;
+	int			count;
 
 	i = 0;
 	count = 0;
@@ -63,8 +63,8 @@ size_t	count_strings(const char *s, char c)
 
 const char	*dup_word(char **dest, const char *src, char c)
 {
-	size_t	len;
-	size_t	i;
+	size_t		len;
+	size_t		i;
 	t_global	*g_global;
 
 	while (*src == c)
@@ -90,9 +90,9 @@ const char	*dup_word(char **dest, const char *src, char c)
 
 char	**ft_split(const char *s, char c)
 {
-	char	**strs;
-	size_t	nbr_strings;
-	size_t	i;
+	char		**strs;
+	size_t		nbr_strings;
+	size_t		i;
 	t_global	*g_global;
 
 	if (s == NULL)
@@ -109,9 +109,7 @@ char	**ft_split(const char *s, char c)
 		{
 			s = dup_word(strs + i, s, c);
 			if (s == NULL)
-			{
 				break ;
-			}
 			i++;
 		}
 	}

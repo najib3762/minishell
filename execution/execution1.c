@@ -14,14 +14,12 @@
 
 char	**conv_env(t_list *prog)
 {
-	t_list	*cur;
-	int		i;
-	char	**env;
-	t_list	*tmp;
-	int		count;
+	t_list		*cur;
 	t_global	*g_global;
+	char		**env;
+	t_list		*tmp;
+	int			count;
 
-	i = 0;
 	cur = prog;
 	count = 0;
 	tmp = prog;
@@ -32,13 +30,14 @@ char	**conv_env(t_list *prog)
 		tmp = tmp->next;
 	}
 	env = (char **)malloc(sizeof(char *) * (count + 1));
+	count = 0;
 	while (cur)
 	{
-		env[i++] = cur->content;
+		env[count++] = cur->content;
 		cur = cur->next;
 	}
 	addback_node_free(&g_global->address, newnode_free(env));
-	env[i] = NULL;
+	env[count] = NULL;
 	return (env);
 }
 

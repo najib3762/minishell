@@ -15,9 +15,8 @@
 int	set_status(int status)
 {
 	t_global	*g_global;
-	
-	g_global = global_function();
 
+	g_global = global_function();
 	g_global->exit_status = status;
 	return (1);
 }
@@ -25,7 +24,7 @@ int	set_status(int status)
 void	main3(t_mini *prog, t_token **head, t_parse **parse)
 {
 	t_global	*g_global;
-	
+
 	g_global = global_function();
 	g_global->is_true = 0;
 	real_expand(head, prog);
@@ -50,7 +49,6 @@ int	free_all(t_mini *prog)
 
 int	main2(t_mini *prog, t_token **head, t_parse **parse)
 {
-	
 	while (1)
 	{
 		signal(SIGINT, handle_sigint1);
@@ -78,18 +76,11 @@ int	main2(t_mini *prog, t_token **head, t_parse **parse)
 	return (0);
 }
 
-void *global_function(void)
-{
-	static t_global	global;
-
-	return (&global);
-}
-
 int	main(int ac, char **av, char **env)
 {
 	t_mini	prog;
 	t_parse	*parse;
-	
+
 	parse = NULL;
 	(void)av;
 	init_data(ac, env, &prog);

@@ -74,9 +74,9 @@ void	g_word2(char *str, char *eof)
 char	*skip_quotes2(char *str)
 {
 	t_global	*g_global;
-	char	*eof;
-	int		len;
-	int		qoutes;
+	char		*eof;
+	int			len;
+	int			qoutes;
 
 	if (!str)
 		return (NULL);
