@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:47:39 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/31 19:07:35 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/02 09:45:23 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,23 @@ int	export_check(char *var_name, char *content, t_mini *prog)
 	return (0);
 }
 
-int	check_dash(char *content, t_mini *prog)
+int	check_dash(char *content, int i)
 {
-	(void)prog;
 	if (content[0] == '-' && content[1] != '\0')
 	{
-		ft_putstr_fd("minishell: export: '", 2);
-		ft_putstr_fd(content, 2);
+		if (i == 1)
+		{
+			ft_putstr_fd("minishell: pwd: '", 2);
+			g_global->exit_status = 2;
+		}
+		else
+		{
+			ft_putstr_fd("minishell: export: '", 2);
+			g_global->exit_status = 1;
+		}	
+		// ft_putstr_fd(content, 2);
+		write(2, content, 2);
 		ft_putendl_fd("': invalid option", 2);
-		g_global->exit_status = 2;
 		return (1);
 	}
 	return (0);
