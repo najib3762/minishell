@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:21:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/08/01 09:14:48 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:03:55 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,10 +229,12 @@ void				check_equal(char **var_name, char **var_value,
 						char *content, char *equal);
 void				handle_plus_equal(t_list **env, char **var_name,
 						char **var_value, char *content);
-int					check_dash(char *content, t_mini *prog);
+int					check_dash(char *content, int i);
 void				adding_env(t_list **tmp, char *var_name, char *new_var,
 						int *value);
 
 char				*check_command(char *cmd, t_mini *prog);
+
+//check PWD
 
 #endif

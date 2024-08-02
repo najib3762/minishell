@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:51:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/31 19:06:46 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:04:04 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,14 @@ char	*ft_pwd(int i, t_parse *cmd)
 	char	wd[1024];
 	int		len;
 	char	*cwd;
+	t_args *cur;
 
 	cwd = getcwd(wd, sizeof(wd));
+	cur = cmd->cmd_args;
+	if (cur && !ft_strncmp(cur->content, "pwd", 7))
+		cur = cur->next;
+	if (cur && check_dash(cur->content, 1))
+		return(NULL);
 	if (i == 0 && cwd)
 	{
 		len = ft_strlen(cwd);
@@ -85,7 +91,7 @@ void	ft_export(t_mini *prog, t_parse *cmd, char *var_name)
 	{
 		if (cur->content)
 		{
-			if (check_dash(cur->content, prog))
+			if (check_dash(cur->content, 0))
 				return ;
 			equal = ft_strchr(cur->content, '=');
 			check_equal(&var_name, &var_value, cur->content, equal);

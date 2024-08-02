@@ -6,13 +6,13 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 12:41:16 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/31 19:07:44 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/02 13:17:11 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 static int	adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1,t_list **export_list);
- 
+
 void	adding(t_list **env, t_list **export_list, char *var_name,
 		char *var_value)
 {
@@ -41,7 +41,9 @@ void	adding(t_list **env, t_list **export_list, char *var_name,
 	if (value == 1)
 		ft_lstadd_back(env, m_lstnew(new_var));
 	if (flag == 1)
+	{
 		ft_lstadd_back(export_list, m_lstnew(new_var));
+	}
 }
 
 void del_node(t_list **head, t_list *node)
@@ -50,7 +52,7 @@ void del_node(t_list **head, t_list *node)
     t_list *prev = NULL;
 
     while (temp != NULL)
-   {
+	{
 	if(ft_strcmp(temp->next->content, node->content) == 0)
 	{
 		prev = temp->next;
@@ -60,7 +62,7 @@ void del_node(t_list **head, t_list *node)
 		return;
 	}
 	temp = temp->next;
-   }
+	}
 }
 
 int	adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1, t_list **export_list)
@@ -75,7 +77,7 @@ int	adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1, t_li
 		*flag1 = 0;
 		del_node(export_list, tmp);
 		ft_lstadd_back(export_list, ft_lstnew(new_var));
-     return (1);
+    return (1);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 16:42:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/31 19:09:10 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/02 12:56:07 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,16 +162,11 @@ int	ft_exit(t_parse *cmd)
 	if (!ft_strncmp(cur->content, "exit", 5))
 		cur = cur->next;
 	if (my_lstsize(cmd->cmd_args) > 2 && ft_isnumeric(cur->content))
-	{
-		g_global->exit_status = 1;
-		return (ft_putendl_fd("exit: too many arguments", 2));
-	}
+		return (g_global->exit_status = 1, ft_putendl_fd("exit: too many arguments", 2));
 	if (cur && cur->content)
 	{
 		if (ft_isnumeric(cur->content))
-		{
 			exit(g_global->exit_status = ft_atoi(cur->content) % 256);
-		}
 		else
 		{
 			ft_putendl_fd("exit: numeric argument required", 2);
