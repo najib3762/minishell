@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+static int	adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1,t_list **export_list);
+ 
 void	adding(t_list **env, t_list **export_list, char *var_name,
 		char *var_value)
 {
@@ -33,7 +34,8 @@ void	adding(t_list **env, t_list **export_list, char *var_name,
 	}
 	while (tmp_exp)
 	{
-		adding_exp(&tmp_exp, var_name, new_var, &flag);
+		if(adding_exp(&tmp_exp, var_name, new_var, &flag, export_list) == 1)
+			return ;
 		tmp_exp = tmp_exp->next;
 	}
 	if (value == 1)
@@ -42,20 +44,42 @@ void	adding(t_list **env, t_list **export_list, char *var_name,
 		ft_lstadd_back(export_list, m_lstnew(new_var));
 }
 
-void	adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1)
+void del_node(t_list **head, t_list *node)
+{
+    t_list *temp = *head;
+    t_list *prev = NULL;
+
+    while (temp != NULL)
+   {
+	if(ft_strcmp(temp->next->content, node->content) == 0)
+	{
+		prev = temp->next;
+		temp->next = temp->next->next;
+		free(prev->content);
+		free(prev);
+		return;
+	}
+	temp = temp->next;
+   }
+}
+
+int	adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1, t_list **export_list)
 {
 	t_list	*tmp;
-	char	**var;
+	char *var_name1;	
 
 	tmp = *tmp_exp;
-	var = ft_split(var_name, '=');
-	if (var_name && ft_strnstr(tmp->content, *var, ft_strlen(var_name)))
+	var_name1 = m_substr(tmp->content, 0, ft_lengh_word(tmp->content));
+	if (var_name && ft_strcmp(var_name1, var_name) == 0)
 	{
 		*flag1 = 0;
-		free(tmp->content);
-		tmp->content = new_var;
+		del_node(export_list, tmp);
+		ft_lstadd_back(export_list, ft_lstnew(new_var));
+     return (1);
 	}
+	return (0);
 }
+
 void	adding_env(t_list **tmp, char *var_name, char *new_var, int *value)
 {
 	t_list	*t;

@@ -170,8 +170,6 @@ int					ft_executer(t_parse **parse, t_mini *prog);
 char				*g_env(t_list *env, char *str);
 void				ft_env(t_list *env, t_parse *cmd);
 void				my_print_list(t_list *head, t_parse *cmd);
-void				adding_exp(t_list **tmp_exp, char *var_name, char *new_var,
-						int *flag1);
 void				adding(t_list **env, t_list **export_list, char *var_name,
 						char *var_value);
 void				add_var(t_list *tmp, char *var_name, t_list **export_list);

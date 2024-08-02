@@ -37,7 +37,7 @@ int	check_dash(char *content, t_mini *prog)
 	if (content[0] == '-' && content[1] != '\0')
 	{
 		ft_putstr_fd("minishell: export: '", 2);
-		ft_putstr_fd(content, 2);
+		write(2, content, 2);
 		ft_putendl_fd("': invalid option", 2);
 		g_global->exit_status = 2;
 		return (1);
