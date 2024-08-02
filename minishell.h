@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:21:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/08/02 09:41:03 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:03:55 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,5 +236,7 @@ void				adding_env(t_list **tmp, char *var_name, char *new_var,
 						int *value);
 
 char				*check_command(char *cmd, t_mini *prog);
+
+//check PWD
 
 #endif

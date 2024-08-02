@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 12:41:16 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/08/01 20:39:43 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/02 10:08:11 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	adding(t_list **env, t_list **export_list, char *var_name,
 		ft_lstadd_back(env, m_lstnew(new_var));
 	if (flag == 1)
 	{
-		printf("ading back\n");
 		ft_lstadd_back(export_list, m_lstnew(new_var));
 	}
 }
@@ -48,20 +47,15 @@ void	adding(t_list **env, t_list **export_list, char *var_name,
 void	adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1)
 {
 	t_list	*tmp;
-	//char	**var;
+	char	**var;
 	
 	tmp = *tmp_exp;
-	char *var = (char*)tmp->content;
-	printf(">>>>>>>var = %s\n", var);
-	//var = ft_split(var_name, '=');
-	if(!ft_strchr(var, '='))
-		var = m_strjoin(var, "=");
+	var = ft_split(var_name, '=');
 	
 	
-	printf("\n  var %s var_name c %s\n\n", var, var_name);
-	if (var_name && !ft_strncmp(var, var_name, ft_strlen(var_name) - 1))
+	if (var_name && !ft_strncmp(tmp->content, *var, ft_strlen(*var)))
 	{
-		//free(tmp->content);
+		free(tmp->content);
 		tmp->content = new_var;
 		*flag1 = 0;
 		return;
