@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 16:42:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/08/03 09:02:34 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/03 09:06:33 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void set_env_old(t_list **env, const char *name, t_list **export_list)
         tmp = tmp->next;
     } 
 	if (tmp)
-    	ft_lstadd_back(env, m_lstnew(pwd_content));
+		ft_lstadd_back(env, m_lstnew(pwd_content));
 	tmp = *export_list;
 	while (tmp)
     {
