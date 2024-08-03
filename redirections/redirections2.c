@@ -34,6 +34,7 @@ int	close_free(t_fd **head)
 		return (0);
 	while (*head)
 	{
+		temp = NULL;
 		temp = *head;
 		*head = (*head)->next;
 		close(temp->fd);

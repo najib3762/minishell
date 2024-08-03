@@ -70,7 +70,6 @@ int	here_doc2(t_token *token, t_mini *prog)
 	int		fd;
 
 	filename = random_file();
-	printf("heredoc: %s\n", filename);
 	if (!filename)
 		return (-1);
 	fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);

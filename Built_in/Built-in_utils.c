@@ -95,7 +95,7 @@ int adding_exp(t_list **tmp_exp, t_exp_args *args, int *flag1, t_list **export_l
     {
         *flag1 = 0;
         del_node(export_list, tmp);
-        ft_lstadd_back(export_list, ft_lstnew(args->new_var));
+        ft_lstadd_back(export_list, m_lstnew(args->new_var));
         return (1);
     }
     return (0);

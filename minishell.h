@@ -116,12 +116,11 @@ typedef struct s_mini
 
 typedef struct s_exp_args
 {
-    t_list **tmp_exp;
-	t_list	**export_list;
-    char *var_name;
-    char *new_var;
-} t_exp_args;
-
+	t_list			**tmp_exp;
+	t_list			**export_list;
+	char			*var_name;
+	char			*new_var;
+}					t_exp_args;
 
 int					ft_isspace(char c);
 char				*ft_strdup(const char *s);
@@ -245,7 +244,5 @@ void				adding_env(t_list **tmp, char *var_name, char *new_var,
 						int *value);
 
 char				*check_command(char *cmd, t_mini *prog);
-
-// check PWD
 
 #endif
