@@ -45,17 +45,16 @@ int	main2(t_mini *prog, t_token **head, t_parse **parse)
 {
 	while (1)
 	{
-		signal(SIGINT, handle_sigint1);
-		signal(SIGQUIT, SIG_IGN);
+		hand_sig(1);
 		prog->line = readline(PROMPT);
 		if (!prog->line)
 			return (ft_putendl_fd("\033[31mexit\033[0m", 1));
 		if (prog->line[0] == '\0' && set_status(0))
 			continue ;
-		signal(SIGINT, handle_sigint2);
-		signal(SIGQUIT, handle_sigquit);
+		hand_sig(0);
+		getcwd(prog->pwd, sizeof(prog->pwd));
 		add_history(prog->line);
-		if (check_quotes(prog) == 1 && getcwd(prog->pwd, sizeof(prog->pwd)))
+		if (check_quotes(prog) == 1)
 		{
 			ft_lexer(prog, head);
 			if (!check_syntax_errors(head))

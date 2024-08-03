@@ -138,6 +138,7 @@ char				*skip_quotes(char *str);
 char				*is_qoutes(char *str, int *qoutes);
 int					check_qoutes(char *str);
 char				*random_file(void);
+void				hand_sig(int i);
 int					check_dollar(char *str);
 char				*ft_expand(char *line, t_mini *prog);
 void				change_value(t_token *token, char *filename);

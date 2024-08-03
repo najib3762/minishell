@@ -43,3 +43,17 @@ int	ft_lengh_word(char *str)
 		i++;
 	return (i + 1);
 }
+
+void	hand_sig(int i)
+{
+	if (i == 1)
+	{
+		signal(SIGINT, handle_sigint1);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else
+	{
+		signal(SIGINT, handle_sigint2);
+		signal(SIGQUIT, handle_sigquit);
+	}
+}
