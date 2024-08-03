@@ -1,125 +1,141 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Built-in.c                                         :+:      :+:    :+:   */
+/*   Built-in2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 10:51:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/08/02 11:04:04 by mlamrani         ###   ########.fr       */
+/*   Created: 2024/07/13 16:42:47 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/08/03 17:04:00 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_pwd(int i, t_parse *cmd, t_mini *prog)
+void	ft_echo(t_parse *arg, int n_line)
 {
-	char	wd[1024];
-	int		len;
-	char	*cwd;
-	t_args	*cur;
+	int		i;
+	t_args	*tmp;
 
-	cur = cmd->cmd_args;
-	if (cur && !ft_strncmp(cur->content, "pwd", 7))
-		cur = cur->next;
-	if (cur && check_dash(cur->content, 1))
-		return (NULL);
-	cwd = getcwd(wd, sizeof(wd));
-	if (!cwd)
+	tmp = arg->cmd_args;
+	if (!ft_strncmp(tmp->content, "echo", 5))
+		tmp = tmp->next;
+	while (tmp && !ft_strncmp(tmp->content, "-n", 2))
 	{
-		ft_putendl_fd(prog->pwd, cmd->red_out);
-		return (NULL);
+		i = 2;
+		while (tmp->content[i] == 'n')
+			i++;
+		if (tmp->content[i] != '\0')
+			break ;
+		n_line = 0;
+		tmp = tmp->next;
+	}
+	while (tmp)
+	{
+		write(arg->red_out, tmp->content, ft_strlen(tmp->content));
+		if (tmp->next)
+			write(arg->red_out, " ", 1);
+		tmp = tmp->next;
+	}
+	if (n_line && set_status(0))
+		write(arg->red_out, "\n", 1);
+}
+
+void	ft_env(t_list *prog, t_parse *cmd)
+{
+	t_list	*env;
+	t_list	*env_null;
+
+	if (g_global->env_null == 1)
+	{
+		env_null = prog;
+		while (env_null)
+		{
+			if (ft_strncmp(env_null->content, "PATH", 4) == 0)
+			{
+				env_null = env_null->next;
+				continue ;
+			}
+			else
+				ft_putendl_fd((char *)env_null->content, cmd->red_out);
+			env_null = env_null->next;
+		}
 	}
 	else
 	{
-		if (i == 0)
+		env = prog;
+		while (env)
 		{
-			len = ft_strlen(cwd);
-			ft_putendl_fd(cwd, cmd->red_out);
+			ft_putendl_fd((char *)env->content, cmd->red_out);
+			env = env->next;
 		}
-		return (cwd);
 	}
 }
 
-char	*m_strndup(char *s, size_t n)
+int	ft_unset(t_list **env, t_list **exp_list, t_parse *cmd)
 {
-	size_t	len;
-	char	*p;
-	
-	len = ft_strlen(s);
-	if (n < len)
-		len = n;
-	p = (char *)malloc(len + 1);
-	addback_node_free(&g_global->address, newnode_free(p));
-	if (!p)
-		return (NULL);
-	ft_strncpy(p, s, len);
-	p[len] = '\0';
-	return (p);
+	t_args	*cur;
+	char	*var_name;
+
+	(void)exp_list;
+	cur = cmd->cmd_args;
+	if (!ft_strncmp(cur->content, "unset", 6))
+		cur = cur->next;
+	var_name = NULL;
+	if (cur && cur->content)
+		var_name = m_strdup(cur->content);
+	if (!var_name)
+		return (g_global->exit_status = 0, 1);
+	set_unset(env, var_name);
+	set_unset(exp_list, var_name);
+	return (g_global->exit_status = 0, 0);
 }
 
-void	my_print_list(t_list *export_list, t_parse *cmd)
+void	set_unset(t_list **head, char *var_name)
 {
 	t_list	*current;
-	char	*equal_sign;
+	t_list	*prev;
 
-	current = export_list;
+	current = *head;
+	prev = NULL;
 	while (current)
 	{
-		equal_sign = ft_strchr(current->content, '=');
-		if (equal_sign)
+		if (ft_strnstr(current->content, var_name, ft_strlen(var_name)))
 		{
-			ft_putstr_fd(m_strjoin("declare -x ", m_substr(current->content, 0,
-						ft_lengh_word(current->content))), cmd->red_out);
-			ft_putstr_fd(m_strjoin("\"", m_substr(current->content,
-				ft_lengh_word(current->content),
-				ft_strlen(current->content))), cmd->red_out);
-			ft_putendl_fd("\"", cmd->red_out);
+			if (prev == NULL)
+				*head = current->next;
+			else
+				prev->next = current->next;
+			break ;
 		}
-		else
-			ft_putendl_fd(m_strjoin("declare -x ", (char *)current->content),
-				cmd->red_out);
+		prev = current;
 		current = current->next;
 	}
 }
 
-void	ft_export(t_mini *prog, t_parse *cmd, char *var_name)
+int	ft_exit(t_parse *cmd, t_mini *prog)
 {
-	char	*equal;
-	char	*var_value;
 	t_args	*cur;
+	int		content;
 
-	var_value = NULL;
 	cur = cmd->cmd_args;
-	if (!ft_strncmp(cur->content, "export", 7))
+	if (!ft_strncmp(cur->content, "exit", 5))
 		cur = cur->next;
-	while (cur)
+	if (my_lstsize(cmd->cmd_args) > 2 && ft_isnumeric(cur->content))
+		return (g_global->exit_status = 1,
+				ft_putendl_fd("exit: too many arguments", 2));
+	if (cur && cur->content)
 	{
-		if (cur->content)
-		{
-			if (check_dash(cur->content, 0))
-				return ;
-			equal = ft_strchr(cur->content, '=');
-			check_equal(&var_name, &var_value, cur->content, equal);
-			handle_plus_equal(&prog->env_head, &var_name, &var_value,
-				cur->content);
-			if (export_check(var_name, cur->content, prog))
-				return ;
-			add_to_exp(var_name, var_value, &prog->env_head,
-				&prog->export_head);
-		}
-		cur = cur->next;
+		content = ft_atoi(cur->content);
+		if (ft_isnumeric(cur->content) && free_all(prog)
+			&& ft_putendl_fd("exit", 1))
+			exit(content % 256);
+		else if (!ft_isnumeric(cur->content) && free_all(prog)
+				&& ft_putendl_fd("exit: numeric argument required", 2))
+			exit(2);
 	}
-	if (!var_name)
-		p_exp(&prog->export_head, cmd);
-	g_global->exit_status = 0;
-}
-
-void	add_to_exp(char *var_name, char *var_value, t_list **env,
-		t_list **export_list)
-{
-	if (var_name && !var_value)
-		add_var(*export_list, var_name, export_list);
-	if (var_name && var_value)
-		adding(env, export_list, var_name, var_value);
+	else if ((!cur || !cur->content) && free_all(prog)
+		&& ft_putendl_fd("exit", 1))
+		exit(0);
+	return (0);
 }

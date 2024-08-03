@@ -6,11 +6,11 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:47:39 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/08/02 13:16:06 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:14:18 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 int	export_check(char *var_name, char *content, t_mini *prog)
 {
