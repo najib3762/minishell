@@ -29,12 +29,15 @@ void	main3(t_mini *prog, t_token **head, t_parse **parse)
 	ft_executer(parse, prog);
 }
 
-void	free_all(t_mini *prog)
+int	free_all(t_mini *prog)
 {
 	free_token_list(&prog->token);
 	free_address(&g_global->address);
 	free_fd_pipe(prog);
 	close_fd_pipe(prog);
+	close_free(&prog->fd_head);
+	free(prog->line);
+	return (1);
 }
 
 int	main2(t_mini *prog, t_token **head, t_parse **parse)
