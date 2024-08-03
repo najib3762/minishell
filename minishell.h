@@ -111,7 +111,17 @@ typedef struct s_mini
 	int				**fd;
 	t_token			*token;
 	char			*path;
+	char			pwd[2024];
 }					t_mini;
+
+typedef struct s_exp_args
+{
+    t_list **tmp_exp;
+	t_list	**export_list;
+    char *var_name;
+    char *new_var;
+} t_exp_args;
+
 
 int					ft_isspace(char c);
 char				*ft_strdup(const char *s);
@@ -149,7 +159,7 @@ void				real_expand(t_token **head, t_mini *prog);
 char				*ft_expand(char *line, t_mini *prog);
 int					*retur_value(int flag);
 void				sig_here_doc(int sig);
-char				*ft_pwd(int i, t_parse *cmd);
+char				*ft_pwd(int i, t_parse *cmd, t_mini *prog);
 void				ft_export(t_mini *prog, t_parse *cmd, char *var_name);
 t_args				*args_node(char *content);
 t_redir				*redir_node(char *filename, t_redir_enum type);
@@ -179,12 +189,12 @@ void				add_to_exp(char *var_name, char *var_value, t_list **env,
 int					ft_unset(t_list **env, t_list **exp_list, t_parse *cmd);
 int					handle_redir_in(t_redir *redir, t_parse *temp,
 						t_mini *prog);
-int					ft_exit(t_parse *cmd);
+int					ft_exit(t_parse *cmd, t_mini *prog);
 void				handle_sigint2(int sig);
 void				handle_sigquit(int sig);
 void				handle_sigint1(int sig);
 int					ft_isnumeric(char *str);
-int					ft_cd(t_parse *arg, t_list **env);
+int					ft_cd(t_parse *arg, t_list **env, t_list **export_list);
 void				set_unset(t_list **head, char *var_name);
 char				*get_path(char *cmd, char **env, t_mini *prog);
 void				free_fd_pipe(t_mini *prog);
@@ -211,7 +221,7 @@ int					check_builtin(char **cmd);
 void				executer_utils(t_mini *prog, t_parse *cmd);
 void				builtin1(t_mini *prog, t_parse *tmp);
 char				*skip_quotes2(char *str);
-void				free_all(t_mini *prog);
+int					free_all(t_mini *prog);
 char				*m_substr(char const *s, unsigned int start, size_t len);
 char				**conv_cmd(t_args *cmd, t_mini *prog);
 int					is_valid_identifier_start(char c);
@@ -236,6 +246,6 @@ void				adding_env(t_list **tmp, char *var_name, char *new_var,
 
 char				*check_command(char *cmd, t_mini *prog);
 
-//check PWD
+// check PWD
 
 #endif

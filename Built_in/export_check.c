@@ -44,8 +44,7 @@ int	check_dash(char *content, int i)
 		{
 			ft_putstr_fd("minishell: export: '", 2);
 			g_global->exit_status = 1;
-		}	
-		// ft_putstr_fd(content, 2);
+		}		
 		write(2, content, 2);
 		ft_putendl_fd("': invalid option", 2);
 		return (1);

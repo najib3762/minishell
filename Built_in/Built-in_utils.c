@@ -11,75 +11,94 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-static int	adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1,t_list **export_list);
+
+static int adding_exp(t_list **tmp_exp, t_exp_args *args, int *flag1, t_list **export_list);
+
+void init_exp_args(t_list **export_list, char *var_name, char *new_var, t_exp_args *args)
+{
+    args->var_name = var_name;
+    args->new_var = new_var;
+	args->export_list = export_list;
+}
 
 void	adding(t_list **env, t_list **export_list, char *var_name,
 		char *var_value)
 {
 	char	*new_var;
-	t_list	*tmp_exp;
 	int		flag;
 	t_list	*tmp;
 	int		value;
+	t_exp_args args;
 
-	tmp = *env;
-	tmp_exp = *export_list;
 	new_var = m_strjoin(var_name, var_value);
 	flag = 1;
 	value = 1;
+	tmp = *env;
+	init_exp_args(export_list, var_name, new_var, &args);
 	while (tmp)
 	{
 		adding_env(&tmp, var_name, new_var, &value);
 		tmp = tmp->next;
 	}
-	while (tmp_exp)
+	tmp = *export_list;
+	while (tmp)
 	{
-		if(adding_exp(&tmp_exp, var_name, new_var, &flag, export_list) == 1)
-			return ;
-		tmp_exp = tmp_exp->next;
+		if (adding_exp(&tmp, &args, &flag, export_list) == 1)
+			break;
+		tmp = tmp->next;
 	}
 	if (value == 1)
-		ft_lstadd_back(env, m_lstnew(new_var));
-	if (flag == 1)
-	{
-		ft_lstadd_back(export_list, m_lstnew(new_var));
-	}
+        ft_lstadd_back(env, m_lstnew(new_var));
+    if (flag == 1)
+        ft_lstadd_back(export_list, m_lstnew(new_var));
 }
 
-void del_node(t_list **head, t_list *node)
+void	del_node(t_list **head, t_list *node)
 {
-    t_list *temp = *head;
-    t_list *prev = NULL;
+	t_list	*temp;
+	t_list	*prev;
 
-    while (temp != NULL)
+	temp = *head;
+	prev = NULL;
+	while (temp != NULL)
 	{
 	if(ft_strcmp(temp->next->content, node->content) == 0)
 	{
 		prev = temp->next;
 		temp->next = temp->next->next;
-		free(prev->content);
-		free(prev);
+		prev = NULL;
 		return;
 	}
 	temp = temp->next;
+		if (ft_strcmp(temp->next->content, node->content) == 0)
+		{
+			prev = temp->next;
+			temp->next = temp->next->next;
+			prev = NULL;
+			return ;
+		}
+		temp = temp->next;
 	}
 }
 
-int	adding_exp(t_list **tmp_exp, char *var_name, char *new_var, int *flag1, t_list **export_list)
+int adding_exp(t_list **tmp_exp, t_exp_args *args, int *flag1, t_list **export_list)
 {
-	t_list	*tmp;
-	char *var_name1;	
+	t_list *tmp;
+	char *var_name1;
+	int len;
 
-	tmp = *tmp_exp;
-	var_name1 = m_substr(tmp->content, 0, ft_lengh_word(tmp->content));
-	if (var_name && ft_strcmp(var_name1, var_name) == 0)
-	{
-		*flag1 = 0;
-		del_node(export_list, tmp);
-		ft_lstadd_back(export_list, ft_lstnew(new_var));
-    return (1);
-	}
-	return (0);
+	len = 0;
+    tmp = *tmp_exp;
+	len =  ft_lengh_word(tmp->content);
+    var_name1 = m_substr(tmp->content, 0, len);
+    if (args->var_name && ft_strncmp(var_name1, args->var_name, ft_strlen(var_name1)) == 0)
+    {
+        *flag1 = 0;
+        del_node(export_list, tmp);
+        ft_lstadd_back(export_list, ft_lstnew(args->new_var));
+        return (1);
+    }
+    return (0);
 }
 
 void	adding_env(t_list **tmp, char *var_name, char *new_var, int *value)
@@ -90,7 +109,6 @@ void	adding_env(t_list **tmp, char *var_name, char *new_var, int *value)
 	if (var_name && ft_strnstr(t->content, var_name, ft_strlen(var_name)))
 	{
 		*value = 0;
-		free(t->content);
 		t->content = new_var;
 	}
 }
@@ -106,4 +124,5 @@ void	add_var(t_list *tmp, char *var_name, t_list **export_list)
 	ft_lstadd_back(export_list, ft_lstnew(m_strdup(var_name)));
 	return ;
 }
+
 
