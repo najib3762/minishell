@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 10:20:32 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:06:59 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_itoa(int n)
 	p = (char *)malloc(l + 1);
 	if (!p)
 		return (0);
-	add_back_node_free(&g_global->address, new_node_free(p));
+	addback_node_free(&g_global->address, newnode_free(p));
 	if (x < 0)
 	{
 		x *= -1;

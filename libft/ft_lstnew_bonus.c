@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:36:57 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/07/11 18:24:43 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:07:41 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_list	*ft_lstnew(void *content)
 	node = malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
-	add_back_node_free(&g_global->address, new_node_free(node));
+	addback_node_free(&g_global->address, newnode_free(node));
 	node->content = content;
 	node->next = NULL;
 	return (node);

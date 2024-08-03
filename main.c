@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:17:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/08/02 11:03:58 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:13:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main2(t_mini *prog, t_token **head, t_parse **parse)
 			continue ;
 		signal(SIGINT, handle_sigint2);
 		signal(SIGQUIT, handle_sigquit);
+		getcwd(prog->pwd, sizeof(prog->pwd));
 		add_history(prog->line);
 		if (check_quotes(prog) == 1)
 		{
