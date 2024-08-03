@@ -246,6 +246,4 @@ void				adding_env(t_list **tmp, char *var_name, char *new_var,
 
 char				*check_command(char *cmd, t_mini *prog);
 
-// check PWD
-
 #endif
