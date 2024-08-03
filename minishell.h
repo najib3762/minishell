@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:21:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/08/03 17:25:10 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/03 23:17:26 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,8 @@ void				adding(t_list **env, t_list **export_list, char *var_name,
 void				add_var(t_list *tmp, char *var_name, t_list **export_list);
 void				add_to_exp(char *var_name, char *var_value, t_list **env,
 						t_list **export_list);
-int					ft_unset(t_list **env, t_list **exp_list, t_parse *cmd);
+int					ft_unset(t_list **env, t_list **exp_list, t_parse *cmd,
+						int flag);
 int					handle_redir_in(t_redir *redir, t_parse *temp,
 						t_mini *prog);
 int					ft_exit(t_parse *cmd, t_mini *prog);
@@ -258,5 +259,6 @@ void				init_exp_args(t_list **export_list, char *var_name,
 						char *new_var, t_exp_args *args);
 void				update_export_list(t_list **export_list, t_exp_args *args,
 						int *flag);
+int					unset_check(char *var_name, char *content);
 
 #endif

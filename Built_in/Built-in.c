@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Built-in2.c                                        :+:      :+:    :+:   */
+/*   Built-in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 16:42:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/08/03 17:04:00 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/03 23:54:49 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,30 @@ void	ft_env(t_list *prog, t_parse *cmd)
 	}
 }
 
-int	ft_unset(t_list **env, t_list **exp_list, t_parse *cmd)
+int	ft_unset(t_list **env, t_list **exp_list, t_parse *cmd, int flag)
 {
 	t_args	*cur;
 	char	*var_name;
 
-	(void)exp_list;
 	cur = cmd->cmd_args;
 	if (!ft_strncmp(cur->content, "unset", 6))
 		cur = cur->next;
-	var_name = NULL;
-	if (cur && cur->content)
+	while (cur)
+	{
 		var_name = m_strdup(cur->content);
-	if (!var_name)
-		return (g_global->exit_status = 0, 1);
-	set_unset(env, var_name);
-	set_unset(exp_list, var_name);
+		if (!var_name)
+			return (g_global->exit_status = 1, 1);
+		if (unset_check(var_name, cur->content) || check_dash(cur->content, 3))
+			flag = 1;
+		else
+		{
+			set_unset(env, var_name);
+			set_unset(exp_list, var_name);
+		}
+		cur = cur->next;
+	}
+	if (flag)
+		g_global->exit_status = 1;
 	return (g_global->exit_status = 0, 0);
 }
 
@@ -119,6 +127,7 @@ int	ft_exit(t_parse *cmd, t_mini *prog)
 			&& ft_putendl_fd("exit", 1))
 			exit(content % 256);
 		else if (!ft_isnumeric(cur->content) && free_all(prog)
+			&& ft_putendl_fd("exit", 2)
 			&& ft_putendl_fd("exit: numeric argument required", 2))
 			exit(2);
 	}

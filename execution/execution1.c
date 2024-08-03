@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:52:33 by namoussa          #+#    #+#             */
-/*   Updated: 2024/08/03 16:45:35 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/03 23:17:40 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,5 @@ void	builtin1(t_mini *prog, t_parse *tmp)
 	else if (!ft_strncmp(tmp->cmd_args->content, "env", 4))
 		ft_env(prog->env_head, tmp);
 	else if (!ft_strncmp(tmp->cmd_args->content, "unset", 6))
-		ft_unset(&prog->env_head, &prog->export_head, tmp);
+		ft_unset(&prog->env_head, &prog->export_head, tmp, 0);
 }

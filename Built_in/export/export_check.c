@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:47:39 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/08/03 17:14:18 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/03 23:11:33 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,14 @@ int	check_dash(char *content, int i)
 			ft_putstr_fd("minishell: pwd: '", 2);
 			g_global->exit_status = 2;
 		}
-		else
+		else if (i == 0)
 		{
 			ft_putstr_fd("minishell: export: '", 2);
+			g_global->exit_status = 1;
+		}
+		else
+		{
+			ft_putstr_fd("minishell: unset: '", 2);
 			g_global->exit_status = 1;
 		}
 		write(2, content, 2);
