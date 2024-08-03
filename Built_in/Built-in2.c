@@ -128,7 +128,7 @@ void	set_env_pwd(t_list **env, t_list **export_list, char *new_pwd)
 	size_t	name_len;
 	char	*pwd_content;
 
-	name_len = strlen("PWD=");
+	name_len = ft_strlen("PWD=");
 	tmp = *env;
 	while (tmp)
 	{

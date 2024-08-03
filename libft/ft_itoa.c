@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/libft.h"
+#include "../minishell.h"
 #include <stdio.h>
 
 static int	len(int *nb)
@@ -44,6 +45,7 @@ char	*ft_itoa(int n)
 	p = (char *)malloc(l + 1);
 	if (!p)
 		return (0);
+	add_back_node_free(&g_global->address, new_node_free(p));
 	if (x < 0)
 	{
 		x *= -1;

@@ -38,7 +38,6 @@ int	close_free(t_fd **head)
 		temp = *head;
 		*head = (*head)->next;
 		close(temp->fd);
-		free(temp);
 	}
 	return (0);
 }

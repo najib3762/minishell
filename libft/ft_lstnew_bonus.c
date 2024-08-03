@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/libft.h"
+#include "../minishell.h"
 
 t_list	*ft_lstnew(void *content)
 {
@@ -19,6 +20,7 @@ t_list	*ft_lstnew(void *content)
 	node = malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
+	add_back_node_free(&g_global->address, new_node_free(node));
 	node->content = content;
 	node->next = NULL;
 	return (node);

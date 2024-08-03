@@ -62,7 +62,6 @@ void	handle_plus_equal(t_list **env, char **var_name, char **var_value,
 	plus_equal = ft_strnstr(content, "+=", ft_strlen(content));
 	if (plus_equal)
 	{
-		free(*var_name);
 		*var_name = m_substr(content, 0, plus_equal - content);
 		*var_value = m_strdup(plus_equal + 2);
 		env_var = find_var_in_list(*env, *var_name);
