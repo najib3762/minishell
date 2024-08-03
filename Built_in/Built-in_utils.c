@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 12:41:16 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/08/03 09:02:58 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/03 09:13:13 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,20 +83,11 @@ void	del_node(t_list **head, t_list *node)
 
 int adding_exp(t_list **tmp_exp, t_exp_args *args, int *flag1, t_list **export_list)
 {
-    t_list *tmp;
-    char *var_name1;
-	int len  = 0;
+	t_list *tmp;
+	char *var_name1;
+	int len;
 
-	tmp = *tmp_exp;
-	var_name1 = m_substr(tmp->content, 0, ft_lengh_word(tmp->content));
-	if (var_name && ft_strcmp(var_name1, var_name) == 0)
-	{
-		*flag1 = 0;
-		del_node(export_list, tmp);
-		ft_lstadd_back(export_list, m_lstnew(new_var));
-    return (1);
-	}
-	return (0);
+	len = 0;
     tmp = *tmp_exp;
 	len =  ft_lengh_word(tmp->content);
     var_name1 = m_substr(tmp->content, 0, len);
