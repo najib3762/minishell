@@ -21,8 +21,8 @@ t_list	*find_var_in_list(t_list *list, const char *var_name)
 	while (list)
 	{
 		content = (char *)list->content;
-		if (!ft_strncmp(content, var_name, var_name_len) &&
-			content[var_name_len] == '=')
+		if (!ft_strncmp(content, var_name, var_name_len)
+			&& content[var_name_len] == '=')
 			return (list);
 		list = list->next;
 	}

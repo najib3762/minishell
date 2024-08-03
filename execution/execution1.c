@@ -99,7 +99,7 @@ void	builtin1(t_mini *prog, t_parse *tmp)
 		ft_pwd(0, tmp, prog);
 	else if (!ft_strncmp(tmp->cmd_args->content, "export", 7))
 	{
-		tmp->cmd_args = tmp->cmd_args->next;	
+		tmp->cmd_args = tmp->cmd_args->next;
 		ft_export(prog, tmp, NULL, NULL);
 	}
 	else if (!ft_strncmp(tmp->cmd_args->content, "env", 4))

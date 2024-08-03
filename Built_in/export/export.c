@@ -64,11 +64,11 @@ void	add_var(t_list *tmp, char *var_name, t_list **export_list)
 void	adding(t_list **env, t_list **export_list, char *var_name,
 		char *var_value)
 {
-	char	*new_var;
-	int		flag;
-	t_list	*tmp;
-	int		value;
-	t_exp_args args;
+	char		*new_var;
+	int			flag;
+	t_list		*tmp;
+	int			value;
+	t_exp_args	args;
 
 	new_var = m_strjoin(var_name, var_value);
 	flag = 1;
@@ -82,14 +82,15 @@ void	adding(t_list **env, t_list **export_list, char *var_name,
 	}
 	update_export_list(export_list, &args, &flag);
 	if (value == 1)
-        ft_lstadd_back(env, m_lstnew(new_var));
-    if (flag == 1)
-        ft_lstadd_back(export_list, m_lstnew(new_var));
+		ft_lstadd_back(env, m_lstnew(new_var));
+	if (flag == 1)
+		ft_lstadd_back(export_list, m_lstnew(new_var));
 }
 
-void init_exp_args(t_list **export_list, char *var_name, char *new_var, t_exp_args *args)
+void	init_exp_args(t_list **export_list, char *var_name, char *new_var,
+		t_exp_args *args)
 {
-    args->var_name = var_name;
-    args->new_var = new_var;
+	args->var_name = var_name;
+	args->new_var = new_var;
 	args->export_list = export_list;
 }

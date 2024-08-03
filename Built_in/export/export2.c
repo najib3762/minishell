@@ -12,17 +12,20 @@
 
 #include "../../minishell.h"
 
-static int adding_exp(t_list **tmp_exp, t_exp_args *args, int *flag1, t_list **export_list);
+static int	adding_exp(t_list **tmp_exp, t_exp_args *args, int *flag1,
+				t_list **export_list);
 
-void update_export_list(t_list **export_list, t_exp_args *args, int *flag)
+void	update_export_list(t_list **export_list, t_exp_args *args, int *flag)
 {
-    t_list *tmp = *export_list;
-    while (tmp)
-    {
-        if (adding_exp(&tmp, args, flag, export_list) == 1)
-            break;
-        tmp = tmp->next;
-    }
+	t_list	*tmp;
+
+	tmp = *export_list;
+	while (tmp)
+	{
+		if (adding_exp(&tmp, args, flag, export_list) == 1)
+			break ;
+		tmp = tmp->next;
+	}
 }
 
 void	del_node(t_list **head, t_list *node)
@@ -34,14 +37,14 @@ void	del_node(t_list **head, t_list *node)
 	prev = NULL;
 	while (temp != NULL)
 	{
-	if(ft_strcmp(temp->next->content, node->content) == 0)
-	{
-		prev = temp->next;
-		temp->next = temp->next->next;
-		prev = NULL;
-		return;
-	}
-	temp = temp->next;
+		if (ft_strcmp(temp->next->content, node->content) == 0)
+		{
+			prev = temp->next;
+			temp->next = temp->next->next;
+			prev = NULL;
+			return ;
+		}
+		temp = temp->next;
 		if (ft_strcmp(temp->next->content, node->content) == 0)
 		{
 			prev = temp->next;
@@ -53,24 +56,26 @@ void	del_node(t_list **head, t_list *node)
 	}
 }
 
-int adding_exp(t_list **tmp_exp, t_exp_args *args, int *flag1, t_list **export_list)
+int	adding_exp(t_list **tmp_exp, t_exp_args *args, int *flag1,
+		t_list **export_list)
 {
-	t_list *tmp;
-	char *var_name1;
-	int len;
+	t_list	*tmp;
+	char	*var_name1;
+	int		len;
 
 	len = 0;
-    tmp = *tmp_exp;
-	len =  ft_lengh_word(tmp->content);
-    var_name1 = m_substr(tmp->content, 0, len);
-    if (args->var_name && ft_strncmp(var_name1, args->var_name, ft_strlen(var_name1)) == 0)
-    {
-        *flag1 = 0;
-        del_node(export_list, tmp);
-        ft_lstadd_back(export_list, m_lstnew(args->new_var));
-        return (1);
-    }
-    return (0);
+	tmp = *tmp_exp;
+	len = ft_lengh_word(tmp->content);
+	var_name1 = m_substr(tmp->content, 0, len);
+	if (args->var_name && ft_strncmp(var_name1, args->var_name,
+			ft_strlen(var_name1)) == 0)
+	{
+		*flag1 = 0;
+		del_node(export_list, tmp);
+		ft_lstadd_back(export_list, m_lstnew(args->new_var));
+		return (1);
+	}
+	return (0);
 }
 
 void	adding_env(t_list **tmp, char *var_name, char *new_var, int *value)

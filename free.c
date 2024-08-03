@@ -57,3 +57,23 @@ void	addback_node_free(t_free **head, t_free *new)
 		temp = temp->next;
 	temp->next = new;
 }
+
+void	ft_env_null(t_list *prog, t_parse *cmd)
+{
+	t_list	*env_null;
+
+	env_null = prog;
+	while (env_null)
+	{
+		if (ft_strncmp(env_null->content, "PATH", 4) == 0)
+		{
+			env_null = env_null->next;
+			continue ;
+		}
+		else
+		{
+			ft_putendl_fd((char *)env_null->content, cmd->red_out);
+		}
+		env_null = env_null->next;
+	}
+}

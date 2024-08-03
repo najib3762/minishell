@@ -16,7 +16,7 @@ char	*m_strndup(char *s, size_t n)
 {
 	size_t	len;
 	char	*p;
-	
+
 	len = ft_strlen(s);
 	if (n < len)
 		len = n;
@@ -43,8 +43,8 @@ void	my_print_list(t_list *export_list, t_parse *cmd)
 			ft_putstr_fd(m_strjoin("declare -x ", m_substr(current->content, 0,
 						ft_lengh_word(current->content))), cmd->red_out);
 			ft_putstr_fd(m_strjoin("\"", m_substr(current->content,
-				ft_lengh_word(current->content),
-				ft_strlen(current->content))), cmd->red_out);
+						ft_lengh_word(current->content),
+						ft_strlen(current->content))), cmd->red_out);
 			ft_putendl_fd("\"", cmd->red_out);
 		}
 		else
@@ -53,4 +53,3 @@ void	my_print_list(t_list *export_list, t_parse *cmd)
 		current = current->next;
 	}
 }
-

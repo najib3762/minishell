@@ -98,24 +98,24 @@ void	set_env_pwd(t_list **env, t_list **export_list, char *new_pwd)
 	}
 	if (tmp)
 		ft_lstadd_back(env, m_lstnew(new_pwd));
-	update_export_list_with_pwd(export_list, new_pwd);
+	update_with_pwd(export_list, new_pwd);
 }
 
-void update_export_list_with_pwd(t_list **export_list, char *new_pwd)
+void	update_with_pwd(t_list **export_list, char *new_pwd)
 {
-    t_list *tmp;
-    size_t name_len;
-    
+	t_list	*tmp;
+	size_t	name_len;
+
 	tmp = *export_list;
 	name_len = ft_strlen("PWD=");
-    while (tmp)
-    {
-        if (ft_strncmp(tmp->content, "PWD=", name_len) == 0)
-        {
-            tmp->content = m_strjoin("PWD=", new_pwd);
-            return;
-        }
-        tmp = tmp->next;
-    }
-    ft_lstadd_back(export_list, m_lstnew(new_pwd));
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->content, "PWD=", name_len) == 0)
+		{
+			tmp->content = m_strjoin("PWD=", new_pwd);
+			return ;
+		}
+		tmp = tmp->next;
+	}
+	ft_lstadd_back(export_list, m_lstnew(new_pwd));
 }

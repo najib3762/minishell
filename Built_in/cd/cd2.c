@@ -37,26 +37,28 @@ void	set_env_old(t_list **env, char *name, t_list **export_list)
 	}
 	if (tmp)
 		ft_lstadd_back(env, m_lstnew(pwd_content));
-	update_export_list_with_old(export_list, name, pwd_content);
+	update_with_old(export_list, name, pwd_content);
 }
 
-void update_export_list_with_old(t_list **export_list, char *name, char *pwd_content)
+void	update_with_old(t_list **export_list, char *name,
+		char *pwd_content)
 {
-    t_list *tmp;
-    size_t name_len;
+	t_list	*tmp;
+	size_t	name_len;
 
 	tmp = *export_list;
 	name_len = ft_strlen(name);
-    while (tmp)
-    {
-        if (!ft_strncmp((char *)tmp->content, name, name_len) && ((char *)(tmp->content))[name_len] == '=')
-        {
-            tmp->content = m_strjoin("OLDPWD=", pwd_content);
-            return;
-        }
-        tmp = tmp->next;
-    }
-    ft_lstadd_back(export_list, m_lstnew(pwd_content));
+	while (tmp)
+	{
+		if (!ft_strncmp((char *)tmp->content, name, name_len)
+			&& ((char *)(tmp->content))[name_len] == '=')
+		{
+			tmp->content = m_strjoin("OLDPWD=", pwd_content);
+			return ;
+		}
+		tmp = tmp->next;
+	}
+	ft_lstadd_back(export_list, m_lstnew(pwd_content));
 }
 
 char	*g_env(t_list *env, char *str)

@@ -44,26 +44,14 @@ void	ft_echo(t_parse *arg, int n_line)
 void	ft_env(t_list *prog, t_parse *cmd)
 {
 	t_list	*env;
-	t_list	*env_null;
 
+	env = prog;
 	if (g_global->env_null == 1)
 	{
-		env_null = prog;
-		while (env_null)
-		{
-			if (ft_strncmp(env_null->content, "PATH", 4) == 0)
-			{
-				env_null = env_null->next;
-				continue ;
-			}
-			else
-				ft_putendl_fd((char *)env_null->content, cmd->red_out);
-			env_null = env_null->next;
-		}
+		ft_env_null(prog, cmd);
 	}
 	else
 	{
-		env = prog;
 		while (env)
 		{
 			ft_putendl_fd((char *)env->content, cmd->red_out);
@@ -123,7 +111,7 @@ int	ft_exit(t_parse *cmd, t_mini *prog)
 		cur = cur->next;
 	if (my_lstsize(cmd->cmd_args) > 2 && ft_isnumeric(cur->content))
 		return (g_global->exit_status = 1,
-				ft_putendl_fd("exit: too many arguments", 2));
+			ft_putendl_fd("exit: too many arguments", 2));
 	if (cur && cur->content)
 	{
 		content = ft_atoi(cur->content);
@@ -131,11 +119,11 @@ int	ft_exit(t_parse *cmd, t_mini *prog)
 			&& ft_putendl_fd("exit", 1))
 			exit(content % 256);
 		else if (!ft_isnumeric(cur->content) && free_all(prog)
-				&& ft_putendl_fd("exit: numeric argument required", 2))
+			&& ft_putendl_fd("exit: numeric argument required", 2))
 			exit(2);
 	}
-	else if ((!cur || !cur->content) && free_all(prog)
-		&& ft_putendl_fd("exit", 1))
+	else if ((!cur || !cur->content) && free_all(prog) && ft_putendl_fd("exit",
+			1))
 		exit(0);
 	return (0);
 }

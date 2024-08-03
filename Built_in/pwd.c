@@ -40,4 +40,3 @@ char	*ft_pwd(int i, t_parse *cmd, t_mini *prog)
 		return (cwd);
 	}
 }
-
