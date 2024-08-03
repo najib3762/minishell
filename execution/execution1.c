@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:52:33 by namoussa          #+#    #+#             */
-/*   Updated: 2024/08/02 10:54:16 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:57:15 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ void	builtin1(t_mini *prog, t_parse *tmp)
 	else if (!ft_strncmp(tmp->cmd_args->content, "echo", 5))
 		ft_echo(tmp, 1);
 	else if (!ft_strncmp(tmp->cmd_args->content, "cd", 3))
-		ft_cd(tmp, &prog->env_head);
+		ft_cd(tmp, &prog->env_head, &prog->export_head);
 	else if (!ft_strncmp(tmp->cmd_args->content, "pwd", 4))
-		ft_pwd(0, tmp);
+		ft_pwd(0, tmp, prog);
 	else if (!ft_strncmp(tmp->cmd_args->content, "export", 7))
 		ft_export(prog, tmp, NULL);
 	else if (!ft_strncmp(tmp->cmd_args->content, "env", 4))

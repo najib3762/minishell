@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 16:42:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/08/02 12:56:07 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/03 09:02:34 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,83 @@ char	*g_env(t_list *env, char *str)
 	return (NULL);
 }
 
-int	ft_cd(t_parse *arg, t_list **env)
+void set_env_old(t_list **env, const char *name, t_list **export_list)
+{
+    t_list *tmp;
+    size_t name_len = strlen(name);
+	char *pwd_content;
+	
+	tmp = *env;
+	while (tmp)	
+	{
+		if (!ft_strncmp(tmp->content, "PWD=", 4))
+			pwd_content = m_substr(tmp->content, 4, ft_strlen(tmp->content) - 4);
+		tmp = tmp->next;
+	}
+	tmp = *env;
+    while (tmp)
+    {
+        if (!ft_strncmp((char *)tmp->content, name, name_len) && ((char *)(tmp->content))[name_len] == '=')
+            tmp->content = m_strjoin("OLDPWD=", pwd_content);
+        tmp = tmp->next;
+    } 
+	if (tmp)
+    	ft_lstadd_back(env, m_lstnew(pwd_content));
+	tmp = *export_list;
+	while (tmp)
+    {
+        if (!ft_strncmp((char *)tmp->content, name, name_len) && ((char *)(tmp->content))[name_len] == '=')
+        {
+            tmp->content = m_strjoin("OLDPWD=", pwd_content);
+			return ;
+        }
+        tmp = tmp->next;
+    }
+    ft_lstadd_back(export_list, m_lstnew(pwd_content));
+}
+
+void set_env_pwd(t_list **env, t_list **export_list, char *new_pwd)
+{
+    t_list *tmp;
+    size_t name_len = strlen("PWD=");
+	
+    char *pwd_content;
+	tmp = *env;
+	while (tmp)	
+	{
+		if (!ft_strncmp(tmp->content, "PWD=", 4))
+			pwd_content = m_substr(tmp->content, 4, ft_strlen(tmp->content) - 4);
+		tmp = tmp->next;
+	}
+	tmp = *env;
+    while (tmp)
+    {
+        if (strncmp(tmp->content, "PWD=", name_len) == 0)
+            tmp->content = m_strjoin("PWD=", new_pwd);
+        tmp = tmp->next;
+    }
+    if (tmp)
+        ft_lstadd_back(env, m_lstnew(new_pwd));
+    tmp = *export_list;
+    while (tmp)
+    {
+        if (ft_strncmp(tmp->content, "PWD=", name_len) == 0)
+        {
+            tmp->content = m_strjoin("PWD=", new_pwd);
+            return;
+        }
+        tmp = tmp->next;
+    }
+        ft_lstadd_back(export_list, m_lstnew(new_pwd));
+}
+
+
+int	ft_cd(t_parse *arg, t_list **env, t_list **export_list)
 {
 	char	*path;
 	t_args	*current;
 	t_global	*g_global;
+	char *current_pwd;
 
 	g_global = global_function();
 	current = arg->cmd_args;
@@ -113,7 +185,24 @@ int	ft_cd(t_parse *arg, t_list **env)
 		perror("cd");
 		g_global->exit_status = 1;
 	}
-	return (0);
+	current_pwd = getcwd(NULL, 0);
+    set_env_old(env, "OLDPWD", export_list);
+    free(current_pwd);
+	current_pwd = getcwd(NULL, 0);
+    if (current_pwd)
+    {
+        set_env_pwd(env, export_list, current_pwd);
+        free(current_pwd);
+    }
+    else
+    {
+        perror("getcwd");
+        g_global->exit_status = 1;
+        return 1;
+    }
+
+    g_global->exit_status = 0;
+    return 0;
 }
 
 int	ft_unset(t_list **env, t_list **exp_list, t_parse *cmd)
@@ -171,7 +260,8 @@ int	ft_exit(t_parse *cmd, t_mini *prog)
 	if (!ft_strncmp(cur->content, "exit", 5))
 		cur = cur->next;
 	if (my_lstsize(cmd->cmd_args) > 2 && ft_isnumeric(cur->content))
-		return (g_global->exit_status = 1, ft_putendl_fd("exit: too many arguments", 2));
+		return (g_global->exit_status = 1,
+			ft_putendl_fd("exit: too many arguments", 2));
 	if (cur && cur->content)
 	{
 			content = ft_atoi(cur->content);

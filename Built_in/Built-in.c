@@ -6,33 +6,39 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:51:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/08/02 11:04:04 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/02 18:52:55 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_pwd(int i, t_parse *cmd)
+char	*ft_pwd(int i, t_parse *cmd, t_mini *prog)
 {
 	char	wd[1024];
 	int		len;
 	char	*cwd;
-	t_args *cur;
+	t_args	*cur;
 
-	cwd = getcwd(wd, sizeof(wd));
 	cur = cmd->cmd_args;
 	if (cur && !ft_strncmp(cur->content, "pwd", 7))
 		cur = cur->next;
 	if (cur && check_dash(cur->content, 1))
-		return(NULL);
-	if (i == 0 && cwd)
+		return (NULL);
+	cwd = getcwd(wd, sizeof(wd));
+	if (!cwd)
 	{
-		len = ft_strlen(cwd);
-		ft_putendl_fd(cwd, cmd->red_out);
+		ft_putendl_fd(prog->pwd, cmd->red_out);
+		return (NULL);
 	}
 	else
+	{
+		if (i == 0)
+		{
+			len = ft_strlen(cwd);
+			ft_putendl_fd(cwd, cmd->red_out);
+		}
 		return (cwd);
-	return (NULL);
+	}
 }
 
 char	*m_strndup(char *s, size_t n)
@@ -66,15 +72,15 @@ void	my_print_list(t_list *export_list, t_parse *cmd)
 		if (equal_sign)
 		{
 			ft_putstr_fd(m_strjoin("declare -x ", m_substr(current->content, 0,
-							ft_lengh_word(current->content))), cmd->red_out);
+						ft_lengh_word(current->content))), cmd->red_out);
 			ft_putstr_fd(m_strjoin("\"", m_substr(current->content,
-						ft_lengh_word(current->content),
-						ft_strlen(current->content))), cmd->red_out);
+				ft_lengh_word(current->content),
+				ft_strlen(current->content))), cmd->red_out);
 			ft_putendl_fd("\"", cmd->red_out);
 		}
 		else
 			ft_putendl_fd(m_strjoin("declare -x ", (char *)current->content),
-							cmd->red_out);
+				cmd->red_out);
 		current = current->next;
 	}
 }
@@ -100,11 +106,11 @@ void	ft_export(t_mini *prog, t_parse *cmd, char *var_name)
 			equal = ft_strchr(cur->content, '=');
 			check_equal(&var_name, &var_value, cur->content, equal);
 			handle_plus_equal(&prog->env_head, &var_name, &var_value,
-					cur->content);
+				cur->content);
 			if (export_check(var_name, cur->content, prog))
 				return ;
 			add_to_exp(var_name, var_value, &prog->env_head,
-					&prog->export_head);
+				&prog->export_head);
 		}
 		cur = cur->next;
 	}
@@ -112,6 +118,7 @@ void	ft_export(t_mini *prog, t_parse *cmd, char *var_name)
 		p_exp(&prog->export_head, cmd);
 	g_global->exit_status = 0;
 }
+
 void	add_to_exp(char *var_name, char *var_value, t_list **env,
 		t_list **export_list)
 {

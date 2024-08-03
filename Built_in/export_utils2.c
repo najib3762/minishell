@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:43:06 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/08/01 19:41:58 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/02 18:04:19 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ t_list	*find_var_in_list(t_list *list, const char *var_name)
 	while (list)
 	{
 		content = (char *)list->content;
-		if (!ft_strncmp(content, var_name, var_name_len) &&
-			content[var_name_len] == '=')
+		if (!ft_strncmp(content, var_name, var_name_len)
+			&& content[var_name_len] == '=')
 			return (list);
 		list = list->next;
 	}

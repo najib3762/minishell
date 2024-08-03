@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 15:51:37 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/19 10:36:35 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/02 17:16:46 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	init_data(int ac, char **env, t_mini *prog)
 	prog->env = NULL;
 	prog->path = NULL;
 	prog->token = NULL;
+	prog->pwd[0] = '\0';
 	prog->last_pid = 0;
 	prog->nbr_cmd = 0;
 	if (ac != 1)
