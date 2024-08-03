@@ -31,8 +31,9 @@ void	main3(t_mini *prog, t_token **head, t_parse **parse)
 
 int	free_all(t_mini *prog)
 {
-	free_token_list(&prog->token);
 	free_address(&g_global->address);
+	free(g_global);
+	free_token_list(&prog->token);
 	close_fd_pipe(prog);
 	free_fd_pipe(prog);
 	close_free(&prog->fd_head);
@@ -53,9 +54,8 @@ int	main2(t_mini *prog, t_token **head, t_parse **parse)
 			continue ;
 		signal(SIGINT, handle_sigint2);
 		signal(SIGQUIT, handle_sigquit);
-		getcwd(prog->pwd, sizeof(prog->pwd));
 		add_history(prog->line);
-		if (check_quotes(prog) == 1)
+		if (check_quotes(prog) == 1 && getcwd(prog->pwd, sizeof(prog->pwd)))
 		{
 			ft_lexer(prog, head);
 			if (!check_syntax_errors(head))

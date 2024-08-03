@@ -80,6 +80,8 @@ int	free_token_list(t_token **head)
 {
 	t_token	*tmp;
 
+	if (*head == NULL || head == NULL)
+		return (0);
 	while (*head != NULL)
 	{
 		tmp = NULL;
