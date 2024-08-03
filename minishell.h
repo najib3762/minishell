@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:21:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/08/02 11:03:55 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:25:10 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ char				*ft_expand(char *line, t_mini *prog);
 int					*retur_value(int flag);
 void				sig_here_doc(int sig);
 char				*ft_pwd(int i, t_parse *cmd, t_mini *prog);
-void				ft_export(t_mini *prog, t_parse *cmd, char *var_name);
+void				ft_export(t_mini *prog, t_parse *cmd, char *var_name, char *var_value);
 t_args				*args_node(char *content);
 t_redir				*redir_node(char *filename, t_redir_enum type);
 t_parse				*cmd_node(t_args *cmd_args, t_redir *redir_list);
@@ -243,7 +243,16 @@ void				handle_plus_equal(t_list **env, char **var_name,
 int					check_dash(char *content, int i);
 void				adding_env(t_list **tmp, char *var_name, char *new_var,
 						int *value);
-
 char				*check_command(char *cmd, t_mini *prog);
+void				change_to_home(t_list **env);
+void	update_pwd_and_oldpwd(t_list **env, t_list **export_list);
+void	set_env_pwd(t_list **env, t_list **export_list, char *new_pwd);
+void update_export_list_with_pwd(t_list **export_list, char *new_pwd);
+void	set_env_old(t_list **env, char *name, t_list **export_list);
+void update_export_list_with_old(t_list **export_list, char *name, char *pwd_content);
+void init_exp_args(t_list **export_list, char *var_name, char *new_var, t_exp_args *args);
+void update_export_list(t_list **export_list, t_exp_args *args, int *flag);
+
+
 
 #endif

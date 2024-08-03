@@ -29,12 +29,16 @@ SRC_M = parsing/error.c \
 		execution/execution2.c\
 		execution/execution3.c\
 		execution/execution_utils.c\
-		Built_in/Built-in2.c\
+		Built_in/cd/cd.c\
+		Built_in/cd/cd2.c\
+		Built_in/export/export_check_utils.c\
+		Built_in/export/export_check_utils2.c\
+		Built_in/export/export_check.c\
+		Built_in/export/export_use.c\
+		Built_in/export/export.c\
+		Built_in/export/export2.c\
 		Built_in/Built-in.c\
-		Built_in/Built-in_utils.c\
-		Built_in/export_utils.c\
-		Built_in/export_utils2.c\
-		Built_in/export_check.c\
+		Built_in/pwd.c\
 		signal.c\
 
 		
