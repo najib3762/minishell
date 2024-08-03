@@ -57,8 +57,8 @@ int	handle_error(int flag, char *cmd)
 char	*check_command(char *cmd, t_mini *prog)
 {
 	struct stat	buf;
-	(void)prog;
 
+	(void)prog;
 	if (check_slash(cmd) && access(cmd, F_OK) != 0 && !handle_error(1, cmd))
 		exit(g_global->exit_status = 127);
 	if (check_slash(cmd) && !stat(cmd, &buf) && access(cmd, F_OK) == 0)

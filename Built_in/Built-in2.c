@@ -270,17 +270,13 @@ int	ft_exit(t_parse *cmd, t_mini *prog)
 	if (cur && cur->content)
 	{
 			content = ft_atoi(cur->content);
-		if (ft_isnumeric(cur->content) && free_all(prog))
-		{
-			ft_putendl_fd("exit", 1);
+		if (ft_isnumeric(cur->content) && free_all(prog) && ft_putendl_fd("exit", 1))
 			exit(content % 256);
-		}
-		else
+		else if (!ft_isnumeric(cur->content) && free_all(prog))
 		{
 			ft_putendl_fd("exit: numeric argument required", 2);
-			free_all(prog);
 			exit(2);
-		}
+		} 
 	}
 	else
 	{

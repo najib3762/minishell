@@ -19,6 +19,7 @@ int	set_status(int status)
 	g_global->exit_status = status;
 	return (1);
 }
+
 void	main3(t_mini *prog, t_token **head, t_parse **parse)
 {
 	g_global->is_true = 0;
@@ -32,8 +33,8 @@ int	free_all(t_mini *prog)
 {
 	free_token_list(&prog->token);
 	free_address(&g_global->address);
-	free_fd_pipe(prog);
 	close_fd_pipe(prog);
+	free_fd_pipe(prog);
 	close_free(&prog->fd_head);
 	free(prog->line);
 	return (1);
@@ -77,7 +78,9 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	init_data(ac, env, &prog);
 	if (main2(&prog, &prog.token, &parse))
+	{
+		free_all(&prog);
 		return (1);
-	free_all(&prog);
+	}
 	return (0);
 }
