@@ -90,13 +90,13 @@ int	check_builtin(char **cmd)
 void	builtin1(t_mini *prog, t_parse *tmp)
 {
 	if (!ft_strncmp(tmp->cmd_args->content, "exit", 5))
-		ft_exit(tmp);
+		ft_exit(tmp, prog);
 	else if (!ft_strncmp(tmp->cmd_args->content, "echo", 5))
 		ft_echo(tmp, 1);
 	else if (!ft_strncmp(tmp->cmd_args->content, "cd", 3))
-		ft_cd(tmp, &prog->env_head);
+		ft_cd(tmp, &prog->env_head, &prog->export_head);
 	else if (!ft_strncmp(tmp->cmd_args->content, "pwd", 4))
-		ft_pwd(0, tmp);
+		ft_pwd(0, tmp, prog);
 	else if (!ft_strncmp(tmp->cmd_args->content, "export", 7))
 		ft_export(prog, tmp, NULL);
 	else if (!ft_strncmp(tmp->cmd_args->content, "env", 4))
