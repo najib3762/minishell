@@ -46,12 +46,14 @@ void	conver_hex(char *buffer, char **filename, int fd)
 
 char	*random_file(void)
 {
-	char	*filename;
-	char	buffer[10];
-	int		fd;
-	int		j;
+	char		*filename;
+	char		buffer[10];
+	int			fd;
+	int			j;
+	t_global	*g_global;
 
 	j = 0;
+	g_global = global_function();
 	fd = open("/dev/random", O_RDONLY);
 	if (fd < 0)
 	{

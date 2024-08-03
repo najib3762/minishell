@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:52:33 by namoussa          #+#    #+#             */
-/*   Updated: 2024/08/02 10:54:16 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:57:15 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,30 @@
 
 char	**conv_env(t_list *prog)
 {
-	t_list	*cur;
-	int		i;
-	char	**env;
-	t_list	*tmp;
-	int		count;
+	t_list		*cur;
+	t_global	*g_global;
+	char		**env;
+	t_list		*tmp;
+	int			count;
 
-	i = 0;
 	cur = prog;
 	count = 0;
 	tmp = prog;
+	g_global = global_function();
 	while (tmp)
 	{
 		count++;
 		tmp = tmp->next;
 	}
 	env = (char **)malloc(sizeof(char *) * (count + 1));
+	count = 0;
 	while (cur)
 	{
-		env[i++] = cur->content;
+		env[count++] = cur->content;
 		cur = cur->next;
 	}
 	addback_node_free(&g_global->address, newnode_free(env));
-	env[i] = NULL;
+	env[count] = NULL;
 	return (env);
 }
 
@@ -90,13 +91,13 @@ int	check_builtin(char **cmd)
 void	builtin1(t_mini *prog, t_parse *tmp)
 {
 	if (!ft_strncmp(tmp->cmd_args->content, "exit", 5))
-		ft_exit(tmp);
+		ft_exit(tmp, prog);
 	else if (!ft_strncmp(tmp->cmd_args->content, "echo", 5))
 		ft_echo(tmp, 1);
 	else if (!ft_strncmp(tmp->cmd_args->content, "cd", 3))
-		ft_cd(tmp, &prog->env_head);
+		ft_cd(tmp, &prog->env_head, &prog->export_head);
 	else if (!ft_strncmp(tmp->cmd_args->content, "pwd", 4))
-		ft_pwd(0, tmp);
+		ft_pwd(0, tmp, prog);
 	else if (!ft_strncmp(tmp->cmd_args->content, "export", 7))
 		ft_export(prog, tmp, NULL);
 	else if (!ft_strncmp(tmp->cmd_args->content, "env", 4))

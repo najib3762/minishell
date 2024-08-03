@@ -14,6 +14,9 @@
 
 int	handle_redir_in(t_redir *redir, t_parse *temp, t_mini *prog)
 {
+	t_global	*g_global;
+
+	g_global = global_function();
 	temp->red_in = open(redir->filename, O_RDONLY);
 	if (temp->red_in < 0)
 	{
@@ -34,6 +37,8 @@ int	close_free(t_fd **head)
 		return (0);
 	while (*head)
 	{
+		temp = NULL;
+		temp = NULL;
 		temp = *head;
 		*head = (*head)->next;
 		close(temp->fd);
@@ -44,12 +49,14 @@ int	close_free(t_fd **head)
 
 t_fd	*ft_new_fd(int fd)
 {
-	t_fd	*new_node;
+	t_fd		*new_node;
+	t_global	*g_global;
 
+	g_global = global_function();
 	new_node = (t_fd *)malloc(sizeof(t_fd));
+	addback_node_free(&g_global->address, newnode_free(new_node));
 	if (!new_node)
 		return (NULL);
-	addback_node_free(&g_global->address, newnode_free(new_node));
 	new_node->fd = fd;
 	new_node->next = NULL;
 	return (new_node);

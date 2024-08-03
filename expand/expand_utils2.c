@@ -14,11 +14,13 @@
 
 char	*my_strdup(char *str, int len)
 {
-	char	*array;
-	int		i;
+	char		*array;
+	int			i;
+	t_global	*g_global;
 
 	if (!str || !len)
 		return (NULL);
+	g_global = global_function();
 	i = -1;
 	array = (char *)malloc((len + 1) * sizeof(char));
 	if (!array)
@@ -32,12 +34,14 @@ char	*my_strdup(char *str, int len)
 
 char	*my_strjoin(char *s1, char *s2)
 {
-	size_t	i;
-	int		len;
-	char	*array;
+	size_t		i;
+	int			len;
+	char		*array;
+	t_global	*g_global;
 
 	i = 0;
 	len = 0;
+	g_global = global_function();
 	if (!s1 && !s2)
 		return (NULL);
 	if (!s1)
@@ -46,8 +50,6 @@ char	*my_strjoin(char *s1, char *s2)
 		return (s1);
 	len = ft_strlen(s2) + ft_strlen(s1);
 	array = (char *)malloc(sizeof(char) * (len + 1));
-	if (!array)
-		return (NULL);
 	addback_node_free(&g_global->address, newnode_free(array));
 	len = 0;
 	while (s1[i])
@@ -55,8 +57,7 @@ char	*my_strjoin(char *s1, char *s2)
 	i = 0;
 	while (s2[i])
 		array[len++] = s2[i++];
-	array[len] = '\0';
-	return (array);
+	return (array[len] = '\0', array);
 }
 
 int	all_dollar(char c)

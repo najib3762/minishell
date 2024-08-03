@@ -36,7 +36,9 @@ int	has_invalid_characters(char *str)
 int	print_invalid_identifier(char *str, t_mini *prog)
 {
 	char	*ptr;
+	t_global	*g_global;
 
+	g_global = global_function();
 	(void)prog;
 	ptr = str;
 	while (*ptr && (isalnum(*ptr) || *ptr == '_'))
@@ -63,6 +65,9 @@ int	print_invalid_identifier(char *str, t_mini *prog)
 
 void	p_exp(t_list **export_list, t_parse *cmd)
 {
+	t_global	*g_global;
+	
+	g_global = global_function();
 	sort_exp(export_list);
 	my_print_list(*export_list, cmd);
 	g_global->exit_status = 0;

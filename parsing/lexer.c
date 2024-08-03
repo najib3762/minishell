@@ -19,14 +19,16 @@ int	ft_sp(char c)
 
 int	word_token(t_mini *prog, t_token **head, int i)
 {
-	char	*ptr;
-	int		dflag;
-	int		sflag;
-	int		len;
+	char		*ptr;
+	int			dflag;
+	int			sflag;
+	int			len;
+	t_global	*g_global;
 
 	dflag = 0;
 	sflag = 0;
 	len = -1;
+	g_global = global_function();
 	while (prog->line[i + (++len)])
 	{
 		if (dflag == 0 && sflag == 0)
@@ -38,8 +40,6 @@ int	word_token(t_mini *prog, t_token **head, int i)
 			sflag = !sflag;
 	}
 	ptr = malloc(sizeof(char) * (len + 1));
-	if (!ptr)
-		return (-1);
 	addback_node_free(&g_global->address, newnode_free(ptr));
 	ft_strncpy(ptr, prog->line + i, len + 1);
 	addback_node(head, create_newnode(TOKEN_WORD, ptr));
@@ -75,8 +75,10 @@ void	ft_lexer(t_mini *prog, t_token **head)
 
 int	word_token3(t_args **args, char *str, int i, int len)
 {
-	char	*ptr;
+	char		*ptr;
+	t_global	*g_global;
 
+	g_global = global_function();
 	ptr = malloc(sizeof(char) * (len + 1));
 	if (!ptr)
 		return (-1);

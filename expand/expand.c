@@ -14,22 +14,20 @@
 
 char	*handle_dollar(char *str, int *i, t_mini *prog)
 {
-	char	*var_name;
-	char	*var_value;
-	int		num;
+	char		*var_name;
+	char		*var_value;
+	int			num;
+	t_global	*g_global;
 
 	var_name = NULL;
 	var_value = NULL;
+	g_global = global_function();
 	if (str[*i] == '$' && (str[*i + 1] == '\''
 			|| str[*i + 1] == '\"') && ++(*i))
 		return (NULL);
 	(*i)++;
 	if (str[*i] == '?')
-	{
-		var_name = m_itoa(g_global->exit_status);
-		(*i)++;
-		return (var_name);
-	}
+		return ((*i)++, var_name = m_itoa(g_global->exit_status));
 	if (all_dollar(str[*i]))
 		var_name = take_var_name(str, i);
 	var_value = get_env_value(var_name, prog->env_head);

@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 15:51:37 by namoussa          #+#    #+#             */
-/*   Updated: 2024/07/19 10:36:35 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/02 17:16:46 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 void	get_env(char **env, t_list **head)
 {
-	int	i;
+	int			i;
+	t_global	*g_global;
 
 	i = 0;
+	g_global = global_function();
 	if (env[0] == NULL)
 	{
 		g_global->env_null = 1;
@@ -48,6 +50,9 @@ void	export_env(char **env, t_list **head)
 
 void	init_data(int ac, char **env, t_mini *prog)
 {
+	t_global	*g_global;
+
+	g_global = global_function();
 	prog->line = NULL;
 	prog->env_head = NULL;
 	prog->fd_head = NULL;
@@ -56,17 +61,11 @@ void	init_data(int ac, char **env, t_mini *prog)
 	prog->env = NULL;
 	prog->path = NULL;
 	prog->token = NULL;
+	prog->pwd[0] = '\0';
 	prog->last_pid = 0;
 	prog->nbr_cmd = 0;
 	if (ac != 1)
 		exit(1);
-	g_global = malloc(sizeof(t_global));
-	if (!g_global)
-		exit(1);
-	g_global->exit_status = 0;
-	g_global->is_true = 0;
-	g_global->env_null = 0;
-	g_global->address = NULL;
 	get_env(env, &prog->env_head);
 	export_env(env, &prog->export_head);
 }

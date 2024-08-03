@@ -76,12 +76,14 @@ void	g_word(char *str, char *eof)
 
 char	*skip_quotes(char *str)
 {
-	char	*eof;
-	int		len;
-	int		qoutes;
+	char		*eof;
+	int			len;
+	int			qoutes;
+	t_global	*g_global;
 
 	if (!str)
 		return (NULL);
+	g_global = global_function();
 	qoutes = calcule_qoutes(str);
 	len = ft_strlen(str) - qoutes;
 	eof = malloc(sizeof(char) * (len + 1));

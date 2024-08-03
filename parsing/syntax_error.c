@@ -14,6 +14,9 @@
 
 int	syntax_redirections(t_token **current)
 {
+	t_global	*g_global;
+
+	g_global = global_function();
 	if ((*current)->type == TOKEN_OUT || (*current)->type == TOKEN_APPEND
 		|| (*current)->type == TOKEN_IN || (*current)->type == TOKEN_HERE)
 	{
@@ -29,14 +32,15 @@ int	syntax_redirections(t_token **current)
 
 int	check_syntax_errors(t_token **head)
 {
-	t_token	*current;
+	t_token		*current;
+	t_global	*g_global;
 
 	current = *head;
+	g_global = global_function();
 	if (current && current->type == TOKEN_PIPE)
 	{
 		print_error("syntax error near unexpected token pipes\n");
-		g_global->exit_status = 2;
-		return (-1);
+		return (g_global->exit_status = 2, -1);
 	}
 	while (current)
 	{
@@ -45,8 +49,7 @@ int	check_syntax_errors(t_token **head)
 			if (!current->next || current->next->type == TOKEN_PIPE)
 			{
 				print_error("syntax error near unexpected token pipes\n");
-				g_global->exit_status = 2;
-				return (-1);
+				return (g_global->exit_status = 2, -1);
 			}
 		}
 		else if (syntax_redirections(&current) < 0)

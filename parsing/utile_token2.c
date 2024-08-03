@@ -82,6 +82,7 @@ int	free_token_list(t_token **head)
 
 	while (*head != NULL)
 	{
+		tmp = NULL;
 		tmp = *head;
 		*head = (*head)->next;
 		free(tmp);

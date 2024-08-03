@@ -14,6 +14,9 @@
 
 int	handle_redir_out(char *file_name, t_parse *temp, t_mini *prog)
 {
+	t_global	*g_global;
+
+	g_global = global_function();
 	temp->red_out = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (temp->red_out < 0)
 	{
@@ -28,6 +31,9 @@ int	handle_redir_out(char *file_name, t_parse *temp, t_mini *prog)
 
 int	handle_redir_append(char *file_name, t_parse *temp, t_mini *prog)
 {
+	t_global	*g_global;
+
+	g_global = global_function();
 	temp->red_out = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (temp->red_out < 0)
 	{
@@ -42,6 +48,9 @@ int	handle_redir_append(char *file_name, t_parse *temp, t_mini *prog)
 
 int	process_redir(t_redir *temp_redir, t_parse *temp, t_mini *prog)
 {
+	t_global	*g_global;
+
+	g_global = global_function();
 	if (g_global->is_true == 1)
 	{
 		print_error("minishell: ambiguous redirect\n");

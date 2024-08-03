@@ -6,22 +6,26 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:17:49 by namoussa          #+#    #+#             */
-/*   Updated: 2024/08/02 11:03:58 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/02 17:18:58 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_global	*g_global;
-
 int	set_status(int status)
 {
+	t_global	*g_global;
+
+	g_global = global_function();
 	g_global->exit_status = status;
 	return (1);
 }
 
 void	main3(t_mini *prog, t_token **head, t_parse **parse)
 {
+	t_global	*g_global;
+
+	g_global = global_function();
 	g_global->is_true = 0;
 	real_expand(head, prog);
 	parse_input(head, parse);
@@ -29,12 +33,18 @@ void	main3(t_mini *prog, t_token **head, t_parse **parse)
 	ft_executer(parse, prog);
 }
 
-void	free_all(t_mini *prog)
+int	free_all(t_mini *prog)
 {
+	t_global	*g_global;
+
+	g_global = global_function();
 	free_token_list(&prog->token);
 	free_address(&g_global->address);
 	free_fd_pipe(prog);
 	close_fd_pipe(prog);
+	close_free(&prog->fd_head);
+	free(prog->line);
+	return (1);
 }
 
 int	main2(t_mini *prog, t_token **head, t_parse **parse)
@@ -50,6 +60,7 @@ int	main2(t_mini *prog, t_token **head, t_parse **parse)
 			continue ;
 		signal(SIGINT, handle_sigint2);
 		signal(SIGQUIT, handle_sigquit);
+		getcwd(prog->pwd, sizeof(prog->pwd));
 		add_history(prog->line);
 		if (check_quotes(prog) == 1)
 		{

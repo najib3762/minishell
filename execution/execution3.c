@@ -14,11 +14,13 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*p;
-	size_t	len;
+	char		*p;
+	size_t		len;
+	t_global	*g_global;
 
 	if (!s1 || !s2)
 		return (NULL);
+	g_global = global_function();
 	len = ft_strlen(s1) + ft_strlen(s2);
 	p = (char *)malloc(len + 1);
 	if (!p)
@@ -38,6 +40,9 @@ void	handle_execve_error(char *cmd)
 
 void	ft_exec(t_parse *redr, char **cmd, char **env, t_mini *prog)
 {
+	t_global	*g_global;
+
+	g_global = global_function();
 	dup2(redr->red_in, 0);
 	dup2(redr->red_out, 1);
 	close_fd_pipe(prog);

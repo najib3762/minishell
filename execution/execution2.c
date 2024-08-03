@@ -14,13 +14,15 @@
 
 char	**conv_cmd(t_args *cmd, t_mini *prog)
 {
-	t_args	*cur;
-	int		i;
-	char	**env;
-	int		count;
+	t_args		*cur;
+	t_global	*g_global;
+	int			i;
+	char		**env;
+	int			count;
 
 	i = 0;
 	count = 0;
+	g_global = global_function();
 	if (cmd == NULL || prog == NULL)
 		return (NULL);
 	count = nbr_args(cmd);
@@ -61,12 +63,14 @@ size_t	count_strings(const char *s, char c)
 
 const char	*dup_word(char **dest, const char *src, char c)
 {
-	size_t	len;
-	size_t	i;
+	size_t		len;
+	size_t		i;
+	t_global	*g_global;
 
 	while (*src == c)
 		src++;
 	len = 0;
+	g_global = global_function();
 	while (src[len] != '\0' && src[len] != c)
 		len++;
 	*dest = (char *)malloc(sizeof(char) * (len + 1));
@@ -86,12 +90,14 @@ const char	*dup_word(char **dest, const char *src, char c)
 
 char	**ft_split(const char *s, char c)
 {
-	char	**strs;
-	size_t	nbr_strings;
-	size_t	i;
+	char		**strs;
+	size_t		nbr_strings;
+	size_t		i;
+	t_global	*g_global;
 
 	if (s == NULL)
 		return (NULL);
+	g_global = global_function();
 	nbr_strings = count_strings(s, c);
 	strs = (char **)malloc(sizeof(char *) * (nbr_strings + 1));
 	addback_node_free(&g_global->address, newnode_free(strs));
@@ -103,9 +109,7 @@ char	**ft_split(const char *s, char c)
 		{
 			s = dup_word(strs + i, s, c);
 			if (s == NULL)
-			{
 				break ;
-			}
 			i++;
 		}
 	}
