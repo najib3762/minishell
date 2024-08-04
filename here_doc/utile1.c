@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 21:32:22 by namoussa          #+#    #+#             */
-/*   Updated: 2024/08/04 10:53:22 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/04 12:30:40 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ char	*random_file(void)
 		return (NULL);
 	}
 	j = read(fd, buffer, sizeof(buffer));
-	buffer[j] = '\0';
 	filename = malloc(strlen(FILENAME) + sizeof(buffer) + 1);
 	addback_node_free(&g_global->address, newnode_free(filename));
 	if (!filename)

@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:58:25 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/08/04 11:02:39 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/04 12:23:30 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,16 @@ void	set_env_pwd(t_list **env, t_list **export_list, char *new_pwd)
 {
 	t_list	*tmp;
 	size_t	name_len;
-	char	*pwd_content;
 
 	name_len = ft_strlen("PWD=");
 	tmp = *env;
 	while (tmp)
 	{
 		if (!ft_strncmp(tmp->content, "PWD=", 4))
-			pwd_content = m_substr(tmp->content, 4, ft_strlen(tmp->content)
-					- 4);
+		{
+			tmp->content = m_strjoin("PWD=", new_pwd);
+			break;
+		}
 		tmp = tmp->next;
 	}
 	tmp = *env;

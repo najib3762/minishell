@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 15:54:04 by namoussa          #+#    #+#             */
-/*   Updated: 2024/08/04 10:55:49 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/04 12:20:48 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,12 @@ int	set_pipe_fd(t_mini *prog, t_parse **parse)
 
 int	create_multiple_pipe(t_parse **parse, t_mini *prog)
 {
-	t_parse	*temp;
+	(void)parse;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	temp = *parse;
 	i = prog->nbr_cmd;
 	if (i == 1 || i == 0)
 		return (prog->fd = NULL, 0);

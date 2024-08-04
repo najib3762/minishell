@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:09:06 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/08/03 17:23:15 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/08/04 12:31:10 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,34 +27,56 @@ void	update_export_list(t_list **export_list, t_exp_args *args, int *flag)
 		tmp = tmp->next;
 	}
 }
-
-void	del_node(t_list **head, t_list *node)
+void del_node(t_list **head, t_list *node)
 {
-	t_list	*temp;
-	t_list	*prev;
+    t_list *temp;
+    t_list *prev;
 
 	temp = *head;
 	prev = NULL;
-	while (temp != NULL)
+    if (temp != NULL && ft_strcmp(temp->content, node->content) == 0)
 	{
-		if (ft_strcmp(temp->next->content, node->content) == 0)
-		{
-			prev = temp->next;
-			temp->next = temp->next->next;
-			prev = NULL;
-			return ;
-		}
-		temp = temp->next;
-		if (ft_strcmp(temp->next->content, node->content) == 0)
-		{
-			prev = temp->next;
-			temp->next = temp->next->next;
-			prev = NULL;
-			return ;
-		}
-		temp = temp->next;
-	}
+        *head = temp->next;
+        return;
+    }
+    while (temp != NULL && ft_strcmp(temp->content, node->content) != 0)
+	{
+        prev = temp;
+        temp = temp->next;
+    }
+    if (temp == NULL)
+		return;
+    prev->next = temp->next;
 }
+
+
+// void	del_node(t_list **head, t_list *node)
+// {
+// 	t_list	*temp;
+// 	t_list	*prev;
+
+// 	temp = *head;
+// 	prev = NULL;
+// 	while (temp != NULL)
+// 	{
+// 		if (ft_strcmp(temp->next->content, node->content) == 0)
+// 		{
+// 			prev = temp->next;
+// 			temp->next = temp->next->next;
+// 			prev = NULL;
+// 			return ;
+// 		}
+// 		temp = temp->next;
+// 		if (ft_strcmp(temp->next->content, node->content) == 0)
+// 		{
+// 			prev = temp->next;
+// 			temp->next = temp->next->next;
+// 			prev = NULL;
+// 			return ;
+// 		}
+// 		temp = temp->next;
+// 	}
+// }
 
 int	adding_exp(t_list **tmp_exp, t_exp_args *args, int *flag1,
 		t_list **export_list)
