@@ -82,6 +82,8 @@ int	word_token3(t_args **args, char *str, int i, int len)
 		return (-1);
 	addback_node_free(&g_global->address, newnode_free(ptr));
 	ft_strncpy(ptr, str + i, len + 1);
+	if(ptr[0] == '\0')
+	 return (len);
 	add_args_node(args, args_node(ptr));
 	return (len);
 }
