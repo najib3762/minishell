@@ -59,7 +59,7 @@ char	*random_file(void)
 	j = read(fd, buffer, 10);
 	buffer[j] = '\0';
 	close(fd);
-	filename = malloc(strlen(FILENAME) + (10 + 1));
+	filename = malloc(ft_strlen(FILENAME) + (10 + 1));
 	addback_node_free(&g_global->address, newnode_free(filename));
 	if (!filename)
 	{
