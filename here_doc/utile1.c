@@ -21,47 +21,51 @@ int	ft_abs(int n)
 	return (n);
 }
 
-void	conver_hex(char *buffer, char **filename, int fd)
+void	conver_hex(char *buffer, char **filename)
 {
 	int		i;
 	int		len;
-	char	hex[2];
 	char	*arr;
+	int		k;
 
+	k = 0;
 	arr = "0123456789ABCDEF";
 	i = 0;
-	close(fd);
 	ft_strcpy(*filename, FILENAME);
+	k = ft_strlen(*filename);
 	len = ft_strlen(buffer);
 	while (i < len)
 	{
-		hex[0] = arr[(ft_abs(buffer[i]) % 16)];
-		hex[1] = '\0';
-		*filename = m_strjoin(*filename, hex);
+		(*filename)[k++] = arr[(ft_abs(buffer[i]) % 16)];
 		i++;
 	}
+	(*filename)[k] = '\0';
 }
 
 char	*random_file(void)
 {
 	char	*filename;
-	char	buffer[10];
+	char	buffer[20];
 	int		fd;
+	int		j;
 
+	j = 0;
 	fd = open("/dev/random", O_RDONLY);
 	if (fd < 0)
 	{
 		perror("open");
 		return (NULL);
 	}
-	read(fd, buffer, sizeof(buffer));
-	filename = malloc(strlen(FILENAME) + sizeof(buffer) + 1);
+	j = read(fd, buffer, 10);
+	buffer[j] = '\0';
+	close(fd);
+	filename = malloc(strlen(FILENAME) + (10 + 1));
 	addback_node_free(&g_global->address, newnode_free(filename));
 	if (!filename)
 	{
 		perror("malloc");
 		return (NULL);
 	}
-	conver_hex(buffer, &filename, fd);
+	conver_hex(buffer, &filename);
 	return (filename);
 }
