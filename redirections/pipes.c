@@ -73,10 +73,10 @@ int	set_pipe_fd(t_mini *prog, t_parse **parse)
 
 int	create_multiple_pipe(t_parse **parse, t_mini *prog)
 {
-	(void)parse;
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
+	(void)parse;
 	i = 0;
 	j = 0;
 	i = prog->nbr_cmd;

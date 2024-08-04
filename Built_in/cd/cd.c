@@ -86,7 +86,7 @@ void	set_env_pwd(t_list **env, t_list **export_list, char *new_pwd)
 		if (!ft_strncmp(tmp->content, "PWD=", 4))
 		{
 			tmp->content = m_strjoin("PWD=", new_pwd);
-			break;
+			break ;
 		}
 		tmp = tmp->next;
 	}

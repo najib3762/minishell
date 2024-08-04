@@ -15,7 +15,6 @@
 char	*ft_pwd(int i, t_parse *cmd, t_mini *prog)
 {
 	char	wd[1024];
-	int		len;
 	char	*cwd;
 	t_args	*cur;
 
@@ -34,7 +33,6 @@ char	*ft_pwd(int i, t_parse *cmd, t_mini *prog)
 	{
 		if (i == 0)
 		{
-			len = ft_strlen(cwd);
 			ft_putendl_fd(cwd, cmd->red_out);
 		}
 		return (cwd);

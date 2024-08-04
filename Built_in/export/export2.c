@@ -27,56 +27,28 @@ void	update_export_list(t_list **export_list, t_exp_args *args, int *flag)
 		tmp = tmp->next;
 	}
 }
-void del_node(t_list **head, t_list *node)
+
+void	del_node(t_list **head, t_list *node)
 {
-    t_list *temp;
-    t_list *prev;
+	t_list	*temp;
+	t_list	*prev;
 
 	temp = *head;
 	prev = NULL;
-    if (temp != NULL && ft_strcmp(temp->content, node->content) == 0)
+	if (temp != NULL && ft_strcmp(temp->content, node->content) == 0)
 	{
-        *head = temp->next;
-        return;
-    }
-    while (temp != NULL && ft_strcmp(temp->content, node->content) != 0)
+		*head = temp->next;
+		return ;
+	}
+	while (temp != NULL && ft_strcmp(temp->content, node->content) != 0)
 	{
-        prev = temp;
-        temp = temp->next;
-    }
-    if (temp == NULL)
-		return;
-    prev->next = temp->next;
+		prev = temp;
+		temp = temp->next;
+	}
+	if (temp == NULL)
+		return ;
+	prev->next = temp->next;
 }
-
-
-// void	del_node(t_list **head, t_list *node)
-// {
-// 	t_list	*temp;
-// 	t_list	*prev;
-
-// 	temp = *head;
-// 	prev = NULL;
-// 	while (temp != NULL)
-// 	{
-// 		if (ft_strcmp(temp->next->content, node->content) == 0)
-// 		{
-// 			prev = temp->next;
-// 			temp->next = temp->next->next;
-// 			prev = NULL;
-// 			return ;
-// 		}
-// 		temp = temp->next;
-// 		if (ft_strcmp(temp->next->content, node->content) == 0)
-// 		{
-// 			prev = temp->next;
-// 			temp->next = temp->next->next;
-// 			prev = NULL;
-// 			return ;
-// 		}
-// 		temp = temp->next;
-// 	}
-// }
 
 int	adding_exp(t_list **tmp_exp, t_exp_args *args, int *flag1,
 		t_list **export_list)

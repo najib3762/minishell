@@ -47,16 +47,14 @@ char	*random_file(void)
 	char	*filename;
 	char	buffer[10];
 	int		fd;
-	int		j;
 
-	j = 0;
 	fd = open("/dev/random", O_RDONLY);
 	if (fd < 0)
 	{
 		perror("open");
 		return (NULL);
 	}
-	j = read(fd, buffer, sizeof(buffer));
+	read(fd, buffer, sizeof(buffer));
 	filename = malloc(strlen(FILENAME) + sizeof(buffer) + 1);
 	addback_node_free(&g_global->address, newnode_free(filename));
 	if (!filename)
