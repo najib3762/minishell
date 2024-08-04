@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utile1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namoussa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 21:32:22 by namoussa          #+#    #+#             */
-/*   Updated: 2024/08/02 21:32:23 by namoussa         ###   ########.fr       */
+/*   Updated: 2024/08/04 10:53:22 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,12 @@ int	ft_abs(int n)
 void	conver_hex(char *buffer, char **filename, int fd)
 {
 	int		i;
-	int		j;
 	int		len;
 	char	hex[2];
 	char	*arr;
 
 	arr = "0123456789ABCDEF";
 	i = 0;
-	j = 0;
 	close(fd);
 	ft_strcpy(*filename, FILENAME);
 	len = ft_strlen(buffer);
